@@ -21,7 +21,7 @@ public class Servlet_AddFriend extends HttpServlet {
 	        if (user != null) { 
 	        	
 		        AppUser myAppUser  = new AppUser(user);
-		        returnValue = myAppUser.addFriend(emailFriend);
+		        //returnValue = myAppUser.addFriend(emailFriend);
 		        
 				// On convertit le résultat en JSON
 				// Gson gson = new Gson();

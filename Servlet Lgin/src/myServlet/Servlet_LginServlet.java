@@ -20,7 +20,8 @@ public class Servlet_LginServlet extends HttpServlet {
 	        User user = userService.getCurrentUser();	 
 	        if (user != null) {
 		        AppUser myAppUser  = new AppUser(user);
-		        myManager.AddUser(myAppUser);
+		        myAppUser.AddUserToDb(myAppUser);
+		        //myManager.AddUser(myAppUser);
 	            resp.getWriter().println("Hello, " + user.getNickname());
 	            resp.getWriter().println("!  You can <a href=\"" + userService.createLogoutURL(req.getRequestURI()) + "\">sign out</a>.</p>");
 	            resp.getWriter().println(user.getUserId());

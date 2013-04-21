@@ -21,5 +21,4 @@ public class GestionAppUser{
 		pm.makePersistent(myUser);
 		pm.close();
 	}
-
 }

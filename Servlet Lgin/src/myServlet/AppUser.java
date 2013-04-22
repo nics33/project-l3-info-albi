@@ -29,12 +29,12 @@ public class AppUser {
 	    String email;
 	    
 	    @Persistent
-	    ArrayList<AppUser> friendList; 
+	    ArrayList<Key> friendList; 
 
 		public AppUser(User user) {
 			this.key = KeyFactory.createKey(AppUser.class.getSimpleName(), user.getUserId());
 			this.email = user.getEmail();
-			this.friendList = new ArrayList<AppUser>();
+			this.friendList = new ArrayList<Key>();
 		}
 
 		// Accessors for the fields. JPA doesn't use these, but your application
@@ -61,16 +61,16 @@ public class AppUser {
 	    query.setFilter("email == emailParam");
 	    query.declareParameters("String emailParam");
 
-	    //on exécute la requête
+	    //on execute la requete
 		List<AppUser> results = (List<AppUser>) query.execute(friendEmail);
-        //on traite le résultat obtenu
+        //on traite le resultat obtenu
         switch (results.size()) 
         {
         case 0: valeurRetour = 1;
         		break;
         		
-        case 1:	this.friendList.add(results.get(0));
-			    myUser.friendList.add(results.get(0)); 
+        case 1:	this.friendList.add(results.get(0).getAppUserId());
+			    myUser.friendList.add(results.get(0).getAppUserId()); 
 				valeurRetour = 0;
         		break;
         		
@@ -81,7 +81,7 @@ public class AppUser {
 		return valeurRetour;
 	}
 	
-	public ArrayList<AppUser> getListFriends(){
+	public ArrayList<Key> getListFriends(){
 		return friendList;
 	}
 	

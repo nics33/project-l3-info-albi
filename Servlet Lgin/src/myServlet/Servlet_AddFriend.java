@@ -26,7 +26,6 @@ public class Servlet_AddFriend extends HttpServlet {
 		        returnValue = myAppUser.addFriend(emailFriend);
 		        
 				// On convertit le résultat en JSON
-				// Gson gson = new Gson();
 				Gson gson = new GsonBuilder().setPrettyPrinting().create();
 				String jsonResult = gson.toJson(returnValue);
 				

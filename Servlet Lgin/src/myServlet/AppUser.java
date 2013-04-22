@@ -69,15 +69,15 @@ public class AppUser {
         case 0: valeurRetour = 1;
         		break;
         		
-        case 1:	if(!this.checkIfFriendExistInListFriend(results.get(0)))
+        case 1:	if(myUser.checkIfFriendExistInListFriend(results.get(0)))
+        		{
+        			valeurRetour = 3;
+        		}
+        		else
         		{
     				this.friendList.add(results.get(0).getAppUserId());
     				myUser.friendList.add(results.get(0).getAppUserId()); 
     				valeurRetour = 0;
-        		}
-        		else
-        		{
-        			valeurRetour = 3;
         		}
         		break;
         		
@@ -95,10 +95,12 @@ public class AppUser {
 	public boolean checkIfFriendExistInListFriend(AppUser myFriend){
 		boolean exist = false;
 		int i = 0;
+		System.out.println(this.friendList.size());
 		for(i=0;i < this.friendList.size();i++)
 		{
-			if(this.friendList.get(i) == myFriend.getAppUserId())
+			if(this.friendList.get(i).getName() == myFriend.getAppUserId().getName())
 			{
+				System.out.println(this.friendList.get(i).getName());
 				exist = true;
 			}
 		}

@@ -54,23 +54,25 @@ public class AppUser {
 		Query query = pm.newQuery(AppUser.class);
 	    query.setFilter("appUserID == appUserIDParam");
 	    query.declareParameters("String appUserIDParam");
+	    System.out.println(userFriend.getNickname());
+	    System.out.println(userFriend.getUserId());
 	    //on exécute la requête
 		List<AppUser> results = (List<AppUser>) query.execute(userFriend.getUserId());
         //on traite le résultat obtenu
-        switch (results.size()) 
+        /*switch (results.size()) 
         {
         case 0: valeurRetour = 1;
         		break;
         		
-        case 1:	this.friendList.add(friend);
-				MyUser.friendList.add(friend); 
+        case 1:	//this.friendList.add(friend);
+				//MyUser.friendList.add(friend); 
 				valeurRetour = 0;
         		break;
         		
         default: valeurRetour = 2;
         		break;		
         }
-        
+        */
 		pm.close();
 		return valeurRetour;
 	}

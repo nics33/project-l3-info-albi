@@ -22,11 +22,17 @@ public class AppUser {
 	    @Persistent
 		String appUserID ; 
 	    
+	    
 	    @Persistent
-	    ArrayList<AppUser> friendList = new ArrayList<AppUser>();
+	    String email;
+	    
+	    @Persistent
+	    ArrayList<AppUser> friendList; 
 
 		public AppUser(User user) {
 			this.appUserID = user.getUserId();
+			this.email = user.getEmail();
+			this.friendList = new ArrayList<AppUser>();
 		}
 
 		// Accessors for the fields. JPA doesn't use these, but your application

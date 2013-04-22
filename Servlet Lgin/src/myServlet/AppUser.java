@@ -49,7 +49,7 @@ public class AppUser {
 		pm.makePersistent(myUser);
 		pm.close();
 	}
-	// retourne 1 si le friendmail n'est pas présent dans la db, 0 si l'ajout réussi, 2 si un probleme dans la db est l'userID de l'ami est présent 2 fois(ne dois pas arriver)
+	// retourne 1 si le friendmail n'est pas présent dans la db, 0 si l'ajout réussi, 2 si un probleme dans la db est l'userID de l'ami est présent 2 fois(ne dois pas arriver),3 si jamais l'ami est déja présent dans la liste d'ami
 	public int addFriend(String friendEmail){
 		int valeurRetour = 0;
 		PersistenceManager pm = PMF.getPersistenceManager();
@@ -69,9 +69,16 @@ public class AppUser {
         case 0: valeurRetour = 1;
         		break;
         		
-        case 1:	this.friendList.add(results.get(0).getAppUserId());
-			    myUser.friendList.add(results.get(0).getAppUserId()); 
-				valeurRetour = 0;
+        case 1:	if(!this.checkIfFriendExistInListFriend(results.get(0)))
+        		{
+    				this.friendList.add(results.get(0).getAppUserId());
+    				myUser.friendList.add(results.get(0).getAppUserId()); 
+    				valeurRetour = 0;
+        		}
+        		else
+        		{
+        			valeurRetour = 3;
+        		}
         		break;
         		
         default: valeurRetour = 2;
@@ -83,6 +90,19 @@ public class AppUser {
 	
 	public ArrayList<Key> getListFriends(){
 		return friendList;
+	}
+	
+	public boolean checkIfFriendExistInListFriend(AppUser myFriend){
+		boolean exist = false;
+		int i = 0;
+		for(i=0;i < this.friendList.size();i++)
+		{
+			if(this.friendList.get(i) == myFriend.getAppUserId())
+			{
+				exist = true;
+			}
+		}
+		return exist;
 	}
 	
 }

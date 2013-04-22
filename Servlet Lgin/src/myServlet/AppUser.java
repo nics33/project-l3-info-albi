@@ -51,7 +51,7 @@ public class AppUser {
 	}
 	// retourne 1 si le friendmail n'est pas présent dans la db, 0 si l'ajout réussi, 2 si un probleme dans la db est l'userID de l'ami est présent 2 fois(ne dois pas arriver),3 si jamais l'ami est déja présent dans la liste d'ami
 	public int addFriend(String friendEmail){
-		int valeurRetour = 0;
+		int valeurRetour = 5;
 		PersistenceManager pm = PMF.getPersistenceManager();
 		AppUser myUser = pm.getObjectById(AppUser.class, this.key);
 		
@@ -98,7 +98,7 @@ public class AppUser {
 		System.out.println(this.friendList.size());
 		for(i=0;i < this.friendList.size();i++)
 		{
-			if(this.friendList.get(i).getName() == myFriend.getAppUserId().getName())
+			if(this.friendList.get(i) == myFriend.getAppUserId())
 			{
 				System.out.println(this.friendList.get(i).getName());
 				exist = true;

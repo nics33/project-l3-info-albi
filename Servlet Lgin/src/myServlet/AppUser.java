@@ -51,34 +51,30 @@ public class AppUser {
 	public int addFriend(String friendEmail){
 		int valeurRetour = 0;
 		PersistenceManager pm = PMF.getPersistenceManager();
-		AppUser MyUser = pm.getObjectById(AppUser.class, this.appUserID);
-		User userFriend = new User(friendEmail,"gmail.com");
-		AppUser friend = new AppUser(userFriend);
+		AppUser myUser = pm.getObjectById(AppUser.class, this.appUserID);
 		
 		//Check si l'utilisateur que l'on veut ajouter en ami existe déja dans la base de données
 		// en premier on fait la requête
 		Query query = pm.newQuery(AppUser.class);
-	    query.setFilter("appUserID == appUserIDParam");
-	    query.declareParameters("String appUserIDParam");
-	    System.out.println(userFriend.getNickname());
-	    System.out.println(userFriend.getUserId());
+	    query.setFilter("email == emailParam");
+	    query.declareParameters("String emailParam");
+
 	    //on exécute la requête
-		List<AppUser> results = (List<AppUser>) query.execute(userFriend.getUserId());
+		List<AppUser> results = (List<AppUser>) query.execute(friendEmail);
         //on traite le résultat obtenu
-        /*switch (results.size()) 
+        switch (results.size()) 
         {
         case 0: valeurRetour = 1;
         		break;
         		
-        case 1:	//this.friendList.add(friend);
-				//MyUser.friendList.add(friend); 
+        case 1:	this.friendList.add(results.get(0));
+			    myUser.friendList.add(results.get(0)); 
 				valeurRetour = 0;
         		break;
         		
         default: valeurRetour = 2;
         		break;		
         }
-        */
 		pm.close();
 		return valeurRetour;
 	}

@@ -23,24 +23,24 @@ public class AppUser {
 	
 	    @PrimaryKey
 	    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
-	    private Key key;
+	    private String key;
 	    
 	    @Persistent
 	    String email;
 	    
 	    @Persistent
-	    ArrayList<Key> friendList; 
+	    ArrayList<String> friendList; 
 
 		public AppUser(User user) {
-			this.key = KeyFactory.createKey(AppUser.class.getSimpleName(), user.getUserId());
+			this.key = user.getUserId();
 			this.email = user.getEmail();
-			this.friendList = new ArrayList<Key>();
+			this.friendList = new ArrayList<String>();
 		}
 
 		// Accessors for the fields. JPA doesn't use these, but your application
 		// does.
 
-	public Key getAppUserId() {
+	public String getAppUserId() {
 			return key;
 		}
 	
@@ -88,7 +88,7 @@ public class AppUser {
 		return valeurRetour;
 	}
 	
-	public ArrayList<Key> getListFriends(){
+	public ArrayList<String> getListFriends(){
 		return friendList;
 	}
 	
@@ -100,7 +100,7 @@ public class AppUser {
 		{
 			if(this.friendList.get(i) == myFriend.getAppUserId())
 			{
-				System.out.println(this.friendList.get(i).getName());
+				System.out.println(this.friendList.get(i));
 				exist = true;
 			}
 		}

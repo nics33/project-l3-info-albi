@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.jdo.Query;
 
+import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.User;
 import javax.jdo.PersistenceManager;
 import isis.cloud.jdo.PMF;
@@ -19,9 +22,8 @@ import com.google.appengine.api.users.User;
 public class AppUser {
 	
 	    @PrimaryKey
-	    @Persistent
-		String appUserID ; 
-	    
+	    @Persistent(valueStrategy = IdGeneratorStrategy.IDENTITY)
+	    private Key key;
 	    
 	    @Persistent
 	    String email;
@@ -30,7 +32,7 @@ public class AppUser {
 	    ArrayList<AppUser> friendList; 
 
 		public AppUser(User user) {
-			this.appUserID = user.getUserId();
+			this.key = KeyFactory.createKey(AppUser.class.getSimpleName(), user.getUserId());
 			this.email = user.getEmail();
 			this.friendList = new ArrayList<AppUser>();
 		}
@@ -38,8 +40,8 @@ public class AppUser {
 		// Accessors for the fields. JPA doesn't use these, but your application
 		// does.
 
-	public String getAppUserId() {
-			return appUserID;
+	public Key getAppUserId() {
+			return key;
 		}
 	
 	public void AddUserToDb(AppUser myUser) {
@@ -51,7 +53,7 @@ public class AppUser {
 	public int addFriend(String friendEmail){
 		int valeurRetour = 0;
 		PersistenceManager pm = PMF.getPersistenceManager();
-		AppUser myUser = pm.getObjectById(AppUser.class, this.appUserID);
+		AppUser myUser = pm.getObjectById(AppUser.class, this.key);
 		
 		//Check si l'utilisateur que l'on veut ajouter en ami existe déja dans la base de données
 		// en premier on fait la requête

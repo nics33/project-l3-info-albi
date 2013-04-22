@@ -15,13 +15,15 @@ public class Servlet_AddFriend extends HttpServlet {
 	 public void doGet(HttpServletRequest req, HttpServletResponse resp)
 	            throws IOException {
 		 	int returnValue = 0;
-		 	String emailFriend = req.getParameter("email");
+		 	String emailFriend = "";
+		 	emailFriend = req.getParameter("email");
+		 	System.out.println(emailFriend);
 	        UserService userService = UserServiceFactory.getUserService();
 	        User user = userService.getCurrentUser();	 
 	        if (user != null) { 
 	        	
 		        AppUser myAppUser  = new AppUser(user);
-		        //returnValue = myAppUser.addFriend(emailFriend);
+		        returnValue = myAppUser.addFriend(emailFriend);
 		        
 				// On convertit le résultat en JSON
 				// Gson gson = new Gson();

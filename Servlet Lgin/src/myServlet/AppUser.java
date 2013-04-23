@@ -3,6 +3,8 @@ package myServlet;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.logging.Logger;
+
 import javax.jdo.Query;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
@@ -98,7 +100,10 @@ public class AppUser {
 		System.out.println(this.friendList.size());
 		for(i=0;i < this.friendList.size();i++)
 		{
-			if(this.friendList.get(i) == myFriend.getAppUserId())
+			System.out.println(this.friendList.get(i));
+			System.out.println(myFriend.getAppUserId());
+			System.out.println("plop");
+			if(this.friendList.get(i).equals(myFriend.getAppUserId()))//a mis 10h a se rendre compte que this.friendList.get(i) == myFriend.getAppUserId() marchais en local mais pas qu'en on importé l'app sur appengine. VDM
 			{
 				System.out.println(this.friendList.get(i));
 				exist = true;

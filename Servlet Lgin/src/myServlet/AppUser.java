@@ -51,41 +51,48 @@ public class AppUser {
 		pm.makePersistent(myUser);
 		pm.close();
 	}
-	// retourne 1 si le friendmail n'est pas présent dans la db, 0 si l'ajout réussi, 2 si un probleme dans la db est l'userID de l'ami est présent 2 fois(ne dois pas arriver),3 si jamais l'ami est déja présent dans la liste d'ami
+	// retourne 1 si le friendmail n'est pas présent dans la db, 0 si l'ajout réussi, 2 si un probleme dans la db est l'userID de l'ami est présent 2 fois(ne dois pas arriver),3 si jamais l'ami est déja présent dans la liste d'ami,4 si l'utilisateur s'ajoute lui même en ami
 	public int addFriend(String friendEmail){
-		int valeurRetour = 5;
+		int valeurRetour = 0;
 		PersistenceManager pm = PMF.getPersistenceManager();
 		AppUser myUser = pm.getObjectById(AppUser.class, this.key);
-		
-		//Check si l'utilisateur que l'on veut ajouter en ami existe déja dans la base de données
-		// en premier on fait la requête
-		Query query = pm.newQuery(AppUser.class);
-	    query.setFilter("email == emailParam");
-	    query.declareParameters("String emailParam");
+		if(myUser.email.equals(friendEmail)) // on vérifie que l'utilisateur ne s'ajoute pas lui même en ami
+		{
+			valeurRetour = 4;
+		}
+		else
+		{
+			//Check si l'utilisateur que l'on veut ajouter en ami existe déja dans la base de données
+			// en premier on fait la requête
+			Query query = pm.newQuery(AppUser.class);
+		    query.setFilter("email == emailParam");
+		    query.declareParameters("String emailParam");
 
-	    //on execute la requete
-		List<AppUser> results = (List<AppUser>) query.execute(friendEmail);
-        //on traite le resultat obtenu
-        switch (results.size()) 
-        {
-        case 0: valeurRetour = 1;
-        		break;
-        		
-        case 1:	if(myUser.checkIfFriendExistInListFriend(results.get(0)))
-        		{
-        			valeurRetour = 3;
-        		}
-        		else
-        		{
-    				this.friendList.add(results.get(0).getAppUserId());
-    				myUser.friendList.add(results.get(0).getAppUserId()); 
-    				valeurRetour = 0;
-        		}
-        		break;
-        		
-        default: valeurRetour = 2;
-        		break;		
-        }
+		    //on execute la requete
+			List<AppUser> results = (List<AppUser>) query.execute(friendEmail);
+	        //on traite le resultat obtenu
+	        switch (results.size()) 
+	        {
+	        case 0: valeurRetour = 1;
+	        		break;
+	        		
+	        case 1:	if(myUser.checkIfFriendExistInListFriend(results.get(0)))
+	        		{
+	        			valeurRetour = 3;
+	        		}
+	        		else
+	        		{
+	    				this.friendList.add(results.get(0).getAppUserId());
+	    				myUser.friendList.add(results.get(0).getAppUserId()); 
+	    				valeurRetour = 0;
+	        		}
+	        		break;
+	        		
+	        default: valeurRetour = 2;
+	        		 break;		
+	        }
+		}
+
 		pm.close();
 		return valeurRetour;
 	}

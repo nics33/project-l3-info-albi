@@ -36,29 +36,45 @@ public class AppUser {
 	    
 	    @Persistent
 	    private Date LastConnection;
-
+	  //constructeur : check si l'utilisateur exist dans la base de donnée, s'il n'existe pas instacie l'utilisateur avec sa key + email extraite de l'objet de type User avec une liste d'ami vide et la date de derniere connexion initialisé a l'instant de la connexion.
+	    //si l'utilisateur existe on extrait ses détails de la base de donnée et on insere la date actuelle en date de derniere connexion.
 		public AppUser(User user) {
-			this.key = user.getUserId();
-			this.email = user.getEmail();
-			this.friendList = new ArrayList<String>();
-			this.LastConnection = new Date();
+			PersistenceManager pm = PMF.getPersistenceManager();
+			Query query = pm.newQuery(AppUser.class);
+		    query.setFilter("key == keyParam");
+		    query.declareParameters("String keyParam");
+		    List<AppUser> results = (List<AppUser>) query.execute(user.getUserId());
+		    if(results.size()==0)
+		    {
+				this.key = user.getUserId();
+				this.email = user.getEmail();
+				this.friendList = new ArrayList<String>();
+				this.LastConnection = new Date();
+				pm.makePersistent(this);
+		    }
+		    else 
+		    	{
+		    	AppUser userTemp = pm.getObjectById(AppUser.class, this.key);
+		    	this.key = userTemp.key;
+		    	this.email = userTemp.email;
+		    	this.friendList = userTemp.friendList;
+		    	this.LastConnection = new Date();
+		    	userTemp.LastConnection = this.LastConnection;
+		    	}
+		    pm.close();
 		}
 
 		// Accessors for the fields. JPA doesn't use these, but your application
 		// does.
-		
 	public Date getDateLastConnection(){
-		PersistenceManager pm = PMF.getPersistenceManager();
-		AppUser myUser = pm.getObjectById(AppUser.class, this.key);
-		pm.close();
-		return myUser.LastConnection;
+		return this.LastConnection;
 	}
 	
 	public void modifyDateLastConnection(){
 		PersistenceManager pm = PMF.getPersistenceManager();
 		AppUser myUser = pm.getObjectById(AppUser.class, this.key);
-		Date Temp = new Date();
-		myUser.LastConnection = Temp;
+		this.LastConnection = new Date();
+		myUser.LastConnection = this.LastConnection;
 		pm.close();
 	}
 
@@ -118,24 +134,16 @@ public class AppUser {
 	}
 	
 	public ArrayList<String> getListFriends(){
-		PersistenceManager pm = PMF.getPersistenceManager();
-		AppUser myUser = pm.getObjectById(AppUser.class, this.key);
-		pm.close();
-		return myUser.friendList;
+		return this.friendList;
 	}
 	
 	public boolean checkIfFriendExistInListFriend(AppUser myFriend){
 		boolean exist = false;
 		int i = 0;
-		System.out.println(this.friendList.size());
 		for(i=0;i < this.friendList.size();i++)
 		{
-			System.out.println(this.friendList.get(i));
-			System.out.println(myFriend.getAppUserId());
-			System.out.println("plop");
 			if(this.friendList.get(i).equals(myFriend.getAppUserId()))//a mis 10h a se rendre compte que this.friendList.get(i) == myFriend.getAppUserId() marchais en local mais pas qu'en on importé l'app sur appengine. VDM
 			{
-				System.out.println(this.friendList.get(i));
 				exist = true;
 			}
 		}

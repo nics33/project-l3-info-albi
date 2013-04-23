@@ -1,6 +1,7 @@
 package myServlet;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -32,15 +33,34 @@ public class AppUser {
 	    
 	    @Persistent
 	    ArrayList<String> friendList; 
+	    
+	    @Persistent
+	    private Date LastConnection;
 
 		public AppUser(User user) {
 			this.key = user.getUserId();
 			this.email = user.getEmail();
 			this.friendList = new ArrayList<String>();
+			this.LastConnection = new Date();
 		}
 
 		// Accessors for the fields. JPA doesn't use these, but your application
 		// does.
+		
+	public Date getDateLastConnection(){
+		PersistenceManager pm = PMF.getPersistenceManager();
+		AppUser myUser = pm.getObjectById(AppUser.class, this.key);
+		pm.close();
+		return myUser.LastConnection;
+	}
+	
+	public void modifyDateLastConnection(){
+		PersistenceManager pm = PMF.getPersistenceManager();
+		AppUser myUser = pm.getObjectById(AppUser.class, this.key);
+		Date Temp = new Date();
+		myUser.LastConnection = Temp;
+		pm.close();
+	}
 
 	public String getAppUserId() {
 			return key;

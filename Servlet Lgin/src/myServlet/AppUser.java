@@ -118,7 +118,10 @@ public class AppUser {
 	}
 	
 	public ArrayList<String> getListFriends(){
-		return friendList;
+		PersistenceManager pm = PMF.getPersistenceManager();
+		AppUser myUser = pm.getObjectById(AppUser.class, this.key);
+		pm.close();
+		return myUser.friendList;
 	}
 	
 	public boolean checkIfFriendExistInListFriend(AppUser myFriend){

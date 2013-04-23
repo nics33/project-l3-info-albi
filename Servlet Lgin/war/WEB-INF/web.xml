@@ -14,7 +14,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 	</servlet>
 	<servlet>
 		<servlet-name>Servlet_imAlive</servlet-name>
-		<servlet-class>myServlet.imAlive</servlet-class>
+		<servlet-class>myServlet.Servlet_imAlive</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Servlet_Lgin</servlet-name>

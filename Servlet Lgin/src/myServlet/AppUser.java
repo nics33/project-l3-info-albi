@@ -29,7 +29,7 @@ public class AppUser {
 	    private String key;
 	    
 	    @Persistent
-	    String email;
+	    private String email;
 	    
 	    @Persistent
 	    ArrayList<String> friendList; 
@@ -41,9 +41,10 @@ public class AppUser {
 		public AppUser(User user) {
 			PersistenceManager pm = PMF.getPersistenceManager();
 			Query query = pm.newQuery(AppUser.class);
-		    query.setFilter("key == keyParam");
-		    query.declareParameters("String keyParam");
-		    List<AppUser> results = (List<AppUser>) query.execute(user.getUserId());
+		    query.setFilter("email == emailParam");
+		    query.declareParameters("String emailParam");
+		    List<AppUser> results = (List<AppUser>) query.execute(user.getEmail());
+		    System.out.println(results.size());
 		    if(results.size()==0)
 		    {
 				this.key = user.getUserId();
@@ -54,7 +55,7 @@ public class AppUser {
 		    }
 		    else 
 		    	{
-		    	AppUser userTemp = pm.getObjectById(AppUser.class, this.key);
+		    	AppUser userTemp = pm.getObjectById(AppUser.class, user.getUserId());
 		    	this.key = userTemp.key;
 		    	this.email = userTemp.email;
 		    	this.friendList = userTemp.friendList;
@@ -81,12 +82,6 @@ public class AppUser {
 	public String getAppUserId() {
 			return key;
 		}
-	
-	public void AddUserToDb(AppUser myUser) {
-		PersistenceManager pm = PMF.getPersistenceManager();
-		pm.makePersistent(myUser);
-		pm.close();
-	}
 	// retourne 1 si le friendmail n'est pas présent dans la db, 0 si l'ajout réussi, 2 si un probleme dans la db est l'userID de l'ami est présent 2 fois(ne dois pas arriver),3 si jamais l'ami est déja présent dans la liste d'ami,4 si l'utilisateur s'ajoute lui même en ami
 	public int addFriend(String friendEmail){
 		int valeurRetour = 0;

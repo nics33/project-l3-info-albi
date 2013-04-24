@@ -25,9 +25,7 @@ public class Servlet_getCurrentFriendsConnected extends HttpServlet {
 	        UserService userService = UserServiceFactory.getUserService();
 	        User user = userService.getCurrentUser();	 
 	        if (user != null) { 
-	        	
 		        AppUser myAppUser  = new AppUser(user);
-		        myAppUser.friendList = myAppUser.getListFriends();
 		        Date myDate = new Date();
 		        Date Datetemp = new Date();
 		        Datetemp.setTime(myDate.getTime()-300000);

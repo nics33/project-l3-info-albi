@@ -30,10 +30,10 @@ import com.google.appengine.api.users.User;
 		    private long key;
 		    
 		    @Persistent
-		    private String latitude;
+		    private double latitude;
 		    
 		    @Persistent
-		    private String longitude; 
+		    private double longitude; 
 		    
 		    @Persistent
 		    private String ville;
@@ -42,7 +42,7 @@ import com.google.appengine.api.users.User;
 		    private String type; 
 		   
 		 
-			public AppLieux(String x, String y, String nomVille, String typeLieux) {
+			public AppLieux(double x, double y, String nomVille, String typeLieux) {
 				
 				this.longitude = x;
 				this.latitude = y;
@@ -64,11 +64,11 @@ import com.google.appengine.api.users.User;
 				return this.type;
 			}
 			
-			public String getLatitude() {
+			public double getLatitude() {
 				return this.latitude;
 			}
 			
-			public String getLongitude() {
+			public double getLongitude() {
 				return this.longitude;
 			}
 			
@@ -81,11 +81,11 @@ import com.google.appengine.api.users.User;
 				this.type = typeVille;
 			}
 			
-			public void setLatitude( String y ) {
+			public void setLatitude( double y ) {
 				this.latitude = y;
 			}
 			
-			public void SetLongitude(String x) {
+			public void SetLongitude(double x) {
 				this.longitude = x;
 			}
 	}

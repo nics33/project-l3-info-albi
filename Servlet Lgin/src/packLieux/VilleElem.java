@@ -11,11 +11,11 @@ import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 	 private String type;
 	 
-	 private ArrayList<Coord> elements;
+	 private ArrayList<ArrayList<Double>> liste;
 	 
-	 public ArrayList<Coord> getCoord(){
+	 public ArrayList<ArrayList<Double>> getCoord(){
 		 
-		 return this.elements;
+		 return this.liste;
 		 
 	 }
 	 
@@ -31,16 +31,16 @@ import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 	 
 	 public class Coord {
 		 
-		 private int lat;
+		 private Double lat;
 		 
-		 private int lng;
+		 private Double lng;
 		 
-		 public int getLat(){
+		 public Double getLat(){
 			 
 			 return this.lat;
 		 }
 		 
-		 public int getLng() {
+		 public Double getLng() {
 			 
 			 return this.lng;
 		 }

@@ -28,20 +28,21 @@ public class AddLieux extends HttpServlet {
 		
 		Gson gson = new Gson();
 		String jsonFile = request.getParameter("donnees");	
+		System.out.println(jsonFile);
 		
-		VilleElem villeElem = new VilleElem();
-		
-		villeElem = gson.fromJson(jsonFile, VilleElem.class);
-		
-		ArrayList<VilleElem.Coord> listCoord = villeElem.getCoord();
+		VilleElem villeElem = gson.fromJson(jsonFile, VilleElem.class);
+		System.out.println(villeElem.getVille());
+		System.out.println(villeElem.getType());
+		System.out.println(villeElem.getCoord().size());
+		ArrayList<ArrayList<Double>> listCoord = villeElem.getCoord();
 		
 		for( int i = 0 ; i < listCoord.size(); i++){
 			
 			System.out.println(villeElem.getVille());
 			System.out.println(villeElem.getType());
-			System.out.println(listCoord.get(i).getLat());
-			System.out.println(listCoord.get(i).getLng());
-			
+			System.out.println(listCoord.get(i).get(0));	
+			System.out.println(listCoord.get(i).get(1));	
+
 		}
 	
 	

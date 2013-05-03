@@ -19,18 +19,15 @@ public class AddLieux extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
 			IOException {
-		
+		System.out.println("1" );
 		
 		
 		
 		
 	//	PersistenceManager pm = PMF.getPersistenceManager();
-			
 		Gson gson = new Gson();
 		String jsonFile = request.toString();
-		
-		System.out.println("1" + jsonFile + "2" );
-		
+		System.out.println(request.getParameter("donnees") );	
 		/*gson.fromJson(jsonString, Latitude.class);
 		
 	

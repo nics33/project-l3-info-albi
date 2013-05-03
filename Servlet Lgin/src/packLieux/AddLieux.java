@@ -29,7 +29,7 @@ public class AddLieux extends HttpServlet {
 		Gson gson = new Gson();
 		String jsonFile = request.toString();
 		
-		System.out.println(jsonFile);
+		System.out.println("1" + jsonFile + "2" );
 		
 		/*gson.fromJson(jsonString, Latitude.class);
 		

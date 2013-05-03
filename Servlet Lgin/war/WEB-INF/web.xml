@@ -20,6 +20,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>Servlet_getCurrentFriendsConnected</servlet-name>
 		<servlet-class>myServlet.Servlet_getCurrentFriendsConnected</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>AddLieux</servlet-name>
+		<servlet-class>packLieux.AddLieux</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddLieux</servlet-name>
+		<url-pattern>/addlieux</url-pattern>
+	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>Servlet_Lgin</servlet-name>
 		<url-pattern>/servlet_lgin</url-pattern>
@@ -36,6 +44,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>Servlet_getCurrentFriendsConnected</servlet-name>
 		<url-pattern>/servlet_getcurrentfriendsconnected</url-pattern>
 	</servlet-mapping>
+	
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>

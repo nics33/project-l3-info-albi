@@ -19,29 +19,39 @@ public class AddLieux extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
 			IOException {
-		System.out.println("1" );
+		//System.out.println("1" );
 		
 		
 		
 		
-	//	PersistenceManager pm = PMF.getPersistenceManager();
+		//PersistenceManager pm = PMF.getPersistenceManager();
+		
 		Gson gson = new Gson();
-		String jsonFile = request.toString();
-		System.out.println(request.getParameter("donnees") );	
+		String jsonFile = request.getParameter("donnees");	
 		
+		VilleElem villeElem = new VilleElem();
 		
-		/*gson.fromJson(jsonString, Latitude.class);
+		villeElem = gson.fromJson(jsonFile, VilleElem.class);
 		
+		ArrayList<VilleElem.Coord> listCoord = villeElem.getCoord();
+		
+		for( int i = 0 ; i < listCoord.size(); i++){
+			
+			System.out.println(villeElem.getVille());
+			System.out.println(villeElem.getType());
+			System.out.println(listCoord.get(i).getLat());
+			System.out.println(listCoord.get(i).getLng());
+			
+		}
 	
-		String nomVille = request.getParameter("ville");
-		String typeVille = request.getParameter("type");
-		
+	
 		// Create a record
-		AppLieux lieux = new AppLieux(lat, lng, nomVille, typeVille);
-		pm.makePersistent(lieux); // La clé est initialisée ici
-		pm.close();
-		response.sendRedirect("/menu.jsp?message=createdOK");
 		
-		*/
+		//AppLieux lieux = new AppLieux(lat, lng, nomVille, typeVille);
+		//pm.makePersistent(lieux); // La clé est initialisée ici
+		//pm.close();
+		//response.sendRedirect("/menu.jsp?message=createdOK");
+		
+		
 	}
 }

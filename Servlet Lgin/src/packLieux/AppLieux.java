@@ -1,26 +1,11 @@
 package packLieux;
 
-
-
-	
-
-	import java.util.List;
-import java.util.logging.Logger;
-
-	import javax.jdo.Query;
-
-	import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
-
-	import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.users.User;
-import javax.jdo.PersistenceManager;
 import isis.cloud.jdo.PMF;
 
-import com.google.appengine.api.users.User;
 
 	@PersistenceCapable
 	public class AppLieux {

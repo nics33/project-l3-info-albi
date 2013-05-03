@@ -24,7 +24,7 @@ public class AddLieux extends HttpServlet {
 		
 		
 		
-		PersistenceManager pm = PMF.getPersistenceManager();
+		
 		
 		Gson gson = new Gson();
 		String jsonFile = request.getParameter("donnees");	
@@ -37,14 +37,15 @@ public class AddLieux extends HttpServlet {
 		ArrayList<ArrayList<Double>> listCoord = villeElem.getCoord();
 		
 		for( int i = 0 ; i < listCoord.size(); i++){
-			
+			PersistenceManager pm2 = PMF.getPersistenceManager();
 			AppLieux lieux = new AppLieux(listCoord.get(i).get(0),//latitude
 										 listCoord.get(i).get(1), //longitude
 										 villeElem.getVille(),
 										 villeElem.getType()
 										);
 			
-			pm.makePersistent(lieux);
+			pm2.makePersistent(lieux);
+			pm2.close();
 		}
 	
 	
@@ -52,7 +53,7 @@ public class AddLieux extends HttpServlet {
 		
 		//AppLieux lieux = new AppLieux(lat, lng, nomVille, typeVille);
 		// // La clé est initialisée ici
-		pm.close();
+		
 		//response.sendRedirect("/menu.jsp?message=createdOK");
 		
 		

@@ -14,9 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import javax.jdo.Query;
 
-
-
-
 import com.google.gson.Gson;
 
 
@@ -26,6 +23,7 @@ import com.google.gson.Gson;
 public class AddLieux extends HttpServlet {
 
 	
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
 			IOException {
 		//System.out.println("1" );
@@ -52,9 +50,14 @@ public class AddLieux extends HttpServlet {
 		
 		Query query = pm2.newQuery(AppLieux.class);
 		
-		query.setFilter("ville = villeParam && type == typeParam");
-	    query.declareParameters("String villeParam, String typePram");
-	    List<AppLieux> results = (List<AppLieux>) query.execute(villeElem.getVille(), villeElem.getType());
+		//System.out.println(villeElem.getVille());
+		
+		query.setFilter("ville == villeparam");
+	    query.declareParameters("String villeparam");
+	   
+		List<AppLieux> results = (List<AppLieux>) query.execute("toulouse");
+	    
+	    System.out.println(results);
 	    
 	    int valeureRetour = 0;
 

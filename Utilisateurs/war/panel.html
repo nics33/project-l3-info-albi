@@ -10,6 +10,7 @@
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
 <script type="text/javascript">
+var ListeAmi = jQuery("<li data-icon='false'><a href='#'>data-icon='false'</a></li>");
 $(document).ready(function(){
 	$.ajax(
 	{ //on importe le fichier
@@ -23,6 +24,7 @@ $(document).ready(function(){
 				{
 				document.location.href = json.donnees;
 				}
+			$("#listeami2").append(ListeAmi).listview('refresh');
 		}
 	})
 	var taillePanel=$("#rightpanel").height();
@@ -51,12 +53,9 @@ $(document).ready(function(){
 		
 		<div data-role="panel" id="rightpanel" data-display="overlay" data-position="right" data-theme="c">
 			<div id="liste">
-				<ul data-role="listview" data-inset="true" data-theme="c">
-    				 <li data-icon="custom" id="skull" onclick="alert('clic sur l\'élément td')"><a href="#">custom-icon</a></li>
-   					 <li data-icon="delete"><a href="#">data-icon="false"</a></li>
-   					 <li data-icon="gear"><a href="#">data-icon="false"</a></li>
-  				     <li data-icon="info"><a href="#">data-icon="false"</a></li>
-   					 <li data-icon="false"><a href="#">data-icon="false"</a></li>
+				<ul data-role='listview' data-inset='true' data-theme='c' id="listeami2">
+			    	<li data-icon="false"><a href="#">data-icon="false"</a></li>
+   					<li data-icon="false"><a href="#">data-icon="false"</a></li>
 				</ul>
 			</div>
 			<div id="radioPanel >

@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css" />
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
+<script src="AjoutLieu.js"></script>
 <script type="text/javascript">
 var ListeAmi = jQuery("<li data-icon='false'><a href='#'>data-icon='false'</a></li>");
 $(document).ready(function(){
@@ -34,7 +35,7 @@ $(document).ready(function(){
 </script>
 </head>
 
-<body>
+<body onload="checkFileAPI();">
 	<div data-role="page" data-theme='c'>
 	
 		<div data-role="header" data-theme='c'>
@@ -51,6 +52,22 @@ $(document).ready(function(){
              						 <label for="un" class="ui-hidden-accessible">Mail:</label>
               						<input type="text" name="user" id="un" value="" placeholder="Mail" data-theme="a">
 						              <button type="button" data-theme="b" data-icon="check">Ajout</button>
+           						 </div>
+  						  </div>
+						</div>
+					</li>
+				    <li data-role="divider" data-theme="c">Administration</li>
+				    <li><a href="#popupAjoutLieu" data-rel="popup" data-position-to="window" data-theme="c" data-transition="pop">Ajout Lieux</a>
+						<div data-role="popup" id="popupMenu" data-theme="c">
+    						<div data-role="popup" id="popupAjoutLieu" data-theme="c" class="ui-corner-all">
+           						 <div style="padding:10px 20px;">
+             						 <h3>Ajouter un Lieu</h3>
+             						 <label for="un" class="ui-hidden-accessible">Nom de la Ville:</label>
+              						<input type="text" name="VilleInsert" id="VilleInsert" value="" placeholder="Nom de la ville" data-theme="a">
+              						 <label for="un" class="ui-hidden-accessible">type de Lieu:</label>
+              						<input type="text" name="LieuInsert" id="LieuInsert" value="" placeholder="Type de Lieu" data-theme="a">
+              						<input type="file" data-theme="a" id="fileLieu"/>
+						              <button type="button" data-theme="b" data-icon="check"  onClick='readText()'>Ajout</button>
            						 </div>
   						  </div>
 						</div>
@@ -76,7 +93,7 @@ $(document).ready(function(){
    					<li data-icon="false"><a href="#">data-icon="false"</a></li>
 				</ul>
 			</div>
-			<div id="radioPanel >
+			<div id="radioPanel" >
 				<label for="slider-flip-m">Mini flip switch:</label>
 				<select name="slider-flip-m" id="slider-flip-m" data-role="slider" data-mini="true">
 					<option value="off">No</option>

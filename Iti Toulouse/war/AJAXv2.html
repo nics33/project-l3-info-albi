@@ -1,0 +1,82 @@
+<!DOCTYPE html> 
+<html> 
+  <head>
+    <meta name="viewport" charset="UTF-8" content="initial-scale=1.0, user-scalable=no" />
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCc5gNF36tpmKDcCHCmdqa99XEwuvUVgSo&sensor=true"></script>
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script type = "text/javascript">
+		var map;
+		var tabxml = [];
+		var positionDestination = {};
+		var direction;
+		var panel;
+		var donnees;
+		
+		function parseKML()
+		{
+		var tab = [];
+		$.ajax(
+				{ //on importe le fichier
+					type: "GET",
+					contentType: "text/xml",
+					url: "sanisette.kml",// a cette url
+					dataType: "xml", // de ce type
+					async: false, //Cette ligne sert a dire a ajax d'�tre synchrone(asynchrone par d�fault) pour pouvoir exploiter le r�sultat en sortie de la fonction (sinn le reste du code s'execute avant)
+					success: function(xml) // si on l'ouvre avec succ�s on ex�cute cette fonction qui prend en parametre le contenu du fichier import�
+					{
+						$(xml).find('Folder').each(function()
+						{
+							$(this).find("Placemark").each(function()//pour chque element encapsul� dans des balise Placemark j'ex�cute la fnction suivante
+							{
+								nom = $(this).find("name").text(); // je recupere les 3 balises qui mint�r�sse et met leur contenu dans des variables
+								description = $(this).find("description").text();
+								coords = $(this).find("coordinates").text();
+								c = coords.split(","); // fais un tableau ou chaque case correspond � la chaine coords s�par� par des virgules donc c[0] = x c[1] = y c[3] = 0
+								tab.push( [c[1],
+										c[0]]
+								)
+							});					
+						
+						});
+					}					
+				})
+				return tab;
+		}
+		function joinArray(a)
+		{
+			var b;
+			b = "[" + a.join("],[") + "]";
+			return(b);
+		}
+		$(document).ready(  //on attend que la page soit charg� pour lancer le script (document symbolyqe la page entiere et la fonction .ready attend donc qu'elle soit charg�
+			function()
+			{
+				tabxml = parseKML();	
+				donnees = '{ "ville": "toulouse", "type": "Defibrilateur", "liste":'+'['+ joinArray(tabxml)+']' +'}';
+				$.ajax(
+				{ //on importe le fichier
+					type: "POST",
+					url: "http://ititoulouse.appspot.com/Servlet_AddLieux",// a cette url
+					data:{ donnees: donnees},
+					dataType: "json",
+					success: function(data)
+					{
+						alert(data);
+					}
+					
+				});
+				
+			});
+			
+	</script>
+  </head>
+   <body>  
+	<div id="monTitre">
+	<h1><center>MON TITRE</center></h1>
+	</div>
+	<div id="map_canvas"style= float:left></div>
+	<div id="panel" style= float:right></div>
+	<ul class="navigation"></ul>
+	
+  </body>
+</html>

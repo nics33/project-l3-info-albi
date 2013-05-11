@@ -49,6 +49,8 @@ public class Servlet_AddLieux extends HttpServlet {
 		@SuppressWarnings("unchecked")
 		List<AppLieux> results = (List<AppLieux>) query.execute(villeElem.getVille());
 		
+		System.out.println( "il y a  : "  +  results.size());
+		
 		if(results.size() == 0) {
 
 			for( int i = 0 ; i < listCoord.size(); i++){

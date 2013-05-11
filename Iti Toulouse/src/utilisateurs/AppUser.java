@@ -13,6 +13,7 @@ import javax.jdo.annotations.PrimaryKey;
 
 import com.google.appengine.api.users.User;
 import javax.jdo.PersistenceManager;
+
 import pmf.PMF;;
 
 @PersistenceCapable
@@ -30,6 +31,25 @@ public class AppUser {
 	    
 	    @Persistent
 	    private Date LastConnection;
+	    
+	    @Persistent
+	    String ville; // ville dans laquelle se trouve la personne 
+	    
+	    @Persistent
+	    String Type; //type de lieu qu'elle recherche
+	    
+	    @Persistent
+	    float lat;
+	    
+	    @Persistent
+	    float lng;	    
+
+	    @Persistent
+	    float latLieu; // lattitude de l'endroit oû la personne se rend
+	    
+	    @Persistent
+	    float lngLieu; // longitude de l'endroit ou la personne se rend
+	    
 	  //constructeur : check si l'utilisateur exist dans la base de donnée, s'il n'existe pas instacie l'utilisateur avec sa key + email extraite de l'objet de type User avec une liste d'ami vide et la date de derniere connexion initialisé a l'instant de la connexion.
 	    //si l'utilisateur existe on extrait ses détails de la base de donnée et on insere la date actuelle en date de derniere connexion.
 		public AppUser(User user) {
@@ -46,6 +66,12 @@ public class AppUser {
 				this.email = user.getEmail();
 				this.friendList = new ArrayList<String>();
 				this.LastConnection = new Date();
+				this.ville = "";
+				this.Type = "";
+				this.lat = 0;
+				this.lng = 0;
+				this.latLieu = 0;
+				this.lngLieu = 0;
 				pm.makePersistent(this);
 		    }
 		    else 
@@ -54,6 +80,12 @@ public class AppUser {
 		    	this.key = userTemp.key;
 		    	this.email = userTemp.email;
 		    	this.friendList = userTemp.friendList;
+				this.ville = userTemp.ville;
+				this.Type = userTemp.Type;
+				this.lat =  userTemp.lat;
+				this.lng =  userTemp.lng;
+				this.latLieu =  userTemp.latLieu;
+				this.lngLieu =  userTemp.lngLieu;
 		    	this.LastConnection = new Date();
 		    	userTemp.LastConnection = this.LastConnection;
 		    	}
@@ -62,9 +94,51 @@ public class AppUser {
 
 		// Accessors for the fields. JPA doesn't use these, but your application
 		// does.
+		
+	public String getEmail(){
+		return this.email;
+	}
 	public Date getDateLastConnection(){
 		return this.LastConnection;
 	}
+	
+	public String getLieu()
+	{
+		return "\"ville\": \""+this.ville+"\" , \"type\": \""+this.Type+"\" , \"latlieu\": \""+this.latLieu+"\" , \"lnglieu\": \""+this.lngLieu+"\"";
+	}
+	
+	public String getUserLocalisation()
+	{
+		return " \"lat\": \""+this.lat+"\" , \"lng\": \""+this.lng+"\"";
+
+	}
+	
+	public void modifyLieu(String ville, String type, float lat, float lng)
+	{
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		AppUser myUser = pm.getObjectById(AppUser.class, this.key);
+		this.ville = ville;
+		this.Type = type;
+		this.latLieu = lat;
+		this.lngLieu = lng;
+		myUser.ville = ville;
+		myUser.Type = type;
+		myUser.latLieu = lat;
+		myUser.lngLieu = lng;
+		pm.close();
+	}
+	
+	public void modifyUserLocalisation(float lat, float lng)
+	{
+		PersistenceManager pm = PMF.get().getPersistenceManager();
+		AppUser myUser = pm.getObjectById(AppUser.class, this.key);
+		this.lat = lat;
+		this.lng = lng;
+		myUser.lat = lat;
+		myUser.lng = lng;
+		pm.close();
+	}
+	
 	
 	public void modifyDateLastConnection(){
 		PersistenceManager pm = PMF.get().getPersistenceManager();

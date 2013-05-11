@@ -17,6 +17,7 @@ $(document).ready(function(){
 	{ //on log l'utilisateur
 		type: "GET",
 		url: "http://ititoulouse.appspot.com/Servlet_Update",// a cette url
+		data:{ "ville": "toulouse","type": "sanisettes", "latlieu": "1.45222043991", "lnglieu" : "43.606552124", "lat" : "1.45126569271", "lng" : "43.5923843384"}, 
 		dataType: "json",
 		success: function(json)
 		{

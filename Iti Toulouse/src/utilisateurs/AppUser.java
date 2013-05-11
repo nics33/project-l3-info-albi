@@ -1,5 +1,6 @@
 package utilisateurs;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -104,12 +105,14 @@ public class AppUser {
 	
 	public String getLieu()
 	{
-		return "\"ville\": \""+this.ville+"\" , \"type\": \""+this.Type+"\" , \"latlieu\": \""+this.latLieu+"\" , \"lnglieu\": \""+this.lngLieu+"\"";
+		DecimalFormat df = new DecimalFormat("########.00000000000"); 
+		return "\"ville\": \""+this.ville+"\" , \"type\": \""+this.Type+"\" , \"latlieu\": \""+df.format(this.latLieu)+"\" , \"lnglieu\": \""+df.format(this.lngLieu)+"\"";
 	}
 	
 	public String getUserLocalisation()
 	{
-		return " \"lat\": \""+this.lat+"\" , \"lng\": \""+this.lng+"\"";
+		DecimalFormat df = new DecimalFormat("########.00000000000"); 
+		return " \"lat\": \""+df.format(this.lat)+"\" , \"lng\": \""+df.format(this.lng)+"\"";
 
 	}
 	

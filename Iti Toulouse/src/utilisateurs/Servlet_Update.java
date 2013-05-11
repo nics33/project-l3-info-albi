@@ -18,15 +18,43 @@ import com.google.appengine.api.users.UserServiceFactory;
 public class Servlet_Update extends HttpServlet {
 	 public void doGet(HttpServletRequest req, HttpServletResponse resp)
 	            throws IOException {
+		 
+		 //déclaration des variables qui vont contenir les paramètres
+		 String ville;
+		 String type;
+		 float latlieu;
+		 float lnglieu;
+		 float lat;
+		 float lng;
+		 
+		 //déclaration de la variable qui va contenir la réponse
 		 	String reponse;
+		 	
+		 // déclaration des variables temporaires
 		 	String temp ="";
 		 	int i = 0;
 		 	ArrayList<String> returnValue = new ArrayList<String>(); 
+		 	
+		 	//placement des valeurs du parametres dans les variables
+		 	ville = req.getParameter("ville");
+		 	type = req.getParameter("type");
+		 	latlieu = Float.parseFloat(req.getParameter("latlieu"));
+		 	lnglieu = Float.parseFloat(req.getParameter("lnglieu"));
+		 	lng = Float.parseFloat(req.getParameter("lng"));
+		 	lat = Float.parseFloat(req.getParameter("lat"));
+
+		 	
 	        UserService userService = UserServiceFactory.getUserService();
 	        User user = userService.getCurrentUser();	 
 	        if (user != null) { 
 		        AppUser myAppUser  = new AppUser(user);
+		        //
 		        myAppUser.modifyDateLastConnection();
+		         
+		        //placement des valeurs du parametres dans myAppUser donc dans la BDD
+		        
+		        myAppUser.modifyLieu(ville, type, latlieu, lnglieu);
+		        myAppUser.modifyUserLocalisation(lat, lng);
 		        Date myDate = new Date();
 		        Date Datetemp = new Date();
 		        Datetemp.setTime(myDate.getTime()-300000);

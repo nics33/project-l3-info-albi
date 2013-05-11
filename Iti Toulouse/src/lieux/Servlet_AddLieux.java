@@ -47,7 +47,7 @@ public class Servlet_AddLieux extends HttpServlet {
 	    query.setOrdering("ville asc");
 	   
 		@SuppressWarnings("unchecked")
-		List<AppLieux> results = (List<AppLieux>) query.execute("toulouse");
+		List<AppLieux> results = (List<AppLieux>) query.execute(villeElem.getVille());
 		
 		if(results.size() == 0) {
 

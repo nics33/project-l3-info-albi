@@ -42,12 +42,12 @@ public class Servlet_AddLieux extends HttpServlet {
 		
 		
 		Query query = pm.newQuery(AppLieux.class);
-		query.setFilter("ville == villeparam");
-	    query.declareParameters("String villeparam");
+		query.setFilter("ville == villeparam && type == typeparam");
+	    query.declareParameters("String villeparam, String typeparam");
 	    query.setOrdering("ville asc");
 	   
 		@SuppressWarnings("unchecked")
-		List<AppLieux> results = (List<AppLieux>) query.execute(villeElem.getVille());
+		List<AppLieux> results = (List<AppLieux>) query.execute(villeElem.getVille(), villeElem.getType());
 		
 		System.out.println( "il y a  : "  +  results.size());
 		
@@ -68,10 +68,13 @@ public class Servlet_AddLieux extends HttpServlet {
 				
 		}
 		else valeureRetour = "1";
+		
 		pm.close();
+		
 		// On convertit le résultat en JSON
 		String reponse = "";
     	reponse = "{ \"status\" : \""+ valeureRetour + "\"}";
+    	
     	System.out.println(reponse);
 
 		// On renvoie le contenu JSON

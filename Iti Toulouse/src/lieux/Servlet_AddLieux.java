@@ -5,7 +5,6 @@ import pmf.PMF;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.*;
 
 import javax.jdo.PersistenceManager;
 import javax.servlet.ServletException;
@@ -16,12 +15,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.jdo.Query;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 
 
 
  
+@SuppressWarnings("serial")
 public class Servlet_AddLieux extends HttpServlet {
 
 	
@@ -47,6 +46,7 @@ public class Servlet_AddLieux extends HttpServlet {
 	    query.declareParameters("String villeparam");
 	    query.setOrdering("ville asc");
 	   
+		@SuppressWarnings("unchecked")
 		List<AppLieux> results = (List<AppLieux>) query.execute("toulouse");
 		
 		if(results.size() == 0) {

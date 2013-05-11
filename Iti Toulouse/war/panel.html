@@ -15,8 +15,8 @@ var ListeAmi = jQuery("<li data-icon='false'><a href='#'>data-icon='false'</a></
 $(document).ready(function(){
 	$.ajax(
 	{ //on log l'utilisateur
-		type: "POST",
-		url: "http://ititoulouse.appspot.com/Servlet_imAlive",// a cette url
+		type: "GET",
+		url: "http://ititoulouse.appspot.com/Servlet_Update",// a cette url
 		dataType: "json",
 		success: function(json)
 		{
@@ -50,8 +50,8 @@ $(document).ready(function(){
            						 <div style="padding:10px 20px;">
              						 <h3>Ajouter un Ami</h3>
              						 <label for="un" class="ui-hidden-accessible">Mail:</label>
-              						<input type="text" name="user" id="un" value="" placeholder="Mail" data-theme="a">
-						              <button type="button" data-theme="b" data-icon="check">Ajout</button>
+              						 <input type="text" name="MailAmi" id="MailAmi" value="" placeholder="Mail" data-theme="a">
+						             <button type="button" data-theme="b" data-icon="check" onClick='AjoutAmi()'>Ajout</button>
            						 </div>
   						  </div>
 						</div>

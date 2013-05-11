@@ -47,7 +47,7 @@ public class Servlet_AddLieux extends HttpServlet {
 	    query.setOrdering("ville asc");
 	   
 		@SuppressWarnings("unchecked")
-		List<AppLieux> results = (List<AppLieux>) query.execute(villeElem.getVille(), villeElem.getType());
+		List<AppLieux> results = (List<AppLieux>) query.execute(villeElem.getVille().toLowerCase(), villeElem.getType().toLowerCase());
 		
 		System.out.println( "il y a  : "  +  results.size());
 		
@@ -57,8 +57,8 @@ public class Servlet_AddLieux extends HttpServlet {
 				
 				AppLieux lieux = new AppLieux(listCoord.get(i).get(0),//latitude
 											 listCoord.get(i).get(1), //longitude
-											 villeElem.getVille(),
-											 villeElem.getType()
+											 villeElem.getVille().toLowerCase(),
+											 villeElem.getType().toLowerCase()
 											);		
 				pm.makePersistent(lieux);
 				

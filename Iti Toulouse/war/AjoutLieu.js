@@ -114,3 +114,20 @@
 			}
 		})
     }
+    
+    function AjoutAmi(){
+    	var mailAmi = document.getElementById('MailAmi').value;
+    	alert(mailAmi);
+    	$.ajax(
+    			{ //on importe le fichier
+    				type: "GET",
+    				url: "http://ititoulouse.appspot.com/Servlet_AddFriend",// a cette url
+    				data:{ "email": mailAmi},
+    				dataType: "json",
+    				success: function(data)
+    				{
+    					alert("sa marche");
+    				}
+    	})
+    	
+    }

@@ -72,6 +72,20 @@ $(document).ready(function(){
   						  </div>
 						</div>
 					</li>
+				    <li><a href="#popupDelLieu" data-rel="popup" data-position-to="window" data-theme="c" data-transition="pop">Ajout Lieux</a>
+						<div data-role="popup" id="popupMenu" data-theme="c">
+    						<div data-role="popup" id="popupDelLieu" data-theme="c" class="ui-corner-all">
+           						 <div style="padding:10px 20px;">
+             						 <h3>Supprimer un Lieu</h3>
+             						 <label for="un" class="ui-hidden-accessible">Nom de la Ville:</label>
+              						<input type="text" name="VilleInsert" id="VilleDel" value="" placeholder="Nom de la ville" data-theme="a">
+              						 <label for="un" class="ui-hidden-accessible">type de Lieu:</label>
+              						<input type="text" name="LieuInsert" id="LieuDel" value="" placeholder="Type de Lieu" data-theme="a">
+						              <button type="button" data-theme="b" data-icon="check"  onClick='SuppressionLieu()'>Suppression</button>
+           						 </div>
+  						  </div>
+						</div>
+					</li>
        			 </ul>
 			</div>
 		</div>

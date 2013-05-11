@@ -96,3 +96,20 @@
 							
 						});
     }   
+    function SuppressionLieu(){
+    	var ville = document.getElementById('VilleDel').value;
+		var type = document.getElementById('LieuDel').value;
+		alert(ville);
+		alert(type);
+		donnees = '{ "ville":' + ville + ', "type":'+ type + ', "liste":'+'['+']' +'}';
+		$.ajax(
+		{ //on importe le fichier
+			type: "POST",
+			url: "http://ititoulouse.appspot.com/Servlet_DelLieux",// a cette url
+			data:{ donnees: donnees},
+			dataType: "json",
+			success: function(data)
+			{
+				alert("sa marche");
+			}
+    }

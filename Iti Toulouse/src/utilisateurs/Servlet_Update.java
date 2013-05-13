@@ -26,6 +26,7 @@ public class Servlet_Update extends HttpServlet {
 		 float lnglieu;
 		 float lat;
 		 float lng;
+		 Integer admin;
 		 
 		 //déclaration de la variable qui va contenir la réponse
 		 	String reponse;
@@ -47,6 +48,7 @@ public class Servlet_Update extends HttpServlet {
 	        UserService userService = UserServiceFactory.getUserService();
 	        User user = userService.getCurrentUser();	 
 	        if (user != null) { 
+	        	if(userService.isUserAdmin()) admin = 1; else admin = 0;
 		        AppUser myAppUser  = new AppUser(user);
 		        //
 		        myAppUser.modifyDateLastConnection();
@@ -72,7 +74,7 @@ public class Servlet_Update extends HttpServlet {
 		        System.out.println(temp);
 				// On convertit le résultat en JSON
 				
-	        	reponse = "{ \"status\" : 0,\"donnees\" :  " +returnValue + "}";
+	        	reponse = "{ \"status\" : 0,\"admin\" : "+admin.toString()+",\"donnees\" :  " +returnValue + "}";
 
 				
 				// On renvoie le contenu JSON

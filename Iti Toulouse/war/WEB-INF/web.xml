@@ -4,7 +4,14 @@ xmlns="http://java.sun.com/xml/ns/javaee"
 xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
-
+	<servlet>
+		<servlet-name>Servlet_GetEntities</servlet-name>
+		<servlet-class>lieux.Servlet_GetEntities</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>Servlet_GetTypes</servlet-name>
+		<servlet-class>lieux.Servlet_GetTypes</servlet-class>
+	</servlet>
 	<servlet>
 		<servlet-name>Servlet_DelLieux</servlet-name>
 		<servlet-class>lieux.Servlet_DelLieux</servlet-class>
@@ -21,6 +28,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
 		<servlet-name>Servlet_AddFriend</servlet-name>
 		<servlet-class>utilisateurs.Servlet_AddFriend</servlet-class>
 	</servlet>
+	<servlet-mapping>
+		<servlet-name>Servlet_GetEntities</servlet-name>
+		<url-pattern>/Servlet_GetEntities</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Servlet_GetTypes</servlet-name>
+		<url-pattern>/Servlet_GetTypes</url-pattern>
+	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>Servlet_DelLieux</servlet-name>
 		<url-pattern>/Servlet_DelLieux</url-pattern>

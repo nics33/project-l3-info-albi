@@ -42,15 +42,14 @@ public class Servlet_GetTypes extends HttpServlet {
 		@SuppressWarnings("unused")
 		ArrayList<ArrayList<Float>> listCoord = villeElem.getCoord();
 		
-		
-		
-		Query query = pm.newQuery("select distinct type from " +AppLieux.class);
+		Query query = pm.newQuery("JDOQL" , "SELECT DISTINCT type FROM lieux.AppLieux");
+		//Query query = pm.newQuery("JDOQL" , "SELECT DISTINCT type FROM lieux.AppLieux WHERE ville == 'toulouse'");
+		//Query query = pm.newQuery("SELECT DISTINCT type FROM " +AppLieux.class);
 		query.setFilter("ville == villeparam");
 	    query.declareParameters("String villeparam");
-	    query.setOrdering("ville asc");
 	   
 		@SuppressWarnings("unchecked")
-		List<String> results = (List<String>) query.execute(villeElem.getVille().toLowerCase());
+		List<AppLieux> results = (List<AppLieux>) query.execute(villeElem.getVille().toLowerCase());
 		
 		System.out.println( "il y a  : "  +  results.size());
 		

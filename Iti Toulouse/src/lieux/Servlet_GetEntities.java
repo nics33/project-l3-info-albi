@@ -37,6 +37,7 @@ public class Servlet_GetEntities extends HttpServlet {
 		String jsonFile = request.getParameter("donnees");			
 		VilleElem villeElem = gson.fromJson(jsonFile, VilleElem.class);
 		
+		@SuppressWarnings("unused")
 		ArrayList<ArrayList<Float>> listCoord = villeElem.getCoord();
 		
 		

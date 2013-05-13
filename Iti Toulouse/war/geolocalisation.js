@@ -106,9 +106,16 @@ function showLocation(position) //fonction appelé par getcurrentposition permett
 		{
 		if (navigator.geolocation)//navigator.geolocation renvoie un simple booléen valant vrai ou faux selon la capacité du navigateur à utiliser la géolocalisation
 		{
-			alert("blop");
 			watchId = navigator.geolocation.watchPosition(showLocation,errorHandler,{enableHighAccuracy : true});//fonction permettant d'obtenir sa localisation, si c'est un succé execute showlocation sinon errorHandler
 		}
 		else
 			alert("Dommage... Votre navigateur ne prend pas en compte la géolocalisation HTML5");
 		};
+		
+		function SuivreAmi(i){
+			latitudeAmi = parseFloat(myjson.donnees[i].lat);
+			longitudeAmi = parseFloat(myjson.donnees[i].lng);
+			latitudeLieu = parseFloat(myjson.donnees[i].latlieu);
+			longitudeLieu = parseFloat(myjson.donnees[i].lnglieu);
+			geolocalisation();
+		}

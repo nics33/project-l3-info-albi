@@ -1,3 +1,5 @@
+var myjson;
+
 function UpdateUser(){	
 	$.ajax(
 	{ //on log l'utilisateur
@@ -7,19 +9,26 @@ function UpdateUser(){
 		dataType: "json",
 		success: function(json)
 		{
+			
 			if(json.status =="10")
 				{
 				document.location.href = json.donnees;
 				}
 			else
 				{
-				latitudeAmi = parseFloat(json.donnees[0].lat);
-				alert(json.donnees.length);
-				longitudeAmi = parseFloat(json.donnees[0].lng);
-				latitudeLieu = parseFloat(json.donnees[0].latlieu);
-				longitudeLieu = parseFloat(json.donnees[0].lnglieu);
-				//$("#listeami2").html(ListeAmi).listview('refresh');
+				myjson = json;
+				TraitementListe();
 				}
 		}
 	});
 };
+
+function TraitementListe() {
+	 var Taille = myjson.donnees.length;
+	 $('#listeami2').empty();
+	 for (var i = 0; i<Taille; i++){
+	 var mail= myjson.donnees[i].email;
+	 $('#listeami2').append("<li onClick='SuivreAmi("+i.toString()+")'>"+mail+"</li>");
+	 $("#listeami2").listview('refresh');
+	 }
+	}

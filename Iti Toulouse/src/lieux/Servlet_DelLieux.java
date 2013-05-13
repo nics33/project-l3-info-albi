@@ -3,8 +3,6 @@ package lieux;
 import pmf.PMF;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.jdo.PersistenceManager;
 import javax.servlet.ServletException;
@@ -28,8 +26,6 @@ public class Servlet_DelLieux extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
 			IOException {		
 		System.out.println("début");
-
-		String valeureRetour = "0";
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		

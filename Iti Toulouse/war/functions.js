@@ -10,7 +10,7 @@ function UpdateUser(){
 		dataType: "json",
 		success: function(json)
 		{
-			if(json.status =="1")
+			if(json.status =="10")
 				{
 				document.location.href = json.donnees;
 				}
@@ -26,11 +26,3 @@ function UpdateUser(){
 		}
 	});
 };
-
-function printblop(){
-	alert(blop);
-}
-
-function modifyBlop(){
-	blop = blop+1;
-}

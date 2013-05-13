@@ -79,7 +79,7 @@ public class Servlet_Update extends HttpServlet {
 				resp.setContentType("application/json");
 				resp.getWriter().print(reponse);
 	        } else {
-	        	reponse = "{ \"status\" : 10,\"donnees\" : \" " + userService.createLoginURL("http://utilisateurstoutouf.appspot.com/panel.html") + "\"}";
+	        	reponse = "{ \"status\" : 10,\"donnees\" : \" " + userService.createLoginURL("http://ititoulouse.appspot.com/panel.html") + "\"}";
 	        	resp.setContentType("application/json");
 	            resp.getWriter().println(reponse);
 	        }

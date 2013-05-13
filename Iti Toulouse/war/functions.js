@@ -1,6 +1,3 @@
-var blop = 40;
-
-
 function UpdateUser(){	
 	$.ajax(
 	{ //on log l'utilisateur
@@ -17,12 +14,12 @@ function UpdateUser(){
 			else
 				{
 				latitudeAmi = parseFloat(json.donnees[0].lat);
+				alert(json.donnees.length);
 				longitudeAmi = parseFloat(json.donnees[0].lng);
 				latitudeLieu = parseFloat(json.donnees[0].latlieu);
 				longitudeLieu = parseFloat(json.donnees[0].lnglieu);
 				//$("#listeami2").html(ListeAmi).listview('refresh');
 				}
-			
 		}
 	});
 };

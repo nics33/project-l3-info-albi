@@ -41,13 +41,18 @@ function showLocation(position) //fonction appelé par getcurrentposition permett
 		            if(status == google.maps.DirectionsStatus.NOT_FOUND)
 		            {
 		            	alert("Coordonnées Incorrect");
-		            }ZERO_RESULTS
-		            if(status == google.maps.DirectionsStatus.NOT_FOUND)
+		            }
+		            if(status == google.maps.DirectionsStatus.ZERO_RESULTS)
 		            {
-		            	alert("Coordonnées Incorrect");
-		            }		            if(status == google.maps.DirectionsStatus.NOT_FOUND)
+		            	alert("Aucuns résultats");
+		            }		            
+		            if(status == google.maps.DirectionsStatus.REQUEST_DENIED)
 		            {
-		            	alert("Coordonnées Incorrect");
+		            	alert("Requète refusé");
+		            }
+		            if(status == google.maps.DirectionsStatus.UNKNOWN_ERROR)
+		            {
+		            	alert("Erreur des serveur Google Maps");
 		            }
 		     });	
 		};
@@ -101,6 +106,7 @@ function showLocation(position) //fonction appelé par getcurrentposition permett
 		{
 		if (navigator.geolocation)//navigator.geolocation renvoie un simple booléen valant vrai ou faux selon la capacité du navigateur à utiliser la géolocalisation
 		{
+			alert("blop");
 			watchId = navigator.geolocation.watchPosition(showLocation,errorHandler,{enableHighAccuracy : true});//fonction permettant d'obtenir sa localisation, si c'est un succé execute showlocation sinon errorHandler
 		}
 		else

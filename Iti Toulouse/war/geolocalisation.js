@@ -10,8 +10,11 @@ var map;
 
 function showLocation(position) //fonction appelé par getcurrentposition permettant de récupérer les infos de localisation si elle a reussi
 		{
+			
 			latitude = position.coords.latitude;
 			longitude = position.coords.longitude;
+			alert(latitude);
+			alert(longitude);
 			start = new google.maps.LatLng(latitude, longitude);
 			end = new google.maps.LatLng(latitudeLieu, longitudeLieu);
 			var wayps = [{
@@ -24,32 +27,44 @@ function showLocation(position) //fonction appelé par getcurrentposition permett
 				      optimizeWaypoints: true,
 				      travelMode: google.maps.TravelMode.WALKING
 			 };
-			alert("trololo");
 			 directionsService = new google.maps.DirectionsService(); // Service de calcul d'itinéraire
-			 alert("trololo2");
 		     directionsService.route(request, function(response, status)
 		    { // Envoie de la requête pour calculer le parcours
 		            if(status == google.maps.DirectionsStatus.OK)
 		            {
-		            	alert("trololo3");
 		            	directionsDisplay.setDirections(response); // Trace l'itinéraire sur la carte et les différentes étapes du parcours
+		            }
+		            if(status == google.maps.DirectionsStatus.OVER_QUERY_LIMIT)
+		            {
+		            	alert("trop de requete dans le temps imparti");
+		            }
+		            if(status == google.maps.DirectionsStatus.NOT_FOUND)
+		            {
+		            	alert("Coordonnées Incorrect");
+		            }ZERO_RESULTS
+		            if(status == google.maps.DirectionsStatus.NOT_FOUND)
+		            {
+		            	alert("Coordonnées Incorrect");
+		            }		            if(status == google.maps.DirectionsStatus.NOT_FOUND)
+		            {
+		            	alert("Coordonnées Incorrect");
 		            }
 		     });	
 		};
 		
 
 		
-		function errorHandler(err) // fonction appelé par getcurrentposition permettant de récupéré le code erreur si jamais il n'y arrive pas
+		function errorHandler(error) // fonction appelé par getcurrentposition permettant de récupéré le code erreur si jamais il n'y arrive pas
 		{
-			switch(err.code)
+			switch(error.code)
 			{
-				case err.PERMISSION_DENIED:
+				case error.PERMISSION_DENIED:
 					alert("L'utilisateur n'a pas autorisé l'accès à sa position");
 					break;      
-				case err.POSITION_UNAVAILABLE:
+				case error.POSITION_UNAVAILABLE:
 					alert("L'emplacement de l'utilisateur n'a pas pu être déterminé");
 					break;
-				case err.TIMEOUT:
+				case error.TIMEOUT:
 					alert("Le service n'a pas répondu à temps");
 					break;
 			}

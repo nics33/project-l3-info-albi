@@ -62,9 +62,30 @@ public class Servlet_GetTypes extends HttpServlet {
 		
 		pm.close();
 		
+		
+		
+		String chaine = "[";
+		
+		for(int i =0; i< results.size(); i++){
+			
+			
+			chaine += '"'+ results.get(i).getType() +'"';
+			
+			if(i < results.size()-1){
+			chaine += ",";
+			}
+			
+		}
+		
+		chaine += "]";
+		
+		System.out.println(chaine);
+
+		
+		
 		// On convertit le résultat en JSON
 		String reponse = "";
-		reponse = "{ \"status\" : "+valeureRetour+",\"donnees\" :  " +results + "}";
+		reponse = "{ \"status\" : "+valeureRetour+",\"donnees\" :  " +chaine + "}";
     	
     	System.out.println(reponse);
 

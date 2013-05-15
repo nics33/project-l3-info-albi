@@ -71,8 +71,8 @@
 								description = $(this).find("description").text();
 								coords = $(this).find("coordinates").text();
 								c = coords.split(","); // fais un tableau ou chaque case correspond ? la chaine coords s?par? par des virgules donc c[0] = x c[1] = y c[3] = 0
-								tab.push( [c[1],
-										c[0]]
+								tab.push( [c[0],
+										c[1]]
 								);
 								
 							});					

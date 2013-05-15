@@ -104,7 +104,7 @@ function showLocation(position) //fonction appelé par getcurrentposition permett
 		{
 		if (navigator.geolocation)//navigator.geolocation renvoie un simple booléen valant vrai ou faux selon la capacité du navigateur à utiliser la géolocalisation
 		{
-			watchId = navigator.geolocation.watchPosition(showLocation,errorHandler,{enableHighAccuracy : true});//fonction permettant d'obtenir sa localisation, si c'est un succé execute showlocation sinon errorHandler
+			watchId = navigator.geolocation.watchPosition(showLocation,errorHandler,{enableHighAccuracy : true, maximumAge : 5000});//fonction permettant d'obtenir sa localisation, si c'est un succé execute showlocation sinon errorHandler
 		}
 		else
 			alert("Dommage... Votre navigateur ne prend pas en compte la géolocalisation HTML5");

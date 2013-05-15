@@ -49,7 +49,7 @@ public class Servlet_GetTypes extends HttpServlet {
 	    query.declareParameters("String villeparam");
 	   
 		@SuppressWarnings("unchecked")
-		List<AppLieux> results = (List<AppLieux>) query.execute(villeElem.getVille().toLowerCase());
+		List<String> results = (List<String>) query.execute(villeElem.getVille().toLowerCase());
 		
 		System.out.println( "il y a  : "  +  results.size());
 		
@@ -69,7 +69,7 @@ public class Servlet_GetTypes extends HttpServlet {
 		for(int i =0; i< results.size(); i++){
 			
 			
-			chaine += '"'+ results.get(i).getType() +'"';
+			chaine += '"'+ results.get(i) +'"';
 			
 			if(i < results.size()-1){
 			chaine += ",";

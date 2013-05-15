@@ -1,5 +1,6 @@
 var myjson;
 var jsonType;
+var UserCity = "";
 
 function UpdateUser(){	
 	$.ajax(
@@ -41,8 +42,8 @@ function AffichageListeType(){
 				function(position) //fonction appelé par getcurrentposition permettant de récupérer les infos de localisation si elle a reussi
 				{
 					geocoder = new google.maps.Geocoder();
-					var latitude = position.coords.latitude;
-					var longitude = position.coords.longitude;
+					latitude = position.coords.latitude;
+					longitude = position.coords.longitude;
 					var latlng = new google.maps.LatLng(latitude, longitude);
 
 					geocoder.geocode({'latLng': latlng}, function(results, status) 
@@ -63,15 +64,15 @@ function AffichageListeType(){
 								success: function(data)
 								{
 									jsonType = data;
-									alert(jsonType.donnees.length);
 									var Nb_boutons=jsonType.donnees.length;
 									$("#content").empty();
 									$("#content").append("<ul data-role='listview' data-inset='true' data-theme='c' id='listeBouton'></ul>");
 									$("#content").trigger("create");
 									for(i=0;i<Nb_boutons;i++)
 									{
-									$("#listeBouton").append("<li>"+jsonType.donnees[i]+"</li>");
+									$("#listeBouton").append("<li onClick='ChoisirLieuPlusProche(\"" + jsonType.donnees[i]+"\")'>"+jsonType.donnees[i]+"</li>");
 									$("#listeBouton").listview('refresh');
+			
 									}
 									
 								}
@@ -92,3 +93,119 @@ function AffichageListeType(){
 	else
 		alert("Dommage... Votre navigateur ne prend pas en compte la géolocalisation HTML5");
 	};
+	
+	
+	function ChoisirLieuPlusProche(TypeLieu)
+	{
+		donnees = '{ "ville":' + UserCity + ', "type":'+ TypeLieu + ', "liste":'+'['+']' +'}';
+		$.ajax(
+		{ //on importe le fichier
+			type: "POST",
+			url: "http://ititoulouse.appspot.com/Servlet_GetEntities",// a cette url
+			data:{ donnees: donnees},
+			dataType: "json",
+			success: function(data)
+			{
+				calcul_distance_plusieurs_points(data);
+			}
+		})
+	}
+	
+	function calcul_distance_plusieurs_points(data)//passage en parametre du tab de la fonction précédente et de la location de l'utilisateur
+	{
+		var myLocation= new google.maps.LatLng(latitude, longitude);
+		alert("ma latitude :" + latitude + ", ma longitude :" + longitude);
+		var i = 0;
+		var tabmin = [];
+		var minPoint ={
+		"num" : 0,
+		"dist" : 0,
+		"dur" : 0,
+		};//tableau comprenant l'id du point le plus proche,la durée pr y accédé et sa distance
+		var nbiterance = 0; // va permettre de connaitre le nobre de fois que l'on allons devoir utiliser le service google MATRIX vu qu'il est limité a 25 destinations
+		if((data.donnees.length/25) != Math.round(data.donnees.length/25)) nbiterance = Math.floor(data.donnees.length/25)+1; else nbiterance = Math.floor(data.donnees.length/25);
+		//alert(nbiterance);
+		//alert(data.donnees.length);
+		for (var h =1;h<=nbiterance;h++)
+		{
+			var tabdestinations = []//tableau d'objets google.maps.LatLng contenant les coordonnées de tous les points du fichier kml traité précédément
+			for (; i < 25*h && i<data.donnees.length; i++)//boucle for pour remplir le tableau mis a 50 pr test normalement a i < tabKML.length
+			{
+				//alert("i = " + i);
+				var lat = data.donnees[i].lat;
+				var lng = data.donnees[i].lng;
+				var destination = new google.maps.LatLng(lat,lng);
+				tabdestinations.push(destination);
+			}
+			//alert(tabdestinations);
+			var service = new google.maps.DistanceMatrixService();//démarrage du service googleDistanceMatrix
+			service.getDistanceMatrix(
+			{
+				origins:[myLocation],//point de départ soit la localisation de l'utilisateur
+				destinations: tabdestinations,// les destinations
+				travelMode: google.maps.TravelMode.WALKING//mode de déplacement dans notre cas a pied
+			}, 
+			function(response,status)
+			{
+				if (status == google.maps.DistanceMatrixStatus.OK) 
+				{
+					var destinations = response.destinationAddresses;
+					var results = response.rows[0].elements;
+					for (var j = 0; j < results.length; j++) 
+					{
+						var element = results[j];
+						var distance = element.distance.value;
+						var duration = element.duration.value;
+						if (duration<minPoint.dur || j==0)
+						{
+							minPoint.dist=distance;
+							minPoint.dur=duration;
+							minPoint.num=j;
+						}
+					}
+					//alert(minPoint.num + " , "  + minPoint.dur+ " , "+ minPoint.dist);
+					tabmin.push({
+							"num" : minPoint.num,
+							"dist" : minPoint.dist,
+							"dur" : minPoint.dur
+							});
+					if(tabmin.length == nbiterance)
+					{
+						//alert("Point :" + tabmin[0].num + " , "+tabmin[0].dur+" , " + tabmin[0].dist);
+						//alert("Point :" + tabmin[1].num + " , "+tabmin[1].dur+" , " + tabmin[1].dist);
+						//alert("Point :" + tabmin[2].num + " , "+tabmin[2].dur+" , " + tabmin[2].dist);
+						minPoint.dist=0;
+						minPoint.dur=0;
+						minPoint.num=0;
+						for(var k = 0; k<tabmin.length;k++)
+						{
+							//alert("taille tab min : "+tabmin.length);
+							//alert("Point :" + tabmin[0].num + ","+tabmin[0].dur);
+							//alert("Point :" + tabmin[1].num + ","+tabmin[1].dur);
+							//alert("Point :" + tabmin[2].num + ","+tabmin[2].dur);
+							if(tabmin[k].dur<minPoint.dur || k ==0)
+							{
+								//alert("Point :" + tabmin[k].num + ","+tabmin[k].dur);
+								minPoint.dist=tabmin[k].dist;
+								minPoint.dur=tabmin[k].dur;
+								minPoint.num=tabmin[k].num+(25*k);
+							}
+						}
+						//METTRE LA SUITE DU CODE ICI DU AU FAIT QUE L'API SOIT ASYNCHRONE
+						//alert("Point mini :" + minPoint.num + ","+minPoint.dur);
+						//mise en place du markeur
+						var idDestination = minPoint.num;
+						var latDestination = data.donnees[idDestination].lat;
+						var lngDestination = data.donnees[idDestination].lng;	
+						alert(idDestination + "," + latDestination+ "," + lngDestination);
+						positionDestination = new google.maps.LatLng(latDestination, lngDestination);
+						map.panTo(positionDestination);
+						//map.panTo(positionDestination); positionDestination ne fonctionne pas pour aucune raison aparente alors que les mm coordonnées utilisé dans la fonctyion ready fonctionne.
+						//affichageChemin(location_temp,positionDestination);
+
+					}	
+				}
+				else alert(status);
+			});
+		}
+	}

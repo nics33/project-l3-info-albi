@@ -3,6 +3,7 @@ package lieux;
 import pmf.PMF;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,8 @@ public class Servlet_GetEntities extends HttpServlet {
 		System.out.println("début");
 
 		String valeureRetour = "0";
+		String chaine ="";
+		DecimalFormat df = new DecimalFormat("########.00000000000"); 
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
@@ -58,13 +61,26 @@ public class Servlet_GetEntities extends HttpServlet {
 			valeureRetour = "1";
 				
 		}
-		else valeureRetour = "0";
+		else
+		{
+			valeureRetour = "0";
+			for(int i =0; i< results.size(); i++){
+				
+				
+				chaine += "{\"lat\" :"+ df.format(results.get(i).getLatitude()) + ", \"lng\" :"+ df.format(results.get(i).getLongitude()) +"}";
+				
+				if(i < results.size()-1){
+				chaine += ",";
+				}
+				
+			}
+		}
 		
 		pm.close();
 		
 		// On convertit le résultat en JSON
 		String reponse = "";
-		reponse = "{ \"status\" : "+valeureRetour+",\"donnees\" :  " +results + "}";
+		reponse = "{ \"status\" : "+valeureRetour+",\"donnees\" : [" + chaine + "]}";
     	
     	System.out.println(reponse);
 

@@ -1,12 +1,17 @@
-var latitude;
-var longitude;
+var UserCity = "";
+var monLieu = "";
+var latitude = 0.0;
+var longitude = 0.0;
 var latitudeAmi;
 var longitudeAmi;
-var latitudeLieu;
-var longitudeLieu;
+var latitudeLieu = 0.0;
+var longitudeLieu = 0.0;
+var latitudeLieuAmi;
+var longitudeLieuAmi;
 var directionsDisplay;
 var directionsService;
 var map;
+
 
 function showLocation(position) //fonction appelé par getcurrentposition permettant de récupérer les infos de localisation si elle a reussi
 		{
@@ -14,7 +19,7 @@ function showLocation(position) //fonction appelé par getcurrentposition permett
 			latitude = position.coords.latitude;
 			longitude = position.coords.longitude;
 			start = new google.maps.LatLng(latitude, longitude);
-			end = new google.maps.LatLng(latitudeLieu, longitudeLieu);
+			end = new google.maps.LatLng(latitudeLieuAmi, longitudeLieuAmi);
 			var wayps = [{
 	            location: new google.maps.LatLng(latitudeAmi, longitudeAmi),
 	            stopover:true}];
@@ -80,6 +85,13 @@ function showLocation(position) //fonction appelé par getcurrentposition permett
 		
 		function initialize() 
 		{
+		  //mise en place de la map avec Jquery
+		$("#content").empty();
+		$("#content").append("<div id='map_canvas' class='ui-bar-c ui-corner-all ui-shadow' style='padding:1em;width:45%;float: left;'></div><div id='panel' style='width:45%;float: right;'></div>");	
+		var taillebody=$("body").height();
+		$("#map_canvas").height(taillebody*0.8);
+		$("#panel").height(taillebody*0.8);	
+			
 		  directionsDisplay = new google.maps.DirectionsRenderer();
 	      panel    = document.getElementById('panel');
 		  map = new google.maps.Map(document.getElementById("map_canvas"),//la map apparaitra dans le div "map canvas"
@@ -104,6 +116,7 @@ function showLocation(position) //fonction appelé par getcurrentposition permett
 		{
 		if (navigator.geolocation)//navigator.geolocation renvoie un simple booléen valant vrai ou faux selon la capacité du navigateur à utiliser la géolocalisation
 		{
+			initialize();
 			watchId = navigator.geolocation.watchPosition(showLocation,errorHandler,{enableHighAccuracy : true, maximumAge : 5000});//fonction permettant d'obtenir sa localisation, si c'est un succé execute showlocation sinon errorHandler
 		}
 		else
@@ -113,7 +126,7 @@ function showLocation(position) //fonction appelé par getcurrentposition permett
 		function SuivreAmi(i){
 			latitudeAmi = parseFloat(myjson.donnees[i].lat);
 			longitudeAmi = parseFloat(myjson.donnees[i].lng);
-			latitudeLieu = parseFloat(myjson.donnees[i].latlieu);
-			longitudeLieu = parseFloat(myjson.donnees[i].lnglieu);
+			latitudeLieuAmi = parseFloat(myjson.donnees[i].latlieu);
+			longitudeLieuAmi = parseFloat(myjson.donnees[i].lnglieu);
 			geolocalisation();
 		}

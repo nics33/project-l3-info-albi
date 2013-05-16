@@ -16,13 +16,13 @@
 <script type="text/javascript">
 var ListeAmi = jQuery("<li data-icon='false'><a href='#'>data-icon='false'</a></li>");
 $(document).ready(function(){
+	var taillePanel=$("#rightpanel").height();
+	$("#liste").height(taillePanel*0.7);
+	$("#liste").css({"overflow-y": "scroll", "-webkit-overflow-scrolling": "touch"});
 	initialize();
 	UpdateUser();
 	setInterval("UpdateUser()", 60000);
 	AffichageListeType();
-	var taillePanel=$("#rightpanel").height();
-	$("#liste").height(taillePanel*0.7);
-	$("#liste").css({"overflow-y": "scroll", "-webkit-overflow-scrolling": "touch"});
  });
 </script>
 </head>
@@ -30,7 +30,7 @@ $(document).ready(function(){
 <body onload="checkFileAPI();">
 	<div data-role="page" data-theme='c'>
 	
-		<div data-role="header" data-theme='c'>
+		<div data-role="header" id="header" data-theme='c'>
 	   		 <h1>Page Title</h1>
 	  		  <a href="#popupMenu" data-rel="popup" data-role="button" data-inline="true" data-transition="slideup" data-icon="gear" class="ui-btn-right" data-theme="c">Options</a>
 			<div data-role="popup" id="popupMenu" data-theme="c">
@@ -83,13 +83,7 @@ $(document).ready(function(){
 		</div>
 		
 		<div data-role="content" id="content">
-		 		<div class="ui-bar-c ui-corner-all ui-shadow" style="padding:1em;">
-					<div id="map_canvas" style="height:300px;"></div>
-					<div id="panel" style="height:300px;"></div>
-				</div>
-				
-				<a href="#" onclick="stopWatch()">Stop Watch</a>
-    			<a href="#" onclick="geolocalisation()">geolocalisation</a>
+
 		</div><!-- /content --> 
 		
 		<div data-role="panel" id="rightpanel" data-display="overlay" data-position="right" data-theme="c">
@@ -109,6 +103,6 @@ $(document).ready(function(){
 		</div><!-- /panel -->
 		
 	</div><!-- /page -->
-<script type='text/javascript'>$(document).on('pageinit',function(){$("#content").on("swiperight",function(){$("#leftpanel").panel("open");});$("#content").on("swipeleft",function(){$("#rightpanel").panel("open");});});</script>
+<script type='text/javascript'>$(document).on('pageinit',function(){$("html").on("swipeleft",function(){$("#rightpanel").panel("open");});});</script>
 </body>
 </html>

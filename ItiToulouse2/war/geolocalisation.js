@@ -90,7 +90,8 @@ function showLocation(position) //fonction appelé par getcurrentposition permett
 		$("#content").append("<div id='map_canvas' class='ui-bar-c ui-corner-all ui-shadow' style='padding:1em;width:45%;float: left;'></div><div id='panel' style='width:45%;float: right;'></div>");	
 		var taillebody=$("body").height();
 		$("#map_canvas").height(taillebody*0.8);
-		$("#panel").height(taillebody*0.8);	
+		$("#panel").height(taillebody*0.8);
+		$("#panel").css({"overflow-y": "scroll", "-webkit-overflow-scrolling": "touch"});
 			
 		  directionsDisplay = new google.maps.DirectionsRenderer();
 	      panel    = document.getElementById('panel');

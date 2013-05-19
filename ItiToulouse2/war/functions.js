@@ -1,5 +1,7 @@
 var myjson;
 var jsonType;
+var test;
+var test2;
 
 function UpdateUser(){	
 	$.ajax(
@@ -113,6 +115,7 @@ function AffichageListeType(){
 	
 	function calcul_distance_plusieurs_points(data)//passage en parametre du tab de la fonction précédente et de la location de l'utilisateur
 	{
+		test2=data;
 		var myLocation= new google.maps.LatLng(latitude, longitude);
 		alert("ma latitude :" + latitude + ", ma longitude :" + longitude);
 		var i = 0;
@@ -147,10 +150,13 @@ function AffichageListeType(){
 			}, 
 			function(response,status)
 			{
+				test = response;
 				if (status == google.maps.DistanceMatrixStatus.OK) 
 				{
 					var destinations = response.destinationAddresses;
 					var results = response.rows[0].elements;
+					alert(results);
+					
 					for (var j = 0; j < results.length; j++) 
 					{
 						var element = results[j];

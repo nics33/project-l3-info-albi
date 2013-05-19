@@ -3,27 +3,86 @@ var jsonType;
 var test;
 var test2;
 
-function UpdateUser(){	
-	$.ajax(
-	{ //on log l'utilisateur
-		type: "GET",
-		url: "http://ititoulouse.appspot.com/Servlet_Update",// a cette url
-		data:{ "ville": UserCity,"type": monLieu , "latlieu": latitudeLieu.toString(), "lnglieu" : longitudeLieu.toString(), "lat" : latitude.toString(), "lng" : longitude.toString() }, 
-		dataType: "json",
-		success: function(json)
+function admin()
+{
+	estAdmin=myjson.admin;
+	if(estAdmin==1)
 		{
-			
-			if(json.status =="10")
-				{
-				document.location.href = json.donnees;
-				}
-			else
-				{
-				myjson = json;
-				TraitementListe();
-				}
+			$(".admin").show();
 		}
-	});
+}
+
+function back()
+{
+	navigator.geolocation.clearWatch(watchId);
+	 latitudeAmi = 0.0;
+	 longitudeAmi = 0.0;
+	 latitudeLieu = 0.0;
+	 longitudeLieu = 0.0;
+	 latitudeLieuAmi = 0.0;
+	 longitudeLieuAmi = 0.0;
+	var Nb_boutons=jsonType.donnees.length;
+	$("#content").empty();
+	$("#content").append("<ul data-role='listview' data-inset='true' data-theme='c' id='listeBouton'></ul>");
+	$("#content").trigger("create");
+	for(i=0;i<Nb_boutons;i++)
+	{
+	$("#listeBouton").append("<li onClick='ChoisirLieuPlusProche(\"" + jsonType.donnees[i]+"\")'>"+jsonType.donnees[i]+"</li>");
+	$("#listeBouton").listview('refresh');
+	}
+	
+}
+
+function UpdateUser(){	
+	alert($("#BouttonPartage").val());
+	if($("#BouttonPartage").val() == "off")
+		{
+		$.ajax(
+				{ //on log l'utilisateur
+					type: "GET",
+					url: "http://ititoulouse.appspot.com/Servlet_Update",// a cette url
+					data:{ "ville": "","type": "" , "latlieu": "0.0", "lnglieu" : "0.0", "lat" : "0.0", "lng" : "0.0" }, 
+					dataType: "json",
+					success: function(json)
+					{
+						
+						if(json.status =="10")
+							{
+							document.location.href = json.donnees;
+							}
+						else
+							{
+							myjson = json;
+							admin();
+							TraitementListe();
+							}
+					}
+				});
+		}
+	else
+	{
+		$.ajax(
+				{ //on log l'utilisateur
+					type: "GET",
+					url: "http://ititoulouse.appspot.com/Servlet_Update",// a cette url
+					data:{ "ville": UserCity,"type": monLieu , "latlieu": latitudeLieu.toString(), "lnglieu" : longitudeLieu.toString(), "lat" : latitude.toString(), "lng" : longitude.toString() }, 
+					dataType: "json",
+					success: function(json)
+					{
+						
+						if(json.status =="10")
+							{
+							document.location.href = json.donnees;
+							}
+						else
+							{
+							myjson = json;
+							admin();
+							TraitementListe();
+							}
+					}
+				});
+	}
 };
 
 function TraitementListe() {

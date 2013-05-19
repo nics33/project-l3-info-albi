@@ -11,6 +11,7 @@ var longitudeLieuAmi;
 var directionsDisplay;
 var directionsService;
 var map;
+var watchId;
 
 
 function showLocation(position) //fonction appelé par getcurrentposition permettant de récupérer les infos de localisation si elle a reussi

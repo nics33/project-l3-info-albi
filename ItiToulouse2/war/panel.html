@@ -31,6 +31,7 @@ $(document).ready(function(){
 	<div data-role="page" data-theme='c'>
 	
 		<div data-role="header" id="header" data-theme='c'>
+			<a href="#" data-icon="home" onclick="back();">Home</a>
 	   		 <h1>Page Title</h1>
 	  		  <a href="#popupMenu" data-rel="popup" data-role="button" data-inline="true" data-transition="slideup" data-icon="gear" class="ui-btn-right" data-theme="c">Options</a>
 			<div data-role="popup" id="popupMenu" data-theme="c">
@@ -48,8 +49,8 @@ $(document).ready(function(){
   						  </div>
 						</div>
 					</li>
-				    <li data-role="divider" data-theme="c">Administration</li>
-				    <li><a href="#popupAjoutLieu" data-rel="popup" data-position-to="window" data-theme="c" data-transition="pop">Ajout Lieux</a>
+				    <li data-role="divider" class="admin" style="display:none" data-theme="c">Administration</li>
+				    <li  class="admin" style="display:none"><a href="#popupAjoutLieu"  data-rel="popup" data-position-to="window" data-theme="c" data-transition="pop">Ajout Lieux</a>
 						<div data-role="popup" id="popupMenu" data-theme="c">
     						<div data-role="popup" id="popupAjoutLieu" data-theme="c" class="ui-corner-all">
            						 <div style="padding:10px 20px;">
@@ -64,7 +65,7 @@ $(document).ready(function(){
   						  </div>
 						</div>
 					</li>
-				    <li><a href="#popupDelLieu" data-rel="popup" data-position-to="window" data-theme="c" data-transition="pop">Suppression Lieux</a>
+				    <li class="admin" style="display:none"><a href="#popupDelLieu" data-rel="popup" data-position-to="window" data-theme="c" data-transition="pop">Suppression Lieux</a>
 						<div data-role="popup" id="popupMenu" data-theme="c">
     						<div data-role="popup" id="popupDelLieu" data-theme="c" class="ui-corner-all">
            						 <div style="padding:10px 20px;">
@@ -95,9 +96,9 @@ $(document).ready(function(){
 			</div>
 			<div id="radioPanel" >
 				<label for="slider-flip-m">Mini flip switch:</label>
-				<select name="slider-flip-m" id="slider-flip-m" data-role="slider" data-mini="true">
+				<select name="slider-flip-m" id="BouttonPartage" data-role="slider" data-mini="true">
 					<option value="off">No</option>
-					<option value="on" selected="">Yes</option>
+					<option value="on" >Yes</option>
 				</select>
 			</div>	
 		</div><!-- /panel -->

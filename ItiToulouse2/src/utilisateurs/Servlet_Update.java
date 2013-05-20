@@ -65,7 +65,7 @@ public class Servlet_Update extends HttpServlet {
 		    		PersistenceManager pm = PMF.get().getPersistenceManager();
 		    		AppUser myUserTemp = pm.getObjectById(AppUser.class, myAppUser.friendList.get(i));
 		    		pm.close();
-		    		if(myUserTemp.getDateLastConnection().after(Datetemp))
+		    		if(myUserTemp.getDateLastConnection().after(Datetemp) && myUserTemp.getLat() != 0.0 && myUserTemp.getLat() != 0.0)
 		    		{
 		    			temp = "{ \"email\" : \"" +myUserTemp.getEmail()+ "\","+ myUserTemp.getLieu()+","+myUserTemp.getUserLocalisation()+"}";
 		    			returnValue.add(temp);

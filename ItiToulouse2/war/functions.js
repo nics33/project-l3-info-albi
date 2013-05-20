@@ -34,7 +34,6 @@ function back()
 }
 
 function UpdateUser(){	
-	alert($("#BouttonPartage").val());
 	if($("#BouttonPartage").val() == "off")
 		{
 		$.ajax(
@@ -113,7 +112,7 @@ function AffichageListeType(){
 							if (results[1])
 							{
 							UserCity = results[1].address_components[1].long_name.toString();
-							alert(results[1].address_components[1].long_name);
+							//alert(results[1].address_components[1].long_name);
 							donnees = '{ "ville":' + UserCity + ', "type":'+ "a"+ ', "liste":'+'['+']' +'}';
 							$.ajax(
 							{ //on importe le fichier
@@ -176,7 +175,7 @@ function AffichageListeType(){
 	{
 		test2=data;
 		var myLocation= new google.maps.LatLng(latitude, longitude);
-		alert("ma latitude :" + latitude + ", ma longitude :" + longitude);
+		//alert("ma latitude :" + latitude + ", ma longitude :" + longitude);
 		var i = 0;
 		var tabmin = [];
 		var minPoint ={
@@ -214,7 +213,7 @@ function AffichageListeType(){
 				{
 					var destinations = response.destinationAddresses;
 					var results = response.rows[0].elements;
-					alert(results);
+					//alert(results);
 					
 					for (var j = 0; j < results.length; j++) 
 					{
@@ -262,7 +261,7 @@ function AffichageListeType(){
 						var idDestination = minPoint.num;
 						latitudeLieu = data.donnees[idDestination].lat;
 						longitudeLieu = data.donnees[idDestination].lng;	
-						alert(idDestination + "," + latitudeLieu+ "," + longitudeLieu);
+						//alert(idDestination + "," + latitudeLieu+ "," + longitudeLieu);
 						if (navigator.geolocation)//navigator.geolocation renvoie un simple booléen valant vrai ou faux selon la capacité du navigateur à utiliser la géolocalisation
 						{
 							initialize();

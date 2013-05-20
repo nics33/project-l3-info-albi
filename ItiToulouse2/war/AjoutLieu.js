@@ -77,11 +77,11 @@
 								
 							});					
 						});
-						alert(tab);
+						//alert(tab);
 						var ville = document.getElementById('VilleInsert').value;
 						var type = document.getElementById('LieuInsert').value;
-						alert(ville);
-						alert(type);
+						//alert(ville);
+						//alert(type);
 						donnees = '{ "ville":' + ville + ', "type":'+ type + ', "liste":'+'['+ joinArray(tab)+']' +'}';
 						$.ajax(
 						{ //on importe le fichier
@@ -91,7 +91,7 @@
 							dataType: "json",
 							success: function(data)
 							{
-								alert(data);
+								alert(data.status);
 							}
 							
 						});
@@ -99,8 +99,8 @@
     function SuppressionLieu(){
     	var ville = document.getElementById('VilleDel').value;
 		var type = document.getElementById('LieuDel').value;
-		alert(ville);
-		alert(type);
+		//alert(ville);
+		//alert(type);
 		donnees = '{ "ville":' + ville + ', "type":'+ type + ', "liste":'+'['+']' +'}';
 		$.ajax(
 		{ //on importe le fichier
@@ -110,14 +110,13 @@
 			dataType: "json",
 			success: function(data)
 			{
-				alert("sa marche");
 			}
 		})
     }
     
     function AjoutAmi(){
     	var mailAmi = document.getElementById('MailAmi').value;
-    	alert(mailAmi);
+    	//alert(mailAmi);
     	$.ajax(
     			{ //on importe le fichier
     				type: "GET",
@@ -126,7 +125,7 @@
     				dataType: "json",
     				success: function(data)
     				{
-    					alert("sa marche");
+    					alert(data.status);
     				}
     	})
     	

@@ -96,6 +96,14 @@ public class AppUser {
 		// Accessors for the fields. JPA doesn't use these, but your application
 		// does.
 		
+	public float getLat(){
+		return this.lat;
+	}
+	
+	public float getLng(){
+		return this.lng;
+	}
+	
 	public String getEmail(){
 		return this.email;
 	}

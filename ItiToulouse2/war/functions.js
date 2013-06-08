@@ -288,12 +288,19 @@ function AffichageListeType(){
 	          position: latlng, map: map,
 	          });
 	    
-	      google.maps.event.addListener(marker, "mouseover", function() {
-	            alert(id);
+	      google.maps.event.addListener(marker, "click", function() {
+	            latitudeLieu = latlng.lat();
+	            longitudeLieux = latlng.lng();
+	            
+	            navigator.geolocation.clearWatch(watchId);
+				watchId = navigator.geolocation.watchPosition(showLocation2,errorHandler,{enableHighAccuracy : true, maximumAge : 5000});//fonction permettant d'obtenir sa localisation, si c'est un succé execute showlocation sinon errorHandler
+
+	            
+	            
+	            
+	            
 	          });
-	    google.maps.event.addListener(marker, "mouseout", function() {
-	            alert(id);
-	          });
+	   
 	          
 	    return marker;
 	 }

@@ -287,21 +287,27 @@ function AffichageListeType(){
 	    var marker= new google.maps.Marker({
 	          position: latlng, map: map,
 	          });
-	    google.maps.event.addListener(marker, "mouseover", function() {
+	    /*
+	      google.maps.event.addListener(marker, "mouseover", function() {
 	            alert(id);
 	          });
 	    google.maps.event.addListener(marker, "mouseout", function() {
 	            alert(id);
 	          });
+	          */
 	    return marker;
 	 }
 	
 	function displayMarker(data){
+		
+		alert("dans display marker");
 	
-	var markers = [];
+	 var markers = [];
 	 for( var i = 0; i < data.length; i++ ) {
-	  markers [i] = createMarker(new google.maps.LatLng(data.donnees[i].lat,	data.donnees[i].lng),
+		 
+	  markers [i] = createMarker(new google.maps.LatLng(data.donnees[i].lat, data.donnees[i].lng),
 	                                i);
+	  alert(markers[i]);
 	 }
 }
 	

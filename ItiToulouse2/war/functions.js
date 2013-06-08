@@ -265,6 +265,8 @@ function AffichageListeType(){
 						if (navigator.geolocation)//navigator.geolocation renvoie un simple booléen valant vrai ou faux selon la capacité du navigateur à utiliser la géolocalisation
 						{
 							initialize();
+							//AFFICHER LES MARKEURS ICI
+							displayMarker(data);
 							watchId = navigator.geolocation.watchPosition(showLocation2,errorHandler,{enableHighAccuracy : true, maximumAge : 5000});//fonction permettant d'obtenir sa localisation, si c'est un succé execute showlocation sinon errorHandler
 						}
 						else
@@ -279,6 +281,29 @@ function AffichageListeType(){
 			});
 		}
 	}
+	
+	 function createMarker(latlng, id)
+	 {
+	    var marker= new google.maps.Marker({
+	          position: latlng, map: map,
+	          });
+	    google.maps.event.addListener(marker, "mouseover", function() {
+	            alert(id);
+	          });
+	    google.maps.event.addListener(marker, "mouseout", function() {
+	            alert(id);
+	          });
+	    return marker;
+	 }
+	
+	function displayMarker(data){
+	
+	var markers = [];
+	 for( var i = 0; i < data.size(); i++ ) {
+	  markers [i] = createMarker(new google.maps.LatLng(data.donnees[i].lat,	data.donnees[i].lng),
+	                                i);
+	 }
+}
 	
 	function showLocation2(position) //fonction appelé par getcurrentposition permettant de récupérer les infos de localisation si elle a reussi
 	{

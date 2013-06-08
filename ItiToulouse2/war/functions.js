@@ -299,7 +299,7 @@ function AffichageListeType(){
 	function displayMarker(data){
 	
 	var markers = [];
-	 for( var i = 0; i < data.size(); i++ ) {
+	 for( var i = 0; i < data.length; i++ ) {
 	  markers [i] = createMarker(new google.maps.LatLng(data.donnees[i].lat,	data.donnees[i].lng),
 	                                i);
 	 }

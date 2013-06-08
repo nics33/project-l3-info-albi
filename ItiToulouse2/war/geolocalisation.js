@@ -62,6 +62,55 @@ function showLocation(position) //fonction appelé par getcurrentposition permett
 		};
 		
 
+	
+function showLocationNonLieux(position) //fonction appelé par getcurrentposition permettant de récupérer les infos de localisation si elle a reussi
+{
+			
+	latitude = position.coords.latitude;
+	longitude = position.coords.longitude;
+	start = new google.maps.LatLng(latitude, longitude);
+	end = new google.maps.LatLng(latitudeAmi, longitudeAmi);
+
+	var request = {
+		      origin: start,
+		      destination: end,
+		      travelMode: google.maps.TravelMode.WALKING
+	 };
+	 directionsService = new google.maps.DirectionsService(); // Service de calcul d'itinéraire
+     directionsService.route(request, function(response, status)
+    { // Envoie de la requête pour calculer le parcours
+            if(status == google.maps.DirectionsStatus.OK)
+            {
+            	directionsDisplay.setDirections(response); // Trace l'itinéraire sur la carte et les différentes étapes du parcours
+            }
+            if(status == google.maps.DirectionsStatus.OVER_QUERY_LIMIT)
+            {
+            	alert("trop de requete dans le temps imparti");
+            }
+            if(status == google.maps.DirectionsStatus.NOT_FOUND)
+            {
+            	alert("Coordonnées Incorrect");
+            }
+            if(status == google.maps.DirectionsStatus.ZERO_RESULTS)
+            {
+            	alert("Aucuns résultats");
+            }		            
+            if(status == google.maps.DirectionsStatus.REQUEST_DENIED)
+            {
+            	alert("Requète refusé");
+            }
+            if(status == google.maps.DirectionsStatus.UNKNOWN_ERROR)
+            {
+            	alert("Erreur des serveur Google Maps");
+            }
+     });	
+};
+		
+
+		
+
+		
+		
 		
 		function errorHandler(error) // fonction appelé par getcurrentposition permettant de récupéré le code erreur si jamais il n'y arrive pas
 		{
@@ -118,9 +167,18 @@ function showLocation(position) //fonction appelé par getcurrentposition permett
 		{
 		if (navigator.geolocation)//navigator.geolocation renvoie un simple booléen valant vrai ou faux selon la capacité du navigateur à utiliser la géolocalisation
 		{
-			initialize();
-			watchId = navigator.geolocation.watchPosition(showLocation,errorHandler,{enableHighAccuracy : true, maximumAge : 5000});//fonction permettant d'obtenir sa localisation, si c'est un succé execute showlocation sinon errorHandler
-		}
+			
+			if(latitudeLieuAmi == 0 && longitudeLieuAmi == 0){
+				initialize();
+				watchId = navigator.geolocation.watchPosition(showLocationNonLieux,errorHandler,{enableHighAccuracy : true, maximumAge : 5000});//fonction permettant d'obtenir sa localisation, si c'est un succé execute showlocation sinon errorHandler
+
+			}
+			else 
+			{
+				initialize();
+				watchId = navigator.geolocation.watchPosition(showLocation,errorHandler,{enableHighAccuracy : true, maximumAge : 5000});//fonction permettant d'obtenir sa localisation, si c'est un succé execute showlocation sinon errorHandler
+			}	
+	}
 		else
 			alert("Dommage... Votre navigateur ne prend pas en compte la géolocalisation HTML5");
 		};

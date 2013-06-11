@@ -115,48 +115,6 @@ public class Servlet_Connection extends HttpServlet{
         }
 	      	
       }
-	        
-	        
-	        
-	        
-	        
-	        
-	        
-	        
-	        
-	   /*     
-  	String user = request.getParameter("userid"); 
-  	response.setContentType("text/xml");
-  	String outputTxt =	"<data>\n" ;
-  	FriendStore friendStore = FriendStore.getInstance();
-  	
-  	if(!friendStore.getFriends().contains(user)){
-  	  logger.log(Level.INFO,"User {0} is added to list of users",user);
-  	  friendStore.addNewFriend(user);
-    } else{
-  	  logger.log(Level.INFO,"User {0} is already added  to list of users\n" +"hence, not adding now",user);
-  	}
-  	
-    Iterator<String> friendList = friendStore.getFriends().iterator();
-    logger.log(Level.INFO,"All the users list is written to the output and "+"the message about new user sent to all other users");
-  	
-  	//Add all the users logged in already to the new user friends list
-    // and also update all of them about the new user
-    while(friendList.hasNext()){
-  	  String friend = friendList.next() ;
-      if(!friend.equals(user)){
-        outputTxt +="<friend><name>" + friend +"</name></friend>\n";
-        channelService.sendMessage(
-  		  new ChannelMessage(friend,"<data>" +
-  			"<type>updateFriendList</type>" +
-  			"<message>"+user+"</message>" +
-  			"<from>Server</from>" +	"</data>"));
-  	  }
-    }
-    outputTxt += "</data>\n";
-    response.getWriter().print(outputTxt);
-    */
-  
 	/**
 	 * Creates the Channel token for the user 
 	 * @param userId The User whom the token is created for  

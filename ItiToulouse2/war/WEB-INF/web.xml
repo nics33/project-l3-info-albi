@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?><web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 	<servlet>
+		<servlet-name>Servlet_Connection</servlet-name>
+		<servlet-class>utilisateurs.Servlet_Connection</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Servlet_Connection</servlet-name>
+		<url-pattern>/Servlet_Connection</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
 		<servlet-name>Servlet_GetEntities</servlet-name>
 		<servlet-class>lieux.Servlet_GetEntities</servlet-class>
 	</servlet>

@@ -7,6 +7,22 @@
 		<servlet-name>Servlet_Connection</servlet-name>
 		<url-pattern>/Servlet_Connection</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>Servlet_Disconnection</servlet-name>
+		<servlet-class>utilisateurs.Servlet_Disconnection</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Servlet_Disconnection</servlet-name>
+		<url-pattern> /_ah/channel/disconnected/</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>Servlet_GetVille</servlet-name>
+		<servlet-class>lieux.Servlet_GetVille</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Servlet_GetVille</servlet-name>
+		<url-pattern>/Servlet_GetVille</url-pattern>
+	</servlet-mapping>
 	
 	<servlet>
 		<servlet-name>Servlet_GetEntities</servlet-name>

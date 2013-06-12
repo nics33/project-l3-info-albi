@@ -51,7 +51,8 @@ public class Servlet_Disconnection extends HttpServlet{
 				  ArrayList<String> ListeAmi;
 				  String reponse;
 
-				  
+			        System.out.println("trololo");
+
 				  //démarage du UserService
 			      UserService userService = UserServiceFactory.getUserService();
 			      User user = userService.getCurrentUser();	 
@@ -60,6 +61,7 @@ public class Servlet_Disconnection extends HttpServlet{
 			    	  //on récupere le UserId de l'utilisateur
 				        AppUser myAppUser  = new AppUser(user);
 				        userId = myAppUser.getAppUserId();
+				        System.out.println(userId);
 				        
 				        //On ajoute l'utilisateur a la liste des Utilisateurs déja Connectés
 				      	FriendStore friendStore = FriendStore.getInstance();

@@ -91,18 +91,16 @@ public class Servlet_Connection extends HttpServlet{
 		    		pm.close();
 	    			temp = "{ \"email\" : \"" +myUserTemp.getEmail()+ "\","+ myUserTemp.getLieu()+","+myUserTemp.getUserLocalisation()+"}";
 	    			returnValue.add(temp); // j'ajoute ses information dans un tableau
-	    			
+			    	String outputMessage = "{ \"type\" : \"UpdateFriendlist\",\"message\" : \""+userId+"\",\"from\" : \"Server\"}";
+
 	              channelService.sendMessage(
-	        		  new ChannelMessage(friend,"<data>" +
-	        			"<type>updateFriendList</type>" +
-	        			"<message>"+userId+"</message>" +
-	        			"<from>Server</from>" +	"</data>")); // et j'indique a mon ami que je me suis connecté
+	        		  new ChannelMessage(friend,outputMessage)); // et j'indique a mon ami que je me suis connecté
 	        	  }
 
 	          }
 			// On convertit le résultat en JSON
 			
-        	reponse = "{ \"status\" : 0,\"admin\" : "+admin.toString()+",\"token\" : "+token+",\"donnees\" :  " +returnValue + "}";
+        	reponse = "{ \"status\" : 0,\"admin\" : "+admin.toString()+",\"token\" : \""+token+"\",\"donnees\" :  " +returnValue + "}";
         	
         	
 			// On renvoie le contenu JSON

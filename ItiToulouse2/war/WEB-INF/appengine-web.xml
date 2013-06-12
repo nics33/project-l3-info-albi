@@ -16,7 +16,7 @@
    <inbound-services>
     <service>channel_presence</service>
   </inbound-services>
-
+  <sessions-enabled>true</sessions-enabled>
   <!--
     HTTP Sessions are disabled by default. To enable HTTP sessions specify:
 

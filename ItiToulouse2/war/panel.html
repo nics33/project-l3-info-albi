@@ -16,13 +16,13 @@
 <script src="geolocalisation.js"></script>
 <script src="functions.js"></script>
 <script type="text/javascript">
-var ListeAmi = jQuery("<li data-icon='false'><a href='#'>data-icon='false'</a></li>");
+//var ListeAmi = jQuery("<li data-icon='false'><a href='#'>data-icon='false'</a></li>");
 $(document).ready(function(){
 	var taillePanel=$("#rightpanel").height();
 	$("#liste").height(taillePanel*0.7);
 	$("#liste").css({"overflow-y": "scroll", "-webkit-overflow-scrolling": "touch"});
 	//initialize();
-	UpdateUser();
+	//UpdateUser();
 	GetToken();
 	//setInterval("UpdateUser()", 60000);
 	AffichageListeType();
@@ -30,7 +30,7 @@ $(document).ready(function(){
 </script>
 </head>
 
-<body onload="checkFileAPI();">
+<body onload="checkFileAPI();" onunload="closeChannel()">
 	<div data-role="page" data-theme='c'>
 	
 		<div data-role="header" id="header" data-theme='c'>

@@ -13,7 +13,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Servlet_Disconnection</servlet-name>
-		<url-pattern> /_ah/channel/disconnected/</url-pattern>
+		<url-pattern> /Servlet_Disconnection</url-pattern>
 	</servlet-mapping>
 	<servlet>
 		<servlet-name>Servlet_GetVille</servlet-name>

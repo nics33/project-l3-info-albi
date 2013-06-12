@@ -1,4 +1,7 @@
 var socket; 
+var messagerecu;
+var listeAmiNick = [];
+var listeAmiId = [];
 
 function GetToken(){
 	$.ajax(
@@ -8,17 +11,18 @@ function GetToken(){
 				dataType: "json",
 				success: function(json)
 				{
-					
 					if(json.status =="10")
 						{
 						document.location.href = json.donnees;
 						}
 					else
 						{
-						alert("trololo");
 						token = json.token;
-						alert(token);
 						openChannel(token);
+						myjson = json;
+						admin();
+						CreationListeAmi();
+						AffichageListeAmi();
 						}
 				}
 			});
@@ -36,7 +40,16 @@ function openChannel(token) {
 };
 
 function closeChannel(){
-	socket.close()
+	$.ajax(
+			{ //on log l'utilisateur
+				type: "POST",
+				url: "http://ititoulouse.appspot.com/Servlet_Disconnection",// a cette url
+				dataType: "json",
+				async: false,
+				success: function(json)
+				{
+				}
+			});
 }
 
 onSocketError = function(error){
@@ -52,6 +65,51 @@ onSocketClose = function() {
 };
 
 onSocketMessage = function(message) {
-	alert("Message Reçu");
+	var messageJSON = JSON.parse(message.data);
+	typemessage = messageJSON.type;
+	switch(typemessage)
+	{
+	case "UpdateFriendlist":
+		alert("Je rajoute l'utilisateur "+messageJSON.nickname+ " a la liste d'ami");
+		AjoutListeAmi(messageJSON.id,messageJSON.nickname);
+		AffichageListeAmi()
+		break;
+	case "DeleteFriend":
+		alert("Je supprime l'utilisateur "+messageJSON.id+ " de la liste d'ami");
+		SuppressionListeAmi(messageJSON.id);
+		AffichageListeAmi();
+		break;	
+	}
 };
+
+function CreationListeAmi(){
+	var Taille = myjson.donnees.length;
+	for (var i = 0; i<Taille; i++){
+		var nickname = myjson.donnees[i].nickname;
+		var id = myjson.donnees[i].id;
+		AjoutListeAmi(id,nickname)
+	}
+}
+
+function AjoutListeAmi(id,nickname){
+	listeAmiNick.push(nickname);
+	listeAmiId.push(id);
+}
+
+function SuppressionListeAmi(id){
+	var i = listeAmiId.indexOf(id);
+	listeAmiId.splice(i,1);
+	listeAmiNick.splice(i,1);
+}
+
+function AffichageListeAmi() {
+	 var Taille = listeAmiNick.length;
+	 $('#listeami2').empty();
+	 for (var i = 0; i<Taille; i++){
+	 var nickname = listeAmiNick[i];
+	 $('#listeami2').append("<li onClick='SuivreAmi("+i.toString()+")'>"+nickname+"</li>");
+	 $("#listeami2").listview('refresh');
+	 }
+	}
+
 

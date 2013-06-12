@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import pmf.PMF;
 
@@ -49,11 +50,19 @@ public class Servlet_Disconnection extends HttpServlet{
 				  
 		  		  String userId;
 				  ArrayList<String> ListeAmi;
+				  ArrayList<String> returnValue = new ArrayList<String>(); 
 				  String reponse;
 
 			        System.out.println("trololo");
 
 				  //démarage du UserService
+			    	  HttpSession session = req.getSession(true);
+			    	  String monID = (String)session.getAttribute("userid"); 
+			    	  if(monID==null)
+			    	  {
+			    		  System.out.println("marche pas");
+			    	  }
+			    	  else System.out.println("monID");
 			      UserService userService = UserServiceFactory.getUserService();
 			      User user = userService.getCurrentUser();	 
 			      //Si l'utilisateur est connecté a un compte Google
@@ -61,13 +70,29 @@ public class Servlet_Disconnection extends HttpServlet{
 			    	  //on récupere le UserId de l'utilisateur
 				        AppUser myAppUser  = new AppUser(user);
 				        userId = myAppUser.getAppUserId();
-				        System.out.println(userId);
+				        ListeAmi = myAppUser.getListFriends();
 				        
 				        //On ajoute l'utilisateur a la liste des Utilisateurs déja Connectés
 				      	FriendStore friendStore = FriendStore.getInstance();
 				      	if(friendStore.getFriends().contains(userId)){
 				        	  logger.log(Level.INFO,"User {0} has been removed from list of users",userId);
-				        	  friendStore.removeFriend(userId);
+				        	  friendStore.removeFriend(userId); //je retire l'utilisateur des users connectés
+				        	  
+				        	  //J'indiques aux amis que l'utilisateur est déconnecté
+				        	  
+				  	        Iterator<String> friendList = ListeAmi.iterator();
+
+					        while(friendList.hasNext()){
+					        	  String friend = friendList.next() ;
+					            if(friendStore.getFriends().contains(friend)) //Si le friendstore contient mon Ami(friend = id de l'ami)
+					            {
+							    	String outputMessage = "{ \"type\" : \"DeleteFriend\",\"id\" : \""+userId+"\",\"from\" : \"Server\"}";
+
+					              channelService.sendMessage(
+					        		  new ChannelMessage(friend,outputMessage)); // et j'indique a mon ami que je me suis déconnecté
+					        	  }
+
+					          }
 
 				          } 
 				      	else{

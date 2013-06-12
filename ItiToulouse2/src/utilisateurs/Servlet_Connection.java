@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import pmf.PMF;
 
@@ -60,6 +61,18 @@ public class Servlet_Connection extends HttpServlet{
       //Si l'utilisateur est connecté a un compte Google
       if (user != null) { 
     	  //on récupere le UserId de l'utilisateur
+    	  //creation de la session
+    	  HttpSession session = req.getSession(true);
+    	  String monID = (String)session.getAttribute("userid"); 
+    	  String monNickname = (String)session.getAttribute("nickname"); 
+    	  if(monID==null || monNickname==null)
+    	  {
+    		  monID = user.getUserId();
+    		  monNickname = user.getNickname();
+    		  session.setAttribute("userid", monID);
+    		  session.setAttribute("nickname", monNickname);
+    	  }
+    	  else System.out.println(" sa marche");
       	if(userService.isUserAdmin()) admin = 1; else admin = 0;
 	        AppUser myAppUser  = new AppUser(user);
 	        userId = myAppUser.getAppUserId();
@@ -89,10 +102,9 @@ public class Servlet_Connection extends HttpServlet{
 		    		PersistenceManager pm = PMF.get().getPersistenceManager();
 		    		AppUser myUserTemp = pm.getObjectById(AppUser.class, friend); // j'obtiens ses informations dans la base de donnée
 		    		pm.close();
-	    			temp = "{ \"email\" : \"" +myUserTemp.getEmail()+ "\","+ myUserTemp.getLieu()+","+myUserTemp.getUserLocalisation()+"}";
+	    			temp = "{ \"nickname\" : \"" +myUserTemp.getEmail()+ "\",\"id\" :  " +userId +"}";
 	    			returnValue.add(temp); // j'ajoute ses information dans un tableau
-			    	String outputMessage = "{ \"type\" : \"UpdateFriendlist\",\"message\" : \""+userId+"\",\"from\" : \"Server\"}";
-
+			    	String outputMessage = "{ \"type\" : \"UpdateFriendlist\",\"id\" : \""+userId+"\",\"nickname\" : \""+monNickname+"\",\"from\" : \"Server\"}";
 	              channelService.sendMessage(
 	        		  new ChannelMessage(friend,outputMessage)); // et j'indique a mon ami que je me suis connecté
 	        	  }

@@ -32,31 +32,6 @@ function back()
 	}
 	
 }
-function ConnectionChannel(){
-	$.ajax(
-			{ //on log l'utilisateur
-				type: "POST",
-				url: "http://ititoulouse.appspot.com/Servlet_Connection",// a cette url
-				dataType: "json",
-				success: function(json)
-				{
-					
-					if(json.status =="10")
-						{
-						//document.location.href = json.donnees;
-						}
-					else
-						{
-						//myjson = json;
-						//admin();
-						//TraitementListe();
-						}
-				}
-			});
-	
-	
-	
-}
 function UpdateUser(){	
 	if($("#BouttonPartage").val() == "off")
 		{

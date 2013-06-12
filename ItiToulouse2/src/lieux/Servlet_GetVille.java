@@ -29,20 +29,13 @@ import com.google.gson.Gson;
 
 	
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse resp) throws ServletException,
+	protected void doGet(HttpServletRequest request, HttpServletResponse resp) throws ServletException,
 			IOException {		
 		System.out.println("début");
 
 		String valeureRetour = "0";
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
-		
-		Gson gson = new Gson();
-		String jsonFile = request.getParameter("donnees");			
-		VilleElem villeElem = gson.fromJson(jsonFile, VilleElem.class);
-		
-		@SuppressWarnings("unused")
-		ArrayList<ArrayList<Float>> listCoord = villeElem.getCoord();
 		
 		Query query = pm.newQuery("JDOQL" , "SELECT DISTINCT ville FROM lieux.AppLieux");
 		//Query query = pm.newQuery("JDOQL" , "SELECT DISTINCT type FROM lieux.AppLieux WHERE ville == 'toulouse'");
@@ -51,7 +44,7 @@ import com.google.gson.Gson;
 	    //query.declareParameters("String villeparam");
 	   
 		@SuppressWarnings("unchecked")
-		List<String> results = (List<String>) query.execute(villeElem.getVille().toLowerCase());
+		List<String> results = (List<String>) query.execute();
 		
 		System.out.println( "il y a  : "  +  results.size());
 		

@@ -182,11 +182,3 @@ function showLocationNonLieux(position) //fonction appelé par getcurrentposition
 		else
 			alert("Dommage... Votre navigateur ne prend pas en compte la géolocalisation HTML5");
 		};
-		
-		function SuivreAmi(i){
-			latitudeAmi = parseFloat(myjson.donnees[i].lat);
-			longitudeAmi = parseFloat(myjson.donnees[i].lng);
-			latitudeLieuAmi = parseFloat(myjson.donnees[i].latlieu);
-			longitudeLieuAmi = parseFloat(myjson.donnees[i].lnglieu);
-			geolocalisation();
-		}

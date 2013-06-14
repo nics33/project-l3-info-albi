@@ -2,6 +2,7 @@ package utilisateurs;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -47,12 +48,11 @@ public class Servlet_Connection extends HttpServlet{
   
 	  // déclaration des variables
 	  
-	  Integer admin;
-	  String userId;
 	  ArrayList<String> ListeAmi;
 	  ArrayList<String> returnValue = new ArrayList<String>(); 
 	  String temp;
 	  String reponse;
+	  Date now = new Date();
 
 	  
 	  //démarage du UserService
@@ -63,34 +63,53 @@ public class Servlet_Connection extends HttpServlet{
     	  //on récupere le UserId de l'utilisateur
     	  //creation de la session
     	  HttpSession session = req.getSession(true);
+    	  session.setMaxInactiveInterval(5400);
     	  String monID = (String)session.getAttribute("userid"); 
+    	  String token = (String)session.getAttribute("token");
     	  String monNickname = (String)session.getAttribute("nickname"); 
-    	  if(monID==null || monNickname==null)
+    	  Long datetoken = (Long)session.getAttribute("datetoken"); 
+    	  Integer admin = (Integer)session.getAttribute("admin"); 
+    	  if( monID==null ||!monID.equals(user.getUserId()) || monNickname==null || token==null ||datetoken ==null || !(now.getTime() < (datetoken + 6900000)) || admin ==null)// je vérifie les données de ma sesion, notamment si le token est toujours valide(je change le token s'il vit depuis plus de 1h55
     	  {
+        	  logger.log(Level.INFO,"monID : {0} ",monID);
+        	  logger.log(Level.INFO,"ID Google : {0} ",user.getUserId());
+        	  logger.log(Level.INFO,"Mon nickname : {0} ",monNickname);
+        	  logger.log(Level.INFO,"Mon token : {0}",token);
+        	  logger.log(Level.INFO,"datetoken : {0}",datetoken);
+        	  logger.log(Level.INFO,"admin : {0}",admin);
     		  monID = user.getUserId();
     		  monNickname = user.getNickname();
+    		  
+  	      	  //On créé un channel pour l'utilisateur
+    		  token = createChannel(monID);
+    		  
+    		  datetoken = new Date().getTime();
+  	           
+    		  if(userService.isUserAdmin()) admin = 1; else admin = 0;
+    		  
     		  session.setAttribute("userid", monID);
     		  session.setAttribute("nickname", monNickname);
+    		  session.setAttribute("admin", admin);
+    		  session.setAttribute("token", token);
+    		  session.setAttribute("datetoken",datetoken);
+    		  
+        	  logger.log(Level.INFO,"create a token valid for {0} ms",datetoken + 6900000-now.getTime());
+
     	  }
-    	  else System.out.println(" sa marche");
-      	if(userService.isUserAdmin()) admin = 1; else admin = 0;
+    	  else logger.log(Level.INFO,"token already exist,expire in {0} ms", datetoken+ 6900000-now.getTime());
 	        AppUser myAppUser  = new AppUser(user);
-	        userId = myAppUser.getAppUserId();
 	        ListeAmi = myAppUser.getListFriends();
 	        
 	        //On ajoute l'utilisateur a la liste des Utilisateurs déja Connectés
 	      	FriendStore friendStore = FriendStore.getInstance();
-	      	if(!friendStore.getFriends().contains(userId)){
-	        	  logger.log(Level.INFO,"User {0} is added to list of users",userId);
-	        	  friendStore.addNewFriend(userId);
+	      	if(!friendStore.getFriends().contains(monID)){
+	        	  logger.log(Level.INFO,"User {0} is added to list of users",monID);
+	        	  friendStore.addNewFriend(monID);
 
 	          } 
 	      	else{
 	        	  logger.log(Level.INFO,"User {0} is already added  to list of users\n" +"hence, not adding now",user);
 	        	}
-	      	
-	      	//On Connecte l'utilisateur au Channel
-	        String token = createChannel(userId);
 	      	
 	      	//Il faut maintenant regarder qu'elles amis sont déja connectés à l'application
 	        Iterator<String> friendList = ListeAmi.iterator();
@@ -102,9 +121,9 @@ public class Servlet_Connection extends HttpServlet{
 		    		PersistenceManager pm = PMF.get().getPersistenceManager();
 		    		AppUser myUserTemp = pm.getObjectById(AppUser.class, friend); // j'obtiens ses informations dans la base de donnée
 		    		pm.close();
-	    			temp = "{ \"nickname\" : \"" +myUserTemp.getEmail()+ "\",\"id\" :  " +userId +"}";
+	    			temp = "{ \"nickname\" : \"" +myUserTemp.getEmail()+ "\",\"id\" :  " +monID +"}";
 	    			returnValue.add(temp); // j'ajoute ses information dans un tableau
-			    	String outputMessage = "{ \"type\" : \"UpdateFriendlist\",\"id\" : \""+userId+"\",\"nickname\" : \""+monNickname+"\",\"from\" : \"Server\"}";
+			    	String outputMessage = "{ \"type\" : \"UpdateFriendlist\",\"id\" : \""+monID+"\",\"nickname\" : \""+monNickname+"\",\"from\" : \"Server\"}";
 	              channelService.sendMessage(
 	        		  new ChannelMessage(friend,outputMessage)); // et j'indique a mon ami que je me suis connecté
 	        	  }

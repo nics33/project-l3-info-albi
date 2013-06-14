@@ -16,6 +16,14 @@
 		<url-pattern> /Servlet_Disconnection</url-pattern>
 	</servlet-mapping>
 	<servlet>
+		<servlet-name>Servlet_NotifSuisMoi</servlet-name>
+		<servlet-class>utilisateurs.Servlet_NotifSuisMoi</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Servlet_NotifSuisMoi</servlet-name>
+		<url-pattern> /Servlet_NotifSuisMoi</url-pattern>
+	</servlet-mapping>
+	<servlet>
 		<servlet-name>Servlet_GetVille</servlet-name>
 		<servlet-class>lieux.Servlet_GetVille</servlet-class>
 	</servlet>

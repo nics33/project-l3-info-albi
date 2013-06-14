@@ -2,6 +2,7 @@ var socket;
 var messagerecu;
 var listeAmiNick = [];
 var listeAmiId = [];
+var notifami;
 
 function GetToken(){
 	$.ajax(
@@ -79,6 +80,9 @@ onSocketMessage = function(message) {
 		SuppressionListeAmi(messageJSON.id);
 		AffichageListeAmi();
 		break;	
+	case "FollowMe":
+		alert("popup demandant si on veut suivre notre ami");
+		break;
 	}
 };
 
@@ -111,5 +115,40 @@ function AffichageListeAmi() {
 	 $("#listeami2").listview('refresh');
 	 }
 	}
+
+function SuivreAmi(i){
+	nickami = listeAmiNick[i];
+	notifami = listeAmiId[i];
+	message = "Voulez vous demander à " + nickami + " de vous suivre?";
+	$( "#popupsuivi" ).popup();
+	$("#textesuivreami").html(message);
+    $( "#popupsuivi" ).popup("open");
+    $("#boutonsuivi").mouseup(function(i){
+    	//on envoie la notification à l'ami concerné
+    	//j'envoie le message au channel
+    	$.ajax(
+    			{ //on log l'utilisateur
+    				type: "POST",
+    				url: "/Servlet_NotifSuisMoi",// a cette url
+					data:{ "to" : notifami }, 
+    				dataType: "json",
+    				success: function(json)
+    				{
+    				}
+    			});
+    	
+    });
+    //String lat = request.getParameter("lat");
+   // String lng = request.getParameter("lng");
+    //String latlieu = request.getParameter("latlieu");
+   //String lnglieu = request.getParameter("lnglieu");
+   // String friend = request.getParameter("to")
+
+	//latitudeAmi = parseFloat(myjson.donnees[i].lat);
+	//longitudeAmi = parseFloat(myjson.donnees[i].lng);
+	//latitudeLieuAmi = parseFloat(myjson.donnees[i].latlieu);
+	//longitudeLieuAmi = parseFloat(myjson.donnees[i].lnglieu);
+	//geolocalisation();
+}
 
 

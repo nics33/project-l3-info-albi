@@ -121,7 +121,7 @@ public class Servlet_Connection extends HttpServlet{
 		    		PersistenceManager pm = PMF.get().getPersistenceManager();
 		    		AppUser myUserTemp = pm.getObjectById(AppUser.class, friend); // j'obtiens ses informations dans la base de donnée
 		    		pm.close();
-	    			temp = "{ \"nickname\" : \"" +myUserTemp.getEmail()+ "\",\"id\" :  " +monID +"}";
+	    			temp = "{ \"nickname\" : \"" +myUserTemp.getEmail()+ "\",\"id\" :  \"" +myUserTemp.getAppUserId() +"\"}";
 	    			returnValue.add(temp); // j'ajoute ses information dans un tableau
 			    	String outputMessage = "{ \"type\" : \"UpdateFriendlist\",\"id\" : \""+monID+"\",\"nickname\" : \""+monNickname+"\",\"from\" : \"Server\"}";
 	              channelService.sendMessage(

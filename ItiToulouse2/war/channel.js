@@ -91,6 +91,7 @@ function CreationListeAmi(){
 	for (var i = 0; i<Taille; i++){
 		var nickname = myjson.donnees[i].nickname;
 		var id = myjson.donnees[i].id;
+		console.log(id);
 		AjoutListeAmi(id,nickname)
 	}
 }

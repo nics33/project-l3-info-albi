@@ -2,6 +2,8 @@ var socket;
 var messagerecu;
 var listeAmiNick = [];
 var listeAmiId = [];
+var listeAmiAttente = [];
+var listeAmiSuivi = [];
 var notifami;
 
 function GetToken(){
@@ -79,10 +81,74 @@ onSocketMessage = function(message) {
 		alert("Je supprime l'utilisateur "+messageJSON.id+ " de la liste d'ami");
 		SuppressionListeAmi(messageJSON.id);
 		AffichageListeAmi();
-		break;	
-	case "FollowMe":
-		alert("popup demandant si on veut suivre notre ami");
 		break;
+		
+	case "FollowMe":
+		nickami = listeAmiNick[listeAmiId.indexOf(messageJSON.from)];
+		message = "Voulez vous Suivre " + nickami;
+	    $( "#popupsuivi2" ).popup({
+	    	afterclose: function()
+	    	{
+	            $('#boutonsuivi2').unbind('click');
+	    	}
+	    });
+		$("#textesuivreami2").html(message);
+	    $("#popupsuivi2" ).popup("open");
+	    $("#boutonsuivi2").click(function(){
+	    	console.log("jetesuis");
+	    //on envoie la notification à l'ami concerné
+	    //j'envoie le message au channel
+	    $.ajax(
+	    		{ //on log l'utilisateur
+	    			type: "POST",
+	    			url: "/Servlet_NotifJeTeSuis",// a cette url
+					data:{ "to" : messageJSON.from }, 
+	    			dataType: "text",
+	    			success: function(json)
+	    			{
+	    			}
+	    		});
+	    });
+
+		break;
+		 
+		
+	case "IFollowYou":
+		nickami = listeAmiNick[listeAmiId.indexOf(messageJSON.from)];
+
+		listeAmiAttente.splice(listeAmiAttente.indexOf(messageJSON.from),1); //
+		listeAmiSuivi.push(messageJSON.from);
+		message =  nickami + "a accepté votre demande de suivi";
+		$("#popupsuivi3" ).popup();
+		$("#textesuivreami3").html(message);
+	    $("#popupsuivi3" ).popup("open");
+        $.ajax(
+                { //on log l'utilisateur
+                        type: "POST",
+                        url: "http://ititoulouse.appspot.com/Servlet_Message",// a cette url
+                        data:{"type" : "Send", "latlieu": latitudeLieu, "lnglieu" : longitudeLieu, "lat" : latitude, "lng" : longitude,"to" : messageJSON.from }, 
+                        dataType: "text",
+                        success: function(text)
+                        {
+                        }
+                });
+	    break;		
+
+	case "SendCoord":
+		latitudeAmi = messageJSON.lat;
+		longitudeAmi = messageJSON.lng;
+		latitudeLieuAmi = messageJSON.latlieu;
+		longitudeLieuAmi = messageJSON.lnglieu;
+		geolocalisation();
+		break;
+
+	case "UpdateCoord":
+		latitudeAmi = messageJSON.lat;
+		longitudeAmi = messageJSON.lng;
+		latitudeLieuAmi = messageJSON.latlieu;
+		longitudeLieuAmi = messageJSON.lnglieu;
+		break;
+		
 	}
 };
 
@@ -119,12 +185,18 @@ function AffichageListeAmi() {
 
 function SuivreAmi(i){
 	nickami = listeAmiNick[i];
-	notifami = listeAmiId[i];
+	var notifami = listeAmiId[i];
 	message = "Voulez vous demander à " + nickami + " de vous suivre?";
-	$( "#popupsuivi" ).popup();
+    $( "#popupsuivi" ).popup({
+    	afterclose: function()
+    	{
+            $('#boutonsuivi').unbind('click');
+    	}
+    });
 	$("#textesuivreami").html(message);
     $( "#popupsuivi" ).popup("open");
-    $("#boutonsuivi").mouseup(function(i){
+
+    $("#boutonsuivi").click(function(){
     	//on envoie la notification à l'ami concerné
     	//j'envoie le message au channel
     	$.ajax(
@@ -132,13 +204,16 @@ function SuivreAmi(i){
     				type: "POST",
     				url: "/Servlet_NotifSuisMoi",// a cette url
 					data:{ "to" : notifami }, 
-    				dataType: "json",
-    				success: function(json)
+    				dataType: "text",
+    				success: function(text)
     				{
+    					console.log(notifami);
+    					console.log("1");
+    					listeAmiAttente.push(notifami);
     				}
-    			});
-    	
+    			});    	
     });
+
     //String lat = request.getParameter("lat");
    // String lng = request.getParameter("lng");
     //String latlieu = request.getParameter("latlieu");
@@ -151,5 +226,43 @@ function SuivreAmi(i){
 	//longitudeLieuAmi = parseFloat(myjson.donnees[i].lnglieu);
 	//geolocalisation();
 }
+
+function UpdateUsers(){
+	for(i=0;i<listeAmiSuivi.length;i++)
+		{
+		friendid = listeAmiSuivi[i];
+                $.ajax(
+                                { //on log l'utilisateur
+                                        type: "POST",
+                                        url: "http://ititoulouse.appspot.com/Servlet_Message",// a cette url
+                                        data:{"type" : "Update" , "latlieu": latitudeLieu, "lnglieu" : longitudeLieu, "lat" : latitude, "lng" : longitude,"to" : friendid }, 
+                                        dataType: "text",
+                                        success: function(text)
+                                        {
+                                        }
+                                });
+		}
+};
+               /* $.ajax(
+                                { //on log l'utilisateur
+                                        type: "GET",
+                                        url: "http://ititoulouse.appspot.com/Servlet_Update",// a cette url
+                                        data:{ "ville": UserCity,"type": monLieu , "latlieu": latitudeLieu.toString(), "lnglieu" : longitudeLieu.toString(), "lat" : latitude.toString(), "lng" : longitude.toString() }, 
+                                        dataType: "json",
+                                        success: function(json)
+                                        {
+                                                
+                                                if(json.status =="10")
+                                                        {
+                                                        document.location.href = json.donnees;
+                                                        }
+                                                else
+                                                        {
+                                                        myjson = json;
+                                                        admin();
+                                                        TraitementListe();
+                                                        }
+                                        }
+                                });*/
 
 

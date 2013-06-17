@@ -24,6 +24,22 @@
 		<url-pattern> /Servlet_NotifSuisMoi</url-pattern>
 	</servlet-mapping>
 	<servlet>
+		<servlet-name>Servlet_NotifJeTeSuis</servlet-name>
+		<servlet-class>utilisateurs.Servlet_NotifJeTeSuis</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Servlet_NotifJeTeSuis</servlet-name>
+		<url-pattern> /Servlet_NotifJeTeSuis</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>Servlet_Message</servlet-name>
+		<servlet-class>utilisateurs.Servlet_Message</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Servlet_Message</servlet-name>
+		<url-pattern> /Servlet_Message</url-pattern>
+	</servlet-mapping>
+	<servlet>
 		<servlet-name>Servlet_GetVille</servlet-name>
 		<servlet-class>lieux.Servlet_GetVille</servlet-class>
 	</servlet>

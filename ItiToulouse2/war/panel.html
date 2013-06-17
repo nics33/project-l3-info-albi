@@ -18,105 +18,141 @@
 <script type="text/javascript">
 //var ListeAmi = jQuery("<li data-icon='false'><a href='#'>data-icon='false'</a></li>");
 $(document).ready(function(){
-	var taillePanel=$("#rightpanel").height();
-	$("#liste").height(taillePanel*0.7);
-	$("#liste").css({"overflow-y": "scroll", "-webkit-overflow-scrolling": "touch"});
-	//initialize();
-	//UpdateUser();
-	GetToken();
-	//setInterval("UpdateUser()", 60000);
-	AffichageListeType();
+        var taillePanel=$("#rightpanel").height();
+        $("#liste").height(taillePanel*0.7);
+        $("#liste").css({"overflow-y": "scroll", "-webkit-overflow-scrolling": "touch"});
+        //initialize();
+        //UpdateUser();
+        GetToken();
+        setInterval("UpdateUsers()", 5000);
+        AffichageListeType();
  });
 </script>
 </head>
 
 <body onload="checkFileAPI();" onunload="closeChannel()">
-	<div data-role="page" data-theme='c'>
-	
-		<div data-role="header" id="header" data-theme='c'>
-			<a href="#" data-icon="home" onclick="back();">Home</a>
-	   		 <h1>Ititoulouse</h1>
-	  		  <a href="#popupMenu" data-rel="popup" data-role="button" data-inline="true" data-transition="slideup" data-icon="gear" class="ui-btn-right" data-theme="c">Options</a>
-			<div data-role="popup" id="popupMenu" data-theme="c">
-       			 <ul data-role="listview" data-inset="true" style="min-width:210px;" data-theme="c">
-           			 <li data-role="divider" data-theme="c">Choose an action</li>
-         			 <li><a href="#popupLogin" data-rel="popup" data-position-to="window" data-theme="c" data-transition="pop">Ajout Ami</a>
-						<div data-role="popup" id="popupMenu" data-theme="c">
-    						<div data-role="popup" id="popupLogin" data-theme="c" class="ui-corner-all">
-           						 <div style="padding:10px 20px;">
-             						 <h3>Ajouter un Ami</h3>
-             						 <label for="un" class="ui-hidden-accessible">Mail:</label>
-              						 <input type="text" name="MailAmi" id="MailAmi" value="" placeholder="Mail" data-theme="a">
-						             <button type="button" data-theme="b" data-icon="check" onClick='AjoutAmi()'>Ajout</button>
-           						 </div>
-  						  </div>
-						</div>
-					</li>
-				    <li data-role="divider" class="admin" style="display:none" data-theme="c">Administration</li>
-				    <li  class="admin" style="display:none"><a href="#popupAjoutLieu"  data-rel="popup" data-position-to="window" data-theme="c" data-transition="pop">Ajout Lieux</a>
-						<div data-role="popup" id="popupMenu" data-theme="c">
-    						<div data-role="popup" id="popupAjoutLieu" data-theme="c" class="ui-corner-all">
-           						 <div style="padding:10px 20px;">
-             						 <h3>Ajouter un Lieu</h3>
-             						 <label for="un" class="ui-hidden-accessible">Nom de la Ville:</label>
-              						<input type="text" name="VilleInsert" id="VilleInsert" value="" placeholder="Nom de la ville" data-theme="a">
-              						 <label for="un" class="ui-hidden-accessible">type de Lieu:</label>
-              						<input type="text" name="LieuInsert" id="LieuInsert" value="" placeholder="Type de Lieu" data-theme="a">
-              						<input type="file" data-theme="a" id="fileLieu"/>
-						              <button type="button" data-theme="b" data-icon="check"  onClick='readText()'>Ajout</button>
-           						 </div>
-  						  </div>
-						</div>
-					</li>
-				    <li class="admin" style="display:none"><a href="#popupDelLieu" data-rel="popup" data-position-to="window" data-theme="c" data-transition="pop">Suppression Lieux</a>
-						<div data-role="popup" id="popupMenu" data-theme="c">
-    						<div data-role="popup" id="popupDelLieu" data-theme="c" class="ui-corner-all">
-           						 <div style="padding:10px 20px;">
-             						 <h3>Supprimer un Lieu</h3>
-             						 <label for="un" class="ui-hidden-accessible">Nom de la Ville:</label>
-              						<input type="text" name="VilleInsert" id="VilleDel" value="" placeholder="Nom de la ville" data-theme="a">
-              						 <label for="un" class="ui-hidden-accessible">type de Lieu:</label>
-              						<input type="text" name="LieuInsert" id="LieuDel" value="" placeholder="Type de Lieu" data-theme="a">
-						              <button type="button" data-theme="b" data-icon="check"  onClick='SuppressionLieu()'>Suppression</button>
-           						 </div>
-  						  </div>
-						</div>
-					</li>
-       			 </ul>
-			</div>
-		</div>
-		
-		<div data-role="content" id="content">
+        <div data-role="page" data-theme='c'>
+        
+                <div data-role="header" id="header" data-theme='c'>
+                        <a href="#" data-icon="home" onclick="back();">Home</a>
+                            <h1>Ititoulouse</h1>
+                            <a href="#popupMenu" data-rel="popup" data-role="button" data-inline="true" data-transition="slideup" data-icon="gear" class="ui-btn-right" data-theme="c">Options</a>
+                        <div data-role="popup" id="popupMenu" data-theme="c">
+                                <ul data-role="listview" data-inset="true" style="min-width:210px;" data-theme="c">
+                                    <li data-role="divider" data-theme="c">Choose an action</li>
+                                  <li><a href="#popupLogin" data-rel="popup" data-position-to="window" data-theme="c" data-transition="pop">Ajout Ami</a>
+                                                <div data-role="popup" id="popupMenu" data-theme="c">
+                                                    <div data-role="popup" id="popupLogin" data-theme="c" class="ui-corner-all">
+                                                            <div style="padding:10px 20px;">
+                                                              <h3>Ajouter un Ami</h3>
+                                                              <label for="un" class="ui-hidden-accessible">Mail:</label>
+                                                               <input type="text" name="MailAmi" id="MailAmi" value="" placeholder="Mail" data-theme="a">
+                                                             <button type="button" data-theme="b" data-icon="check" onClick='AjoutAmi()'>Ajout</button>
+                                                            </div>
+                                                    </div>
+                                                </div>
+                                        </li>
+                                    <li data-role="divider" class="admin" style="display:none" data-theme="c">Administration</li>
+                                    <li  class="admin" style="display:none"><a href="#popupAjoutLieu"  data-rel="popup" data-position-to="window" data-theme="c" data-transition="pop">Ajout Lieux</a>
+                                                <div data-role="popup" id="popupMenu" data-theme="c">
+                                                    <div data-role="popup" id="popupAjoutLieu" data-theme="c" class="ui-corner-all">
+                                                            <div style="padding:10px 20px;">
+                                                              <h3>Ajouter un Lieu</h3>
+                                                              <label for="un" class="ui-hidden-accessible">Nom de la Ville:</label>
+                                                              <input type="text" name="VilleInsert" id="VilleInsert" value="" placeholder="Nom de la ville" data-theme="a">
+                                                               <label for="un" class="ui-hidden-accessible">type de Lieu:</label>
+                                                              <input type="text" name="LieuInsert" id="LieuInsert" value="" placeholder="Type de Lieu" data-theme="a">
+                                                              <input type="file" data-theme="a" id="fileLieu"/>
+                                                              <button type="button" data-theme="b" data-icon="check"  onClick='readText()'>Ajout</button>
+                                                            </div>
+                                                    </div>
+                                                </div>
+                                        </li>
+                                    <li class="admin" style="display:none"><a href="#popupDelLieu" data-rel="popup" data-position-to="window" data-theme="c" data-transition="pop">Suppression Lieux</a>
+                                                <div data-role="popup" id="popupMenu" data-theme="c">
+                                                    <div data-role="popup" id="popupDelLieu" data-theme="c" class="ui-corner-all">
+                                                            <div style="padding:10px 20px;">
+                                                              <h3>Supprimer un Lieu</h3>
+                                                              <label for="un" class="ui-hidden-accessible">Nom de la Ville:</label>
+                                                              <input type="text" name="VilleInsert" id="VilleDel" value="" placeholder="Nom de la ville" data-theme="a">
+                                                               <label for="un" class="ui-hidden-accessible">type de Lieu:</label>
+                                                              <input type="text" name="LieuInsert" id="LieuDel" value="" placeholder="Type de Lieu" data-theme="a">
+                                                              <button type="button" data-theme="b" data-icon="check"  onClick='SuppressionLieu()'>Suppression</button>
+                                                            </div>
+                                                    </div>
+                                                </div>
+                                        </li>
+                                </ul>
+                        </div>
+                </div>
+                
+                <div data-role="content" id="content">
 
-		</div><!-- /content --> 
-		
-		<div data-role="panel" id="rightpanel" data-display="overlay" data-position="right" data-theme="c">
-			<div id="liste">
-				<ul data-role='listview' data-inset='true' data-theme='c' id="listeami2">
-			    	<li data-icon="false"><a href="#">data-icon="false"</a></li>
-   					<li data-icon="false"><a href="#">data-icon="false"</a></li>
-				</ul>
-			</div>
-			<div id="radioPanel" >
-				<label for="slider-flip-m">Partage Informations:</label>
-				<select name="slider-flip-m" id="BouttonPartage" data-role="slider" data-mini="true">
-					<option value="off" selected>No</option>
-					<option value="on" >Yes</option>
-				</select>
-			</div>	
-		</div><!-- /panel -->
-		
-		<div data-role="popup" id='popupsuivi' data-overlay-theme="a" data-theme="c" style="max-width:400px;" class="ui-corner-all">
-			<div data-role="header" data-theme="a" class="ui-corner-top">
-				<h1>Suivre un Ami?</h1>
-			</div>
-			<div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
-				<h3 id = 'textesuivreami' class="ui-title"></h3>
-				<a href="#" data-role="button" data-inline="true" data-rel="back" data-theme="c">Annuler</a>    
-				<a href="#" id ="boutonsuivi" data-role="button" data-inline="true" data-rel="back" data-transition="flow" data-theme="b">Envoyer</a>  
-			</div>
-		</div>
-	</div><!-- /page -->
+                </div><!-- /content --> 
+                
+                <div data-role="panel" id="rightpanel" data-display="overlay" data-position="right" data-theme="c">
+                        <div id="liste">
+                                <ul data-role='listview' data-inset='true' data-theme='c' id="listeami2">
+                                    
+                                </ul>
+                        </div>
+                        <div id="radioPanel" >
+                                <label for="slider-flip-m">Partage Informations:</label>
+                                <select name="slider-flip-m" id="BouttonPartage" data-role="slider" data-mini="true">
+                                        <option value="off" selected>No</option>
+                                        <option value="on" >Yes</option>
+                                </select>
+                        </div>        
+                </div><!-- /panel -->
+                
+                <div data-role="popup" id='popupsuivi' data-overlay-theme="a" data-theme="c" style="max-width:400px;" class="ui-corner-all">
+                        <div data-role="header" data-theme="a" class="ui-corner-top">
+                                <h1>Suivre un Ami?</h1>
+                        </div>
+                        <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+                                <h3 id = 'textesuivreami' class="ui-title"></h3>
+                                <a href="#" data-role="button" data-inline="true" data-rel="back" data-theme="c">Annuler</a>    
+                                <a href="#" id ="boutonsuivi" data-role="button" data-inline="true" data-rel="back" data-transition="flow" data-theme="b">Envoyer</a>  
+                        </div>
+                </div>
+                
+                <div data-role="popup" id='popupsuivi2' data-overlay-theme="a" data-theme="c" style="max-width:400px;" class="ui-corner-all">
+                        <div data-role="header" data-theme="a" class="ui-corner-top">
+                                <h1>Notification</h1>
+                        </div>
+                        <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+                                <h3 id = 'textesuivreami2' class="ui-title"></h3>
+                                <a href="#" data-role="button" data-inline="true" data-rel="back" data-theme="c">Non</a>    
+                                <a href="#" id ="boutonsuivi2" data-role="button" data-inline="true" data-rel="back" data-transition="flow" data-theme="b">Oui</a>  
+                        </div>
+                </div>
+                
+                <div data-role="popup" id='popupsuivi3' data-overlay-theme="a" data-theme="c" style="max-width:400px;" class="ui-corner-all">
+                        <div data-role="header" data-theme="a" class="ui-corner-top">
+                                <h1>Notification</h1>
+                        </div>
+                        <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+                                <h3 id = 'textesuivreami3' class="ui-title"></h3>
+                                <a href="#" data-role="button" data-inline="true" data-rel="back" data-theme="c">OK</a>     
+                        </div>
+                </div>
+                
+                <div data-role="popup" id='popuplistevilles' data-overlay-theme="a" data-theme="c" style="max-width:400px;" class="ui-corner-all">
+                        <div data-role="header" data-theme="a" class="ui-corner-top">
+                                <h1>Liste des villes disponibles </h1>
+                        </div>
+                        <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+                                <h3 id = 'textelistevilles' class="ui-title"></h3>
+                        
+                                <fieldset data-role="controlgroup" id="listeVilles">
+        
+                                </fieldset>        
+                                
+                                </div>
+                </div>
+                
+                
+        </div><!-- /page -->
 <script type='text/javascript'>$(document).on('pageinit',function(){$("html").on("swipeleft",function(){$("#rightpanel").panel("open");});});</script>
 </body>
 </html>

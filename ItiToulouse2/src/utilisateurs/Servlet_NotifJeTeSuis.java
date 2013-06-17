@@ -16,9 +16,9 @@ import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
-public class Servlet_NotifSuisMoi extends HttpServlet{
+public class Servlet_NotifJeTeSuis extends HttpServlet{
 	
-	 private static final Logger logger = Logger.getLogger(Servlet_NotifSuisMoi.class.getCanonicalName());
+	 private static final Logger logger = Logger.getLogger(Servlet_NotifJeTeSuis.class.getCanonicalName());
 	  
 	  private static ChannelService channelService = ChannelServiceFactory.getChannelService();
 
@@ -33,12 +33,11 @@ public class Servlet_NotifSuisMoi extends HttpServlet{
 			      
 			      if (friend != null && !friend.equals("") ) {
 			      try{
-			    	  String outputMessage = "{ \"type\" : \"FollowMe\",\"from\" : \""+userID + "\"}";
+			    	  String outputMessage = "{ \"type\" : \"IFollowYou\",\"from\" : \""+userID + "\"}";
 			        logger.log(Level.INFO,"sending message  into the channel");
 			        logger.log(Level.INFO,"from : {0}",userID);
 			        logger.log(Level.INFO,"to : {0}",friend);
 			      	sendMessageToChannel(friend, outputMessage);
-			      	response.getWriter().print("ONLINE");
 			      } catch (ChannelFailureException channelFailure) {
 			      	logger.log(Level.WARNING, "Failed in sending message to channel");
 			        response.getWriter().print("OFFLINE");

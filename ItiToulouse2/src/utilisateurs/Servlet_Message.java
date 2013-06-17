@@ -24,21 +24,27 @@ public class Servlet_Message extends HttpServlet{
 
 	  protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			  throws ServletException, IOException {
-			    String message = request.getParameter("message");
+			    String type = request.getParameter("type");
 			    String lat = request.getParameter("lat");
 			    String lng = request.getParameter("lng");
 			    String latlieu = request.getParameter("latlieu");
 			    String lnglieu = request.getParameter("lnglieu");
 			    String friend = request.getParameter("to");
+			    String outputMessage = "";
 			    
 				  //démarage du UserService
 			      UserService userService = UserServiceFactory.getUserService();
 			      User user = userService.getCurrentUser();
 			      String userID = user.getUserId();
 			      
-			      if (friend != null && !friend.equals("") && message != null && !message.equals("")) {
+			      if (friend != null && !friend.equals("") && type != null && !type.equals("")) {
 			      try{
-			    	  String outputMessage = "{ \"type\" : \"UpdateCoord\",\"lat\" : \""+lat+"\",\"lng\" : \""+lng+"\",\"latlieu\" : \""+latlieu+"\",\"lnglieu\" : \""+lnglieu+"\",\"from\" :  " +userID + "}";
+			    	  if(type.equals("Update"))
+			    	  {
+				    	  outputMessage = "{ \"type\" : \"UpdateCoord\",\"lat\" : \""+lat+"\",\"lng\" : \""+lng+"\",\"latlieu\" : \""+latlieu+"\",\"lnglieu\" : \""+lnglieu+"\",\"from\" :  " +userID + "}";
+			    	  }
+			    	  else outputMessage = "{ \"type\" : \"SendCoord\",\"lat\" : \""+lat+"\",\"lng\" : \""+lng+"\",\"latlieu\" : \""+latlieu+"\",\"lnglieu\" : \""+lnglieu+"\",\"from\" :  " +userID + "}";
+
 
 			      	/*String outputMessage ="<data>" +
 					  "<type>updateChatBox</type>" +

@@ -51,8 +51,10 @@ public class AppUser {
 	    @Persistent
 	    float lngLieu; // longitude de l'endroit ou la personne se rend
 	    
-	  //constructeur : check si l'utilisateur exist dans la base de donnée, s'il n'existe pas instacie l'utilisateur avec sa key + email extraite de l'objet de type User avec une liste d'ami vide et la date de derniere connexion initialisé a l'instant de la connexion.
-	    //si l'utilisateur existe on extrait ses détails de la base de donnée et on insere la date actuelle en date de derniere connexion.
+	  //constructeur : check si l'utilisateur existe dans la base de données,
+	    //s'il n'existe pas, instancie l'utilisateur avec sa key + email extraite de l'objet de type User 
+	    //avec une liste d'ami vide et la date de derniere connexion initialisé a l'instant de la connexion.
+	    //Si l'utilisateur existe on extrait ses détails de la base de données et on insère la date actuelle en date de dernière connexion.
 		public AppUser(User user) {
 			PersistenceManager pm = PMF.get().getPersistenceManager();
 			Query query = pm.newQuery(AppUser.class);
@@ -93,9 +95,7 @@ public class AppUser {
 		    pm.close();
 		}
 
-		// Accessors for the fields. JPA doesn't use these, but your application
-		// does.
-		
+	/***** GETTEURS *****/
 	public float getLat(){
 		return this.lat;
 	}

@@ -17,28 +17,31 @@ import javax.jdo.Query;
 import com.google.gson.Gson;
 
 
-
-
- 
 @SuppressWarnings("serial")
 public class Servlet_AddLieux extends HttpServlet {
 
-	
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
 			IOException {		
-		System.out.println("début");
+		//System.out.println("début");
 
+		// On initialise la valeure de retour à 0
 		String valeureRetour = "0";
 		
+		//Ouverture du PMF
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
+		//Lecture du Json fournit en paramètre ( méthode POST)
 		Gson gson = new Gson();
 		String jsonFile = request.getParameter("donnees");			
 		VilleElem villeElem = gson.fromJson(jsonFile, VilleElem.class);
 		
 		ArrayList<ArrayList<Float>> listCoord = villeElem.getCoord();
 		
+		
+		// Requête JQuery qui prend en paramètre une ville et un type
+		// Si 0 résultats : Le paquets n'est pas présent dans la base de données
+		// on peut donc l'enregistrer
+		// Sinon on renvoie une erreure
 		
 		
 		Query query = pm.newQuery(AppLieux.class);
@@ -49,10 +52,10 @@ public class Servlet_AddLieux extends HttpServlet {
 		@SuppressWarnings("unchecked")
 		List<AppLieux> results = (List<AppLieux>) query.execute(villeElem.getVille().toLowerCase(), villeElem.getType().toLowerCase());
 		
-		System.out.println( "il y a  : "  +  results.size());
-		
+		// Si aucun résulats	
 		if(results.size() == 0) {
 
+			// Alors on enregistre tout les éléments du paquets
 			for( int i = 0 ; i < listCoord.size(); i++){
 				
 				AppLieux lieux = new AppLieux(listCoord.get(i).get(0),//latitude
@@ -64,21 +67,21 @@ public class Servlet_AddLieux extends HttpServlet {
 				
 			}
 			
+			//et on renvoie le statut 0 pour dire que l'enregistrement à été effectué.
 			valeureRetour = "0";
 				
 		}
+		// Sinon, on renvoie le statut 1.
 		else valeureRetour = "1";
 		
 		pm.close();
 		
 		// On convertit le résultat en JSON
-		String reponse = "";
-    	reponse = "{ \"status\" : \""+ valeureRetour + "\"}";
+		String reponse = "{ \"status\" : \""+ valeureRetour + "\"}";
     	
-    	System.out.println(reponse);
+    	//System.out.println(reponse);
 
 		// On renvoie le contenu JSON
-    	
 		response.setContentType("application/json");
 		response.getWriter().println(reponse);
 

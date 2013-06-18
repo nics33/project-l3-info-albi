@@ -2,6 +2,11 @@ package lieux;
 
 import java.util.ArrayList;
 
+
+//Classe permettant la décomposition des éléments
+//reçus en paramètres au formats Json
+//avant de les traiter
+
  public class VilleElem {
 	 
 	 private String ville;

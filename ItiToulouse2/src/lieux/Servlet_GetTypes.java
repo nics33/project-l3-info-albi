@@ -20,21 +20,18 @@ import com.google.gson.Gson;
 
 
 
-
- 
 @SuppressWarnings("serial")
 public class Servlet_GetTypes extends HttpServlet {
 
-	
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse resp) throws ServletException,
 			IOException {		
-		System.out.println("début");
+		
 
 		String valeureRetour = "0";
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
+		//Lecture du Json passé en paramètre ( méthode POST )
 		Gson gson = new Gson();
 		String jsonFile = request.getParameter("donnees");			
 		VilleElem villeElem = gson.fromJson(jsonFile, VilleElem.class);
@@ -42,16 +39,16 @@ public class Servlet_GetTypes extends HttpServlet {
 		@SuppressWarnings("unused")
 		ArrayList<ArrayList<Float>> listCoord = villeElem.getCoord();
 		
+		
+		//Requête JQuery qui retourne tout les types de paquets en fonction d'une ville choisie
 		Query query = pm.newQuery("JDOQL" , "SELECT DISTINCT type FROM lieux.AppLieux");
-		//Query query = pm.newQuery("JDOQL" , "SELECT DISTINCT type FROM lieux.AppLieux WHERE ville == 'toulouse'");
-		//Query query = pm.newQuery("SELECT DISTINCT type FROM " +AppLieux.class);
 		query.setFilter("ville == villeparam");
 	    query.declareParameters("String villeparam");
 	   
 		@SuppressWarnings("unchecked")
 		List<String> results = (List<String>) query.execute(villeElem.getVille().toLowerCase());
 		
-		System.out.println( "il y a  : "  +  results.size());
+		
 		
 		if(results.size() > 0) {
 			
@@ -63,11 +60,10 @@ public class Servlet_GetTypes extends HttpServlet {
 		pm.close();
 		
 		
+		//On enregistre tout les éléments dans une chaîne de caractères au format Json
 		
 		String chaine = "[";
-		
 		for(int i =0; i< results.size(); i++){
-			
 			
 			chaine += '"'+ results.get(i) +'"';
 			
@@ -79,15 +75,14 @@ public class Servlet_GetTypes extends HttpServlet {
 		
 		chaine += "]";
 		
-		System.out.println(chaine);
+		//System.out.println(chaine);
 
 		
 		
 		// On convertit le résultat en JSON
 		String reponse = "";
 		reponse = "{ \"status\" : "+valeureRetour+",\"donnees\" :  " +chaine + "}";
-    	
-    	System.out.println(reponse);
+    	//System.out.println(reponse);
 
 		// On renvoie le contenu JSON
     	

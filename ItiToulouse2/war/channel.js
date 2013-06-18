@@ -10,7 +10,7 @@ function GetToken(){
 	$.ajax(
 			{ //on log l'utilisateur
 				type: "POST",
-				url: "http://ititoulouse.appspot.com/Servlet_Connection",// a cette url
+				url: "/Servlet_Connection",// a cette url
 				dataType: "json",
 				success: function(json)
 				{
@@ -46,7 +46,7 @@ function closeChannel(){
 	$.ajax(
 			{ //on log l'utilisateur
 				type: "POST",
-				url: "http://ititoulouse.appspot.com/Servlet_Disconnection",// a cette url
+				url: "/Servlet_Disconnection",// a cette url
 				dataType: "json",
 				async: false,
 				success: function(json)
@@ -125,7 +125,7 @@ onSocketMessage = function(message) {
         $.ajax(
                 { //on log l'utilisateur
                         type: "POST",
-                        url: "http://ititoulouse.appspot.com/Servlet_Message",// a cette url
+                        url: "/Servlet_Message",// a cette url
                         data:{"type" : "Send", "latlieu": latitudeLieu, "lnglieu" : longitudeLieu, "lat" : latitude, "lng" : longitude,"to" : messageJSON.from }, 
                         dataType: "text",
                         success: function(text)
@@ -234,7 +234,7 @@ function UpdateUsers(){
                 $.ajax(
                                 { //on log l'utilisateur
                                         type: "POST",
-                                        url: "http://ititoulouse.appspot.com/Servlet_Message",// a cette url
+                                        url: "/Servlet_Message",// a cette url
                                         data:{"type" : "Update" , "latlieu": latitudeLieu, "lnglieu" : longitudeLieu, "lat" : latitude, "lng" : longitude,"to" : friendid }, 
                                         dataType: "text",
                                         success: function(text)

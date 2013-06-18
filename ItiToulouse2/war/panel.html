@@ -77,7 +77,7 @@ $(document).ready(function(){
                                                               <input type="text" name="VilleInsert" id="VilleDel" value="" placeholder="Nom de la ville" data-theme="a">
                                                                <label for="un" class="ui-hidden-accessible">type de Lieu:</label>
                                                               <input type="text" name="LieuInsert" id="LieuDel" value="" placeholder="Type de Lieu" data-theme="a">
-                                                              <button type="button" data-theme="b" data-icon="check"  onClick='SuppressionLieu()'>Suppression</button>
+                                                              <button type="button" data-theme="b" data-icon="check"  onClick='AffichageListeVille()'>Suppression</button>
                                                             </div>
                                                     </div>
                                                 </div>
@@ -137,6 +137,9 @@ $(document).ready(function(){
                         </div>
                 </div>
                 
+                
+                
+                
                 <div data-role="popup" id='popuplistevilles' data-overlay-theme="a" data-theme="c" style="max-width:400px;" class="ui-corner-all">
                         <div data-role="header" data-theme="a" class="ui-corner-top">
                                 <h1>Liste des villes disponibles </h1>
@@ -149,6 +152,21 @@ $(document).ready(function(){
                                 </fieldset>        
                                 
                                 </div>
+                </div>
+                
+                
+                 <div data-role="popup" id='popuplistetypes' data-overlay-theme="a" data-theme="c" style="max-width:400px;" class="ui-corner-all">
+                        <div data-role="header" data-theme="a" class="ui-corner-top">
+                                <h1>Liste des paquets disponibles : </h1>
+                        </div>
+                        <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+                                <h3 id = 'textelistetypes' class="ui-title"></h3>
+                        
+                                <fieldset data-role="controlgroup" id="listeTypes">
+        
+                                </fieldset>        
+                                
+                        </div>
                 </div>
                 
                 

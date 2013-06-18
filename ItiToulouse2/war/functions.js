@@ -265,15 +265,83 @@ function AffichageListeType(){
          }
 }
         
-        function AffichageListeVille() {
-                 var Taille = listeAmiNick.length;
-                 $('#listeVilles').empty();
-                 for (var i = 0; i<Taille; i++){
-                 var nickname = listeAmiNick[i];
-                 $('#listeVilles').append('<input type="radio" name');
-                 $("#listeVilles").listview('refresh');
-                 }
-                }
+        
+        function affichageListeTypes(ville){
+        	
+        	
+             //alert(results[1].address_components[1].long_name);
+             donnees = '{ "ville":' + ville + ', "type":'+ "a"+ ', "liste":'+'['+']' +'}';
+             $.ajax(
+             { //on importe le fichier
+                     type: "POST",
+                     url: "http://ititoulouse.appspot.com/Servlet_GetTypes",// a cette url
+                     data:{ donnees: donnees},
+                     dataType: "json",
+                     success: function(data)
+                     {
+                             jsonType = data;
+                             var Nb_boutons=jsonType.donnees.length;
+                             $("#listeTypes").empty();
+                             $('#listeTypes').append(' <legend> Choisissez un paquet :</legend>');
+                       
+                             
+                             for(i=0;i<Nb_boutons;i++)
+                             {
+                            	 var type = data.donnees[i]
+                            	 
+                            	 $('#listeTypes').append(' <input type="radio" name="choixRadioT" id="choixRadioT'+i+'" value="'+type+'"  /> ');
+                                 $('#listeTypes').append('<label for="choixRadioT'+i+'">'+type+'</label>');
+                              	
+                              	
+                                 $("#listeTypes").listview('refresh');
+
+                             }
+                             
+                     }
+             })
+        	
+        	
+        	
+        	
+        }
+ 
+        
+        //a tester
+        function affichageListeVille() {
+        	
+        	
+     
+             $.ajax(
+             { //on importe le fichier
+                     type: "GET",
+                     url: "http://ititoulouse.appspot.com/Servlet_GetVille",// a cette url
+                     data:{ donnees: donnees},
+                     dataType: "json",
+                     success: function(data)
+                     {
+                    	   
+                            $('#listeVilles').empty();
+                            
+                            $('#listeVilles').append(' <legend> Choisissez une ville :</legend>');
+                            
+                            for (var i = 0; i<data.donnees.length; i++){
+                            var nomVille = data.donnees[i]
+                            $('#listeVilles').append(' <input type="radio" name="choixRadio" id="choixRadio'+i+'" value="'+nomVille+'"  /> ');
+                            $('#listeVilles').append('<label for="choixRadio'+i+'">'+nomVille+'</label>');
+                         	
+                         	
+                            $("#listeVilles").listview('refresh');
+                            }
+                     }
+             })
+             
+        }
+        	
+        	
+        	
+        	
+             
+                
 
         
         

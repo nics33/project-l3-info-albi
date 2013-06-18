@@ -26,6 +26,12 @@ import javax.jdo.annotations.PrimaryKey;
 		    private String type; 
 		   
 		 
+		    /**
+		     * @param x
+		     * @param y
+		     * @param nomVille
+		     * @param typeLieux
+		     */
 			public AppLieux(float x, float y, String nomVille, String typeLieux) {
 				
 				this.longitude = x;
@@ -36,10 +42,11 @@ import javax.jdo.annotations.PrimaryKey;
 				
 			}
 			
+			/***** GETTEURS *****/
 			public long getKey() {
 				return this.id;
 			}
-			
+
 			public String getVille() {
 				return this.ville;
 			}
@@ -57,6 +64,8 @@ import javax.jdo.annotations.PrimaryKey;
 			}
 			
 			
+			
+			/***** SETTEURS *****/
 			public void setVille( String nomVille) {
 				this.ville = nomVille;
 			}

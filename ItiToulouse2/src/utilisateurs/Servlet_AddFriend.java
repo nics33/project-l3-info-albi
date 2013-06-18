@@ -11,13 +11,17 @@ import com.google.appengine.api.users.UserServiceFactory;
 public class Servlet_AddFriend extends HttpServlet {
 	 public void doGet(HttpServletRequest req, HttpServletResponse resp)
 	            throws IOException {
+		 
 		 	String reponse = "";
 		 	int returnValue = 0;
 		 	String emailFriend = "";
+		 	
 		 	emailFriend = req.getParameter("email");
-		 	System.out.println(emailFriend);
+		 //	System.out.println(emailFriend);
+		 	
 	        UserService userService = UserServiceFactory.getUserService();
 	        User user = userService.getCurrentUser();	 
+	        
 	        if (user != null) { 
 	        	
 		        AppUser myAppUser  = new AppUser(user);
@@ -29,6 +33,7 @@ public class Servlet_AddFriend extends HttpServlet {
 				// On renvoie le contenu JSON
 				resp.setContentType("application/json");
 				resp.getWriter().print(reponse);
+				
 	        } else {
 	            resp.sendRedirect(userService.createLoginURL(req.getRequestURI()));
 	        }

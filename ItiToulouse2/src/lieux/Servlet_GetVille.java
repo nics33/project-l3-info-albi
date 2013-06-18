@@ -22,31 +22,24 @@ import com.google.gson.Gson;
 
 
 
-
- 
 @SuppressWarnings("serial")
  public class Servlet_GetVille  extends HttpServlet {
 
-	
-
 	protected void doGet(HttpServletRequest request, HttpServletResponse resp) throws ServletException,
 			IOException {		
-		System.out.println("début");
+
 
 		String valeureRetour = "0";
 		
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		
+		//Requête JQuery qui renvoie les villes présente dans la base de données ( sans doublons )
 		Query query = pm.newQuery("JDOQL" , "SELECT DISTINCT ville FROM lieux.AppLieux");
-		//Query query = pm.newQuery("JDOQL" , "SELECT DISTINCT type FROM lieux.AppLieux WHERE ville == 'toulouse'");
-		//Query query = pm.newQuery("SELECT DISTINCT type FROM " +AppLieux.class);
-		//query.setFilter("ville == villeparam");
-	    //query.declareParameters("String villeparam");
 	   
 		@SuppressWarnings("unchecked")
 		List<String> results = (List<String>) query.execute();
 		
-		System.out.println( "il y a  : "  +  results.size());
+	
 		
 		if(results.size() > 0) {
 			
@@ -58,9 +51,8 @@ import com.google.gson.Gson;
 		pm.close();
 		
 		
-		
+		//On enregistre toutes les villes dans une chaîne de caractères au format Json
 		String chaine = "[";
-		
 		for(int i =0; i< results.size(); i++){
 			
 			
@@ -74,7 +66,7 @@ import com.google.gson.Gson;
 		
 		chaine += "]";
 		
-		System.out.println(chaine);
+		//System.out.println(chaine);
 
 		
 		
@@ -82,10 +74,9 @@ import com.google.gson.Gson;
 		String reponse = "";
 		reponse = "{ \"status\" : "+valeureRetour+",\"donnees\" :  " +chaine + "}";
     	
-    	System.out.println(reponse);
+    	//System.out.println(reponse);
 
-		// On renvoie le contenu JSON
-    	
+		// On renvoie le contenu JSON	
 		resp.setContentType("application/json");
 		resp.getWriter().println(reponse);
 

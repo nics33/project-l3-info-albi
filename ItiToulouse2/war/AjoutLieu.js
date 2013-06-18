@@ -142,13 +142,14 @@
     						break;
     					}
     					$("#textesuivreami3").html(message);
-    					$("#popupLogin" ).popup({
-    						popupafterclose: function() {
-    				            setTimeout( function(){ $( '#popupsuivi3' ).popup( 'open' ) }, 200 );
-    				        }});
-    					
+    					$("#popupLogin" ).on('popupafterclose', function() {
+    						setTimeout( function(){ $( '#popupsuivi3' ).popup( 'open' )}, 50 );
+    						$('#popupLogin').unbind('popupafterclose');
+    						});
     					$("#popupLogin" ).popup("close");
+    					
 						console.log(message);
+						message=null;
     				}
     	})
     	

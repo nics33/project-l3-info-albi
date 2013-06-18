@@ -40,21 +40,18 @@ $(document).ready(function(){
                         <div data-role="popup" id="popupMenu" data-theme="c">
                                 <ul data-role="listview" data-inset="true" style="min-width:210px;" data-theme="c">
                                     <li data-role="divider" data-theme="c">Choose an action</li>
-                                  <li><a href="#popupLogin" data-rel="popup" data-position-to="window" data-theme="c" data-transition="pop">Ajout Ami</a>
-                                                <div data-role="popup" id="popupMenu" data-theme="c">
-                                                    <div data-role="popup" id="popupLogin" data-theme="c" class="ui-corner-all">
-                                                            <div style="padding:10px 20px;">
-                                                              <h3>Ajouter un Ami</h3>
-                                                              <label for="un" class="ui-hidden-accessible">Mail:</label>
-                                                               <input type="text" name="MailAmi" id="MailAmi" value="" placeholder="Mail" data-theme="a">
-                                                             <button type="button" data-theme="b" data-icon="check" onClick='AjoutAmi()'>Ajout</button>
-                                                            </div>
-                                                    </div>
-                                                </div>
-                                        </li>
+                                    <li><a href="#popupLogin" data-rel="popup" data-position-to="window" data-theme="c" data-transition="pop">Ajout Ami</a>
+                                        <div data-role="popup" id="popupLogin" data-theme="c" class="ui-corner-all">
+                                             <div style="padding:10px 20px;">
+                                                 <h3>Ajouter un Ami</h3>
+                                                 <label for="un" class="ui-hidden-accessible">Mail:</label>
+                                                 <input type="text" name="MailAmi" id="MailAmi" value="" placeholder="Mail" data-theme="a">
+                                                 <button type="button" data-theme="b" data-icon="check" onClick='AjoutAmi()'>Ajout</button>
+                                            </div>
+                                         </div>
+                                    </li>
                                     <li data-role="divider" class="admin" style="display:none" data-theme="c">Administration</li>
                                     <li  class="admin" style="display:none"><a href="#popupAjoutLieu"  data-rel="popup" data-position-to="window" data-theme="c" data-transition="pop">Ajout Lieux</a>
-                                                <div data-role="popup" id="popupMenu" data-theme="c">
                                                     <div data-role="popup" id="popupAjoutLieu" data-theme="c" class="ui-corner-all">
                                                             <div style="padding:10px 20px;">
                                                               <h3>Ajouter un Lieu</h3>
@@ -66,10 +63,8 @@ $(document).ready(function(){
                                                               <button type="button" data-theme="b" data-icon="check"  onClick='readText()'>Ajout</button>
                                                             </div>
                                                     </div>
-                                                </div>
                                         </li>
                                     <li class="admin" style="display:none"><a href="#popupDelLieu" data-rel="popup" data-position-to="window" data-theme="c" data-transition="pop">Suppression Lieux</a>
-                                                <div data-role="popup" id="popupMenu" data-theme="c">
                                                     <div data-role="popup" id="popupDelLieu" data-theme="c" class="ui-corner-all">
                                                             <div style="padding:10px 20px;">
                                                               <h3>Supprimer un Lieu</h3>
@@ -77,10 +72,9 @@ $(document).ready(function(){
                                                               <input type="text" name="VilleInsert" id="VilleDel" value="" placeholder="Nom de la ville" data-theme="a">
                                                                <label for="un" class="ui-hidden-accessible">type de Lieu:</label>
                                                               <input type="text" name="LieuInsert" id="LieuDel" value="" placeholder="Type de Lieu" data-theme="a">
-                                                              <button type="button" data-theme="b" data-icon="check"  onClick='AffichageListeVille()'>Suppression</button>
+                                                              <button type="button" data-theme="b" data-icon="check"  onClick='SuppressionLieu()'>Suppression</button>
                                                             </div>
                                                     </div>
-                                                </div>
                                         </li>
                                 </ul>
                         </div>
@@ -137,9 +131,6 @@ $(document).ready(function(){
                         </div>
                 </div>
                 
-                
-                
-                
                 <div data-role="popup" id='popuplistevilles' data-overlay-theme="a" data-theme="c" style="max-width:400px;" class="ui-corner-all">
                         <div data-role="header" data-theme="a" class="ui-corner-top">
                                 <h1>Liste des villes disponibles </h1>
@@ -152,21 +143,6 @@ $(document).ready(function(){
                                 </fieldset>        
                                 
                                 </div>
-                </div>
-                
-                
-                 <div data-role="popup" id='popuplistetypes' data-overlay-theme="a" data-theme="c" style="max-width:400px;" class="ui-corner-all">
-                        <div data-role="header" data-theme="a" class="ui-corner-top">
-                                <h1>Liste des paquets disponibles : </h1>
-                        </div>
-                        <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
-                                <h3 id = 'textelistetypes' class="ui-title"></h3>
-                        
-                                <fieldset data-role="controlgroup" id="listeTypes">
-        
-                                </fieldset>        
-                                
-                        </div>
                 </div>
                 
                 

@@ -38,7 +38,7 @@ public class Servlet_AddLieux extends HttpServlet {
 		ArrayList<ArrayList<Float>> listCoord = villeElem.getCoord();
 		
 		
-		// Requête JQuery qui prend en paramètre une ville et un type
+		// Requête query qui prend en paramètre une ville et un type
 		// Si 0 résultats : Le paquets n'est pas présent dans la base de données
 		// on peut donc l'enregistrer
 		// Sinon on renvoie une erreure

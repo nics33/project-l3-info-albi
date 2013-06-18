@@ -147,9 +147,6 @@
     						$('#popupLogin').unbind('popupafterclose');
     						});
     					$("#popupLogin" ).popup("close");
-    					
-						console.log(message);
-						message=null;
     				}
     	})
     	

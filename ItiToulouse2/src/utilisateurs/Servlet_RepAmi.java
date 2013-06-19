@@ -33,32 +33,36 @@ public class Servlet_RepAmi extends HttpServlet {
 	        if (user != null) { 
 	        	
 				PersistenceManager pm = PMF.get().getPersistenceManager();
-		        AppUser myAppUser  = new AppUser(user);
+		        AppUser myAppUser  = pm.getObjectById(AppUser.class, user.getUserId());
 		        AppUser myFriend = pm.getObjectById(AppUser.class, idFriend);
 		        
 		        //Je supprime la demande dans ma BDD
-		        templist = myAppUser.getdemandeRecu();
-		        templist.remove(templist.indexOf(idFriend));
-		        myAppUser.ModifydemandeRecu(templist);
+		        //templist = myAppUser.getdemandeRecu();
+		     //   templist.remove(templist.indexOf(idFriend));
+		      //  myAppUser.ModifydemandeRecu(templist);
+		        myAppUser.DeltodemandeRecu(idFriend);
 		        
 		      //Je supprime la demande dans la BDD de mon ami
-		        templist.clear();
-		        templist = myFriend.getdemandeEnvoye();
-		        templist.remove(templist.indexOf(myAppUser.getAppUserId()));
-		        myFriend.ModifydemandeEnvoye(templist);
+		       // templist.clear();
+		       // templist = myFriend.getdemandeEnvoye();
+		       // templist.remove(templist.indexOf(myAppUser.getAppUserId()));
+		      //  myFriend.ModifydemandeEnvoye(templist);
+		        myFriend.DeltodemandeEnvoye(myAppUser.getAppUserId());
 		        
 		        //Je rajoute les id aux listes d'amis
 		        if(type.equals("accept"))
 		        {
-		        templist.clear();
-		        templist= myAppUser.getListFriends();
-		        templist.add(idFriend);
-		        myAppUser.Modifyfriendlist(templist);
+		        //templist.clear();
+		       // templist= myAppUser.getListFriends();
+		        //templist.add(idFriend);
+		       // myAppUser.Modifyfriendlist(templist);
+		        	myAppUser.AddtoFriendlist(idFriend);
 		        
-		        templist.clear();
-		        templist= myFriend.getListFriends();
-		        templist.add(myAppUser.getAppUserId());
-		        myFriend.Modifyfriendlist(templist);
+		        //templist.clear();
+		       // templist= myFriend.getListFriends();
+		        //templist.add(myAppUser.getAppUserId());
+		        //myFriend.Modifyfriendlist(templist);
+		        	myFriend.AddtoFriendlist(myAppUser.getAppUserId());
 		        }
 		        
 		        pm.close();

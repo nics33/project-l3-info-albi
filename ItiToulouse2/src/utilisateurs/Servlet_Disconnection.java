@@ -68,7 +68,10 @@ public class Servlet_Disconnection extends HttpServlet{
 			      //Si l'utilisateur est connecté a un compte Google
 			      if (user != null) { 
 			    	  //on récupere le UserId de l'utilisateur
-				        AppUser myAppUser  = new AppUser(user);
+			        	PersistenceManager pm = PMF.get().getPersistenceManager();
+			        	AppUser myAppUser = pm.getObjectById(AppUser.class, user.getUserId());
+			        	pm.close();
+			    
 				        userId = myAppUser.getAppUserId();
 				        ListeAmi = myAppUser.getListFriends();
 				        

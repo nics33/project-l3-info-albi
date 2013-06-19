@@ -31,6 +31,12 @@ public class AppUser {
 	    ArrayList<String> friendList; 
 	    
 	    @Persistent
+	    ArrayList<String> demandeEnvoye; 
+	    
+	    @Persistent
+	    ArrayList<String> demandeRecu; 
+	    
+	    @Persistent
 	    private Date LastConnection;
 	    
 	    @Persistent
@@ -66,8 +72,10 @@ public class AppUser {
 		    if(results.size()==0)
 		    {
 				this.key = user.getUserId();
-				this.email = user.getEmail();
+				this.email = user.getEmail().toLowerCase();
 				this.friendList = new ArrayList<String>();
+				this.demandeEnvoye = new ArrayList<String>();
+				this.demandeRecu = new ArrayList<String>();
 				this.LastConnection = new Date();
 				this.ville = "";
 				this.Type = "";
@@ -83,6 +91,8 @@ public class AppUser {
 		    	this.key = userTemp.key;
 		    	this.email = userTemp.email;
 		    	this.friendList = userTemp.friendList;
+		    	this.demandeEnvoye = userTemp.demandeEnvoye;
+		    	this.demandeRecu = userTemp.demandeRecu;
 				this.ville = userTemp.ville;
 				this.Type = userTemp.Type;
 				this.lat =  userTemp.lat;
@@ -194,8 +204,11 @@ public class AppUser {
 	        		}
 	        		else
 	        		{
-	    				this.friendList.add(results.get(0).getAppUserId());
-	    				myUser.friendList.add(results.get(0).getAppUserId()); 
+	        			AppUser myFriend = pm.getObjectById(AppUser.class, results.get(0).getAppUserId());
+	        			this.demandeEnvoye.add(results.get(0).getAppUserId());
+	    				//this.friendList.add(results.get(0).getAppUserId());
+	    				myUser.demandeEnvoye.add(results.get(0).getAppUserId()); 
+	    				myFriend.demandeRecu.add(this.getAppUserId());
 	    				valeurRetour = 0;
 	        		}
 	        		break;

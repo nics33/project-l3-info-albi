@@ -26,15 +26,47 @@ function GetToken(){
 						admin();
 						CreationListeAmi();
 						AffichageListeAmi();
+						var listeDemandeAmi = json.demandeami;
+						NotificationDemandeAmi(listeDemandeAmi);
 						}
 				}
 			});
 };
 
+function NotificationDemandeAmi(listedemandeami){
+	if(listedemandeami.length != 0)
+		{
+		
+			message = " Voulez-vous accepter " + listedemandeami[0].nickname+" en tant qu'ami ?"
+			console.log(message);
+			$("#textedemandeami").html(message);
+			$("#boutonaccepterinvitation").click(function(){
+				console.log("j'accepte linvitation");
+				listedemandeami.splice(0,1);
+				$("#popupdemandeami" ).on('popupafterclose', function() {
+					setTimeout( function(){NotificationDemandeAmi(listedemandeami);}, 100 );
+					$('#popupdemandeami').unbind('popupafterclose');
+				});
+				$("#popupdemandeami" ).popup("close");	
+			});
+			$("#boutonrefuserinvitation").click(function(){
+				console.log("je refuse linvitation");
+				listedemandeami.splice(0,1);
+				$("#popupdemandeami" ).on('popupafterclose', function() {
+					setTimeout( function(){NotificationDemandeAmi(listedemandeami);}, 100 );
+					$('#popupdemandeami').unbind('popupafterclose');
+				});
+				$("#popupdemandeami" ).popup("close");	
+			});
+			$("#popupdemandeami" ).popup("open");	
+			
+		}
+};
+
 function openChannel(token) {
-	alert("J'ouvre le channel");
+	console.log("J'ouvre le channel");
 	var channel = new goog.appengine.Channel(token);
-	alert("le channel est ouvert");
+	console.log("le channel est ouvert");
 	socket = channel.open();
 	socket.onopen = onSocketOpen;
 	socket.onmessage = onSocketMessage;
@@ -56,15 +88,15 @@ function closeChannel(){
 }
 
 onSocketError = function(error){
-	alert("Error is <br/>"+error.description+" <br /> and HTML code"+error.code);
+	console.log("Error is <br/>"+error.description+" <br /> and HTML code"+error.code);
 };
 
 onSocketOpen = function() {
-	alert("Socket Ouverte");
+	console.log("Socket Ouverte");
 };
 
 onSocketClose = function() {
-	alert("Socket Connection closed");
+	console.log("Socket Connection closed");
 };
 
 onSocketMessage = function(message) {

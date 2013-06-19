@@ -145,6 +145,17 @@ $(document).ready(function(){
                                 </div>
                 </div>
                 
+                <div data-role="popup" id='popupdemandeami' data-overlay-theme="a" data-theme="c" style="max-width:400px;" class="ui-corner-all">
+                        <div data-role="header" data-theme="a" class="ui-corner-top">
+                                <h1>Demande d'ami</h1>
+                        </div>
+                        <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+                                <h3 id = 'textedemandeami' class="ui-title"></h3>
+                                <a  id ="boutonrefuserinvitation" data-role="button" data-inline="true" data-rel="back" data-theme="c">Refuser</a>    
+                                <a  id ="boutonaccepterinvitation" data-role="button" data-inline="true" data-rel="back" data-transition="flow" data-theme="b">Accepter</a>  
+                        </div>
+                </div>
+                
                 
         </div><!-- /page -->
 <script type='text/javascript'>$(document).on('pageinit',function(){$("html").on("swipeleft",function(){$("#rightpanel").panel("open");});});</script>

@@ -50,6 +50,7 @@ public class Servlet_Connection extends HttpServlet{
 	  
 	  ArrayList<String> ListeAmi;
 	  ArrayList<String> returnValue = new ArrayList<String>(); 
+	  ArrayList<String> demandeAmi = new ArrayList<String>(); 
 	  String temp;
 	  String reponse;
 	  Date now = new Date();
@@ -129,9 +130,22 @@ public class Servlet_Connection extends HttpServlet{
 	        	  }
 
 	          }
+	        
+	        
+	        // On regarde si il y a des demandes d'amitié et si il y en a on les met dans un tableu pour les envoyé a l'utilisateur.
+	        for(int i =0; i<myAppUser.demandeRecu.size();i++)
+	        {
+	        	PersistenceManager pm = PMF.get().getPersistenceManager();
+	        	AppUser myUserTemp = pm.getObjectById(AppUser.class, myAppUser.demandeRecu.get(i));
+	        	pm.close();
+    			temp = "{ \"nickname\" : \"" +myUserTemp.getEmail()+ "\",\"id\" :  \"" +myUserTemp.getAppUserId() +"\"}";
+    			demandeAmi.add(temp);
+
+	        }
+	        
 			// On convertit le résultat en JSON
 			
-        	reponse = "{ \"status\" : 0,\"admin\" : "+admin.toString()+",\"token\" : \""+token+"\",\"donnees\" :  " +returnValue + "}";
+        	reponse = "{ \"status\" : 0,\"admin\" : "+admin.toString()+",\"demandeami\" : "+demandeAmi+",\"token\" : \""+token+"\",\"donnees\" :  " +returnValue + "}";
         	
         	
 			// On renvoie le contenu JSON

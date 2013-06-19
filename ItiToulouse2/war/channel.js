@@ -33,38 +33,6 @@ function GetToken(){
 			});
 };
 
-/*function NotificationDemandeAmi(listedemandeami){
-	if(listedemandeami.length != 0)
-		{
-		
-			message = " Voulez-vous accepter " + listedemandeami[0].nickname+" en tant qu'ami ?"
-			console.log(message);
-			$("#textedemandeami").html(message);
-			$("#boutonaccepterinvitation").click(function(){
-				console.log("j'accepte linvitation");
-				listedemandeami.splice(0,1);
-				$("#popupdemandeami" ).on('popupafterclose', function() {
-					setTimeout( function(){NotificationDemandeAmi(listedemandeami);}, 100 );
-					$('#popupdemandeami').unbind('popupafterclose');
-					$('#boutonaccepterinvitation').unbind('click');
-				});
-				$("#popupdemandeami" ).popup("close");	
-			});
-			$("#boutonrefuserinvitation").click(function(){
-				console.log("je refuse linvitation");
-				listedemandeami.splice(0,1);
-				$("#popupdemandeami" ).on('popupafterclose', function() {
-					setTimeout( function(){NotificationDemandeAmi(listedemandeami);}, 100 );
-					$('#popupdemandeami').unbind('popupafterclose');
-					$('#boutonrefuserinvitation').unbind('click');
-				});
-				$("#popupdemandeami" ).popup("close");	
-			});
-			$("#popupdemandeami" ).popup("open");	
-			
-		}
-};*/
-
 function NotificationDemandeAmi(listedemandeami){
 	console.log(listedemandeami.length);
 	if(listedemandeami.length != 0)
@@ -110,7 +78,6 @@ function NotificationDemandeAmi(listedemandeami){
 
 			});
 			$("#popupdemandeami" ).popup("open");	
-			
 		}
 };
 
@@ -231,6 +198,46 @@ onSocketMessage = function(message) {
 		latitudeLieuAmi = messageJSON.latlieu;
 		longitudeLieuAmi = messageJSON.lnglieu;
 		break;
+		
+	case "AddFriend":
+		message = " Voulez-vous accepter " + messageJSON.nickname+" en tant qu'ami ?"
+		$("#textedemandeami").html(message);
+		$("#boutonaccepterinvitation").click(function(){
+			$("#popupdemandeami" ).popup("close");	
+			$('#boutonaccepterinvitation').unbind('click');
+			$.ajax(
+					{ //on log l'utilisateur
+						type: "GET",
+						url: "/Servlet_RepAmiChannel",// a cette url
+                        data:{"type" : "accept", "idfriend" : messageJSON.id }, 
+						dataType: "json",
+						success: function(json)
+						{
+							AjoutListeAmi(messageJSON.id,messageJSON.nickname);
+							AffichageListeAmi();
+						}
+					});
+		});
+		$("#boutonrefuserinvitation").click(function(){
+			$("#popupdemandeami" ).popup("close");
+		    $('#boutonrefuserinvitation').unbind('click');
+			$.ajax(
+					{ //on log l'utilisateur
+						type: "GET",
+						url: "/Servlet_RepAmiChannel",// a cette url
+                        data:{"type" : "refuse", "idfriend" : messageJSON.id }, 
+						dataType: "json",
+						success: function(json)
+						{
+							console.log("je refuse linvitation");
+	
+						}
+					});
+
+		});
+		$("#popupdemandeami" ).popup("open");	
+		break;
+	
 		
 	}
 };

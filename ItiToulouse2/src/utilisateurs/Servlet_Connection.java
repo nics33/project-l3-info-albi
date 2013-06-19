@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,6 +21,7 @@ import com.google.appengine.api.channel.ChannelFailureException;
 import com.google.appengine.api.channel.ChannelMessage;
 import com.google.appengine.api.channel.ChannelService;
 import com.google.appengine.api.channel.ChannelServiceFactory;
+import javax.jdo.Query;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
@@ -98,7 +100,22 @@ public class Servlet_Connection extends HttpServlet{
 
     	  }
     	  else logger.log(Level.INFO,"token already exist,expire in {0} ms", datetoken+ 6900000-now.getTime());
-	        AppUser myAppUser  = new AppUser(user);
+    	  
+    	  PersistenceManager pm = PMF.get().getPersistenceManager();
+			Query query = pm.newQuery(AppUser.class);
+		    query.setFilter("email == emailParam");
+		    query.declareParameters("String emailParam");
+		    @SuppressWarnings("unchecked")
+			List<AppUser> results = (List<AppUser>) query.execute(user.getEmail().toLowerCase());
+		    AppUser myAppUser;
+		    if(results.size()==0)
+		    {
+		    	myAppUser  = new AppUser(monID,user.getEmail().toLowerCase(),monNickname);
+		    	pm.makePersistent(myAppUser);
+		    }
+		    else myAppUser = results.get(0);
+		    
+	        
 	        ListeAmi = myAppUser.getListFriends();
 	        logger.log(Level.INFO,"I have {0} friends",myAppUser.getListFriends().size());
 	        //On ajoute l'utilisateur a la liste des Utilisateurs déja Connectés
@@ -119,9 +136,9 @@ public class Servlet_Connection extends HttpServlet{
 	        	  String friend = friendList.next() ;
 	            if(friendStore.getFriends().contains(friend)) //Si le friendstore contient mon Ami(friend = id de l'ami)
 	            {
-		    		PersistenceManager pm = PMF.get().getPersistenceManager();
-		    		AppUser myUserTemp = pm.getObjectById(AppUser.class, friend); // j'obtiens ses informations dans la base de donnée
-		    		pm.close();
+		    		PersistenceManager pm1 = PMF.get().getPersistenceManager();
+		    		AppUser myUserTemp = pm1.getObjectById(AppUser.class, friend); // j'obtiens ses informations dans la base de donnée
+		    		pm1.close();
 	    			temp = "{ \"nickname\" : \"" +myUserTemp.getEmail()+ "\",\"id\" :  \"" +myUserTemp.getAppUserId() +"\"}";
 	    			returnValue.add(temp); // j'ajoute ses information dans un tableau
 			    	String outputMessage = "{ \"type\" : \"UpdateFriendlist\",\"id\" : \""+monID+"\",\"nickname\" : \""+monNickname+"\",\"from\" : \"Server\"}";
@@ -137,9 +154,9 @@ public class Servlet_Connection extends HttpServlet{
 
 	        for(int i =0; i<myAppUser.getdemandeRecu().size();i++)
 	        {
-	        	PersistenceManager pm = PMF.get().getPersistenceManager();
-	        	AppUser myUserTemp = pm.getObjectById(AppUser.class, myAppUser.getdemandeRecu().get(i));
-	        	pm.close();
+	        	PersistenceManager pm1 = PMF.get().getPersistenceManager();
+	        	AppUser myUserTemp = pm1.getObjectById(AppUser.class, myAppUser.getdemandeRecu().get(i));
+	        	pm1.close();
     			temp = "{ \"nickname\" : \"" +myUserTemp.getEmail()+ "\",\"id\" :  \"" +myUserTemp.getAppUserId() +"\"}";
     			demandeAmi.add(temp);
 

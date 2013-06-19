@@ -66,14 +66,16 @@ function GetToken(){
 };*/
 
 function NotificationDemandeAmi(listedemandeami){
+	console.log(listedemandeami.length);
 	if(listedemandeami.length != 0)
 		{
 		
 			message = " Voulez-vous accepter " + listedemandeami[0].nickname+" en tant qu'ami ?"
-			console.log(message);
+			
 			$("#textedemandeami").html(message);
 			$("#boutonaccepterinvitation").click(function(){
-				console.log("j'accepte linvitation");
+				$("#popupdemandeami" ).popup("close");	
+				$('#boutonaccepterinvitation').unbind('click');
 				$.ajax(
 						{ //on log l'utilisateur
 							type: "GET",
@@ -82,19 +84,15 @@ function NotificationDemandeAmi(listedemandeami){
 							dataType: "json",
 							success: function(json)
 							{
-								console.log("j'accepte linvitation2");
 								listedemandeami.splice(0,1);
-								$("#popupdemandeami" ).on('popupafterclose', function() {
-									setTimeout( function(){NotificationDemandeAmi(listedemandeami);}, 100 );
-									$('#popupdemandeami').unbind('popupafterclose');
-									$('#boutonaccepterinvitation').unbind('click');
-								});
-								$("#popupdemandeami" ).popup("close");	
+								NotificationDemandeAmi(listedemandeami);
+								
 							}
 						});
 			});
 			$("#boutonrefuserinvitation").click(function(){
-				console.log("je refuse linvitation");
+				$("#popupdemandeami" ).popup("close");
+			    $('#boutonrefuserinvitation').unbind('click');
 				$.ajax(
 						{ //on log l'utilisateur
 							type: "GET",
@@ -103,13 +101,10 @@ function NotificationDemandeAmi(listedemandeami){
 							dataType: "json",
 							success: function(json)
 							{
+								console.log("je refuse linvitation");
 								listedemandeami.splice(0,1);
-								$("#popupdemandeami" ).on('popupafterclose', function() {
-									setTimeout( function(){NotificationDemandeAmi(listedemandeami);}, 100 );
-									$('#popupdemandeami').unbind('popupafterclose');
-									$('#boutonrefuserinvitation').unbind('click');
-								});
-								$("#popupdemandeami" ).popup("close");	
+								NotificationDemandeAmi(listedemandeami);
+									
 							}
 						});
 

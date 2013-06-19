@@ -91,7 +91,14 @@
 							dataType: "json",
 							success: function(data)
 							{
-								alert(data.status);
+								if(data.status == 0) message = "Fichier enregistré avec succés";
+								else message = "Fichier déja présent dans la base de donnée";
+		    					$("#textesuivreami3").html(message);
+		    					$("#popupAjoutLieu" ).on('popupafterclose', function() {
+		    						setTimeout( function(){ $( '#popupsuivi3' ).popup( 'open' )}, 50 );
+		    						$('#popupAjoutLieu').unbind('popupafterclose');
+		    						});
+		    					$("#popupAjoutLieu" ).popup("close");
 							}
 							
 						});

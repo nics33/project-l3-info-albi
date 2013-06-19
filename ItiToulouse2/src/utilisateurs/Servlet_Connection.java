@@ -100,7 +100,7 @@ public class Servlet_Connection extends HttpServlet{
     	  else logger.log(Level.INFO,"token already exist,expire in {0} ms", datetoken+ 6900000-now.getTime());
 	        AppUser myAppUser  = new AppUser(user);
 	        ListeAmi = myAppUser.getListFriends();
-	        
+	        logger.log(Level.INFO,"I have {0} friends",myAppUser.getListFriends().size());
 	        //On ajoute l'utilisateur a la liste des Utilisateurs déja Connectés
 	      	FriendStore friendStore = FriendStore.getInstance();
 	      	if(!friendStore.getFriends().contains(monID)){
@@ -133,10 +133,12 @@ public class Servlet_Connection extends HttpServlet{
 	        
 	        
 	        // On regarde si il y a des demandes d'amitié et si il y en a on les met dans un tableu pour les envoyé a l'utilisateur.
-	        for(int i =0; i<myAppUser.demandeRecu.size();i++)
+      	  logger.log(Level.INFO,"I have {0} Friend's Request",myAppUser.getdemandeRecu().size());
+
+	        for(int i =0; i<myAppUser.getdemandeRecu().size();i++)
 	        {
 	        	PersistenceManager pm = PMF.get().getPersistenceManager();
-	        	AppUser myUserTemp = pm.getObjectById(AppUser.class, myAppUser.demandeRecu.get(i));
+	        	AppUser myUserTemp = pm.getObjectById(AppUser.class, myAppUser.getdemandeRecu().get(i));
 	        	pm.close();
     			temp = "{ \"nickname\" : \"" +myUserTemp.getEmail()+ "\",\"id\" :  \"" +myUserTemp.getAppUserId() +"\"}";
     			demandeAmi.add(temp);

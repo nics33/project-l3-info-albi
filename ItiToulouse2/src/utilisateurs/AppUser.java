@@ -28,34 +28,13 @@ public class AppUser {
 	    private String email;
 	    
 	    @Persistent
-	    ArrayList<String> friendList; 
+	    private ArrayList<String> friendList; 
 	    
 	    @Persistent
-	    ArrayList<String> demandeEnvoye; 
+	    private ArrayList<String> demandeEnvoye; 
 	    
 	    @Persistent
-	    ArrayList<String> demandeRecu; 
-	    
-	    @Persistent
-	    private Date LastConnection;
-	    
-	    @Persistent
-	    String ville; // ville dans laquelle se trouve la personne 
-	    
-	    @Persistent
-	    String Type; //type de lieu qu'elle recherche
-	    
-	    @Persistent
-	    float lat;
-	    
-	    @Persistent
-	    float lng;	    
-
-	    @Persistent
-	    float latLieu; // lattitude de l'endroit oû la personne se rend
-	    
-	    @Persistent
-	    float lngLieu; // longitude de l'endroit ou la personne se rend
+	    private ArrayList<String> demandeRecu; 
 	    
 	  //constructeur : check si l'utilisateur existe dans la base de données,
 	    //s'il n'existe pas, instancie l'utilisateur avec sa key + email extraite de l'objet de type User 
@@ -67,8 +46,7 @@ public class AppUser {
 		    query.setFilter("email == emailParam");
 		    query.declareParameters("String emailParam");
 		    @SuppressWarnings("unchecked")
-			List<AppUser> results = (List<AppUser>) query.execute(user.getEmail());
-		    System.out.println(results.size());
+			List<AppUser> results = (List<AppUser>) query.execute(user.getEmail().toLowerCase());
 		    if(results.size()==0)
 		    {
 				this.key = user.getUserId();
@@ -76,13 +54,6 @@ public class AppUser {
 				this.friendList = new ArrayList<String>();
 				this.demandeEnvoye = new ArrayList<String>();
 				this.demandeRecu = new ArrayList<String>();
-				this.LastConnection = new Date();
-				this.ville = "";
-				this.Type = "";
-				this.lat = 0;
-				this.lng = 0;
-				this.latLieu = 0;
-				this.lngLieu = 0;
 				pm.makePersistent(this);
 		    }
 		    else 
@@ -93,82 +64,54 @@ public class AppUser {
 		    	this.friendList = userTemp.friendList;
 		    	this.demandeEnvoye = userTemp.demandeEnvoye;
 		    	this.demandeRecu = userTemp.demandeRecu;
-				this.ville = userTemp.ville;
-				this.Type = userTemp.Type;
-				this.lat =  userTemp.lat;
-				this.lng =  userTemp.lng;
-				this.latLieu =  userTemp.latLieu;
-				this.lngLieu =  userTemp.lngLieu;
-		    	this.LastConnection = new Date();
-		    	userTemp.LastConnection = this.LastConnection;
+		    	System.out.println(userTemp.friendList.size());
+		    	System.out.println(results.get(0).friendList.size());
 		    	}
 		    pm.close();
 		}
 
-	/***** GETTEURS *****/
-	public float getLat(){
-		return this.lat;
-	}
-	
-	public float getLng(){
-		return this.lng;
-	}
-	
+	/***** GETTEURS *****/	
 	public String getEmail(){
 		return this.email;
 	}
-	public Date getDateLastConnection(){
-		return this.LastConnection;
-	}
 	
-	public String getLieu()
+	public ArrayList<String> getdemandeEnvoye()
 	{
-		DecimalFormat df = new DecimalFormat("########.00000000000"); 
-		return "\"ville\": \""+this.ville+"\" , \"type\": \""+this.Type+"\" , \"latlieu\": \""+df.format(this.latLieu)+"\" , \"lnglieu\": \""+df.format(this.lngLieu)+"\"";
+		return this.demandeEnvoye;
 	}
 	
-	public String getUserLocalisation()
+	public ArrayList<String> getdemandeRecu()
 	{
-		DecimalFormat df = new DecimalFormat("########.00000000000"); 
-		return " \"lat\": \""+df.format(this.lat)+"\" , \"lng\": \""+df.format(this.lng)+"\"";
-
+		return this.demandeRecu;
 	}
 	
-	public void modifyLieu(String ville, String type, float lat, float lng)
+	public void Modifyfriendlist(ArrayList<String> list)
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		AppUser myUser = pm.getObjectById(AppUser.class, this.key);
-		this.ville = ville;
-		this.Type = type;
-		this.latLieu = lat;
-		this.lngLieu = lng;
-		myUser.ville = ville;
-		myUser.Type = type;
-		myUser.latLieu = lat;
-		myUser.lngLieu = lng;
+		this.friendList = list;
+		myUser.friendList = list;
 		pm.close();
 	}
 	
-	public void modifyUserLocalisation(float lat, float lng)
+	public void ModifydemandeEnvoye(ArrayList<String> list)
 	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		AppUser myUser = pm.getObjectById(AppUser.class, this.key);
-		this.lat = lat;
-		this.lng = lng;
-		myUser.lat = lat;
-		myUser.lng = lng;
+		this.demandeEnvoye = list;
+		myUser.friendList = list;
 		pm.close();
 	}
 	
-	
-	public void modifyDateLastConnection(){
+	public void ModifydemandeRecu(ArrayList<String> list)
+	{
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		AppUser myUser = pm.getObjectById(AppUser.class, this.key);
-		this.LastConnection = new Date();
-		myUser.LastConnection = this.LastConnection;
+		this.demandeRecu = list;
+		myUser.demandeRecu = list;
 		pm.close();
 	}
-
+	
 	public String getAppUserId() {
 			return key;
 		}

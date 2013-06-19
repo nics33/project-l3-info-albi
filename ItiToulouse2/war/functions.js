@@ -3,6 +3,7 @@ var jsonType;
 var test;
 var test2;
 var listeVille = [];
+var adresseLieu = "";
 
 function admin()
 {
@@ -132,6 +133,7 @@ function AffichageListeType(){
                 "num" : 0,
                 "dist" : 0,
                 "dur" : 0,
+                "adr" : "",
                 };//tableau comprenant l'id du point le plus proche,la durée pr y accédé et sa distance
                 var nbiterance = 0; // va permettre de connaitre le nobre de fois que l'on allons devoir utiliser le service google MATRIX vu qu'il est limité a 25 destinations
                 if((data.donnees.length/25) != Math.round(data.donnees.length/25)) nbiterance = Math.floor(data.donnees.length/25)+1; else nbiterance = Math.floor(data.donnees.length/25);
@@ -175,42 +177,49 @@ function AffichageListeType(){
                                                         minPoint.dist=distance;
                                                         minPoint.dur=duration;
                                                         minPoint.num=j;
+                                                        minPoint.adr = response.destinationAddresses[j];
                                                 }
                                         }
                                         //alert(minPoint.num + " , "  + minPoint.dur+ " , "+ minPoint.dist);
                                         tabmin.push({
                                                         "num" : minPoint.num,
                                                         "dist" : minPoint.dist,
-                                                        "dur" : minPoint.dur
+                                                        "dur" : minPoint.dur,
+                                                        "adr" : minPoint.adr
                                                         });
                                         if(tabmin.length == nbiterance)
                                         {
-                                                //alert("Point :" + tabmin[0].num + " , "+tabmin[0].dur+" , " + tabmin[0].dist);
-                                                //alert("Point :" + tabmin[1].num + " , "+tabmin[1].dur+" , " + tabmin[1].dist);
-                                                //alert("Point :" + tabmin[2].num + " , "+tabmin[2].dur+" , " + tabmin[2].dist);
+                                               // console.log("Point :" + tabmin[0].num + " , "+tabmin[0].dur+" , " + tabmin[0].dist);
+                                                //console.log("Point :" + tabmin[1].num + " , "+tabmin[1].dur+" , " + tabmin[1].dist);
+                                                //console.log("Point :" + tabmin[2].num + " , "+tabmin[2].dur+" , " + tabmin[2].dist);
                                                 minPoint.dist=0;
                                                 minPoint.dur=0;
                                                 minPoint.num=0;
+                                                minPoint.adr ="";
                                                 for(var k = 0; k<tabmin.length;k++)
                                                 {
+                                                		console.log("Point :" + tabmin[k].num + ","+tabmin[k].dist);
                                                         //alert("taille tab min : "+tabmin.length);
                                                         //alert("Point :" + tabmin[0].num + ","+tabmin[0].dur);
                                                         //alert("Point :" + tabmin[1].num + ","+tabmin[1].dur);
                                                         //alert("Point :" + tabmin[2].num + ","+tabmin[2].dur);
-                                                        if(tabmin[k].dur<minPoint.dur || k ==0)
+                                                        if(tabmin[k].dist<minPoint.dist || k ==0)
                                                         {
-                                                                //alert("Point :" + tabmin[k].num + ","+tabmin[k].dur);
+                                                                
                                                                 minPoint.dist=tabmin[k].dist;
                                                                 minPoint.dur=tabmin[k].dur;
-                                                                minPoint.num=tabmin[k].num+(25*k);
+                                                                minPoint.adr=tabmin[k].adr;
+                                                               // minPoint.num=tabmin[k].num+(25*k);
+                                                                console.log("Pointif :" + minPoint.num + ","+minPoint.dist + ', k = ' + k);
                                                         }
                                                 }
                                                 //METTRE LA SUITE DU CODE ICI DU AU FAIT QUE L'API SOIT ASYNCHRONE
                                                 //alert("Point mini :" + minPoint.num + ","+minPoint.dur);
                                                 //mise en place du markeur
-                                                var idDestination = minPoint.num;
-                                                latitudeLieu = data.donnees[idDestination].lat;
-                                                longitudeLieu = data.donnees[idDestination].lng;        
+                                                //var idDestination = minPoint.num;
+                                                latitudeLieu = 0.0;
+                                                longitudeLieu = 0.0;      
+                                                adresseLieu = minPoint.adr;
                                                 //alert(idDestination + "," + latitudeLieu+ "," + longitudeLieu);
                                                 if (navigator.geolocation)//navigator.geolocation renvoie un simple booléen valant vrai ou faux selon la capacité du navigateur à utiliser la géolocalisation
                                                 {
@@ -267,11 +276,15 @@ function AffichageListeType(){
         
         function showLocation2(position) //fonction appelé par getcurrentposition permettant de récupérer les infos de localisation si elle a reussi
         {
-                
+                if(latitudeLieu !=0.0 && longitudeLieu != 0.0)
+                	{
+                    end = new google.maps.LatLng(latitudeLieu, longitudeLieu);
+                	}
+                else end = adresseLieu;
+                console.log(end);
                 latitude = position.coords.latitude;
                 longitude = position.coords.longitude;
                 start = new google.maps.LatLng(latitude, longitude);
-                end = new google.maps.LatLng(latitudeLieu, longitudeLieu);
                 var request = {
                               origin: start,
                               destination: end,

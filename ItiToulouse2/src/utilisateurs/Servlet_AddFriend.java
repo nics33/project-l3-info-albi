@@ -11,11 +11,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import pmf.PMF;
 
+import com.google.appengine.api.channel.ChannelMessage;
+import com.google.appengine.api.channel.ChannelService;
+import com.google.appengine.api.channel.ChannelServiceFactory;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 @SuppressWarnings("serial")
 public class Servlet_AddFriend extends HttpServlet {
+	
+	  private static ChannelService channelService = ChannelServiceFactory.getChannelService();
+
 	 public void doGet(HttpServletRequest req, HttpServletResponse resp)
 	            throws IOException {
 		 
@@ -58,10 +64,20 @@ public class Servlet_AddFriend extends HttpServlet {
 	    	        		}
 	    	        		else
 	    	        		{
+	    		    	      	FriendStore friendStore = FriendStore.getInstance();
+	    		    	    	if(friendStore.getFriends().contains(results.get(0).getAppUserId()))
+	    		    	    	{
+	    					    	String outputMessage = "{ \"type\" : \"AddFriend\",\"id\" : \""+user.getUserId()+"\",\"nickname\" : \""+user.getNickname()+"\",\"from\" : \"Server\"}";
+	    				              channelService.sendMessage(
+	    				        		  new ChannelMessage(results.get(0).getAppUserId(),outputMessage));
+	    		    	    	}
+	    		    	    	else
+	    		    	    	{
 	    	        			AppUser myFriend = pm.getObjectById(AppUser.class, results.get(0).getAppUserId());
 	    	        			myAppUser.AddtodemandeEnvoye(results.get(0).getAppUserId());
 	    	    				myFriend.AddtodemandeRecu(myAppUser.getAppUserId());
-	    	    				valeurRetour = 0;
+	    		    	    	}
+	    		    	    	valeurRetour = 0;
 	    	        		}
 	    	        		break;
 	    	        		

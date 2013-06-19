@@ -47,6 +47,14 @@
 		<servlet-name>Servlet_GetVille</servlet-name>
 		<url-pattern>/Servlet_GetVille</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>Servlet_RepAmi</servlet-name>
+		<servlet-class>utilisateurs.Servlet_RepAmi</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Servlet_RepAmi</servlet-name>
+		<url-pattern>/Servlet_RepAmi</url-pattern>
+	</servlet-mapping>
 	
 	<servlet>
 		<servlet-name>Servlet_GetEntities</servlet-name>
@@ -63,10 +71,6 @@
 	<servlet>
 		<servlet-name>Servlet_AddLieux</servlet-name>
 		<servlet-class>lieux.Servlet_AddLieux</servlet-class>
-	</servlet>
-	<servlet>
-		<servlet-name>Servlet_Update</servlet-name>
-		<servlet-class>utilisateurs.Servlet_Update</servlet-class>
 	</servlet>
 	<servlet>
 		<servlet-name>Servlet_AddFriend</servlet-name>
@@ -87,10 +91,6 @@
 	<servlet-mapping>
 		<servlet-name>Servlet_AddLieux</servlet-name>
 		<url-pattern>/Servlet_AddLieux</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>Servlet_Update</servlet-name>
-		<url-pattern>/Servlet_Update</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>Servlet_AddFriend</servlet-name>

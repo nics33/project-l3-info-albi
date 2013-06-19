@@ -33,7 +33,7 @@ function GetToken(){
 			});
 };
 
-function NotificationDemandeAmi(listedemandeami){
+/*function NotificationDemandeAmi(listedemandeami){
 	if(listedemandeami.length != 0)
 		{
 		
@@ -46,6 +46,7 @@ function NotificationDemandeAmi(listedemandeami){
 				$("#popupdemandeami" ).on('popupafterclose', function() {
 					setTimeout( function(){NotificationDemandeAmi(listedemandeami);}, 100 );
 					$('#popupdemandeami').unbind('popupafterclose');
+					$('#boutonaccepterinvitation').unbind('click');
 				});
 				$("#popupdemandeami" ).popup("close");	
 			});
@@ -55,8 +56,63 @@ function NotificationDemandeAmi(listedemandeami){
 				$("#popupdemandeami" ).on('popupafterclose', function() {
 					setTimeout( function(){NotificationDemandeAmi(listedemandeami);}, 100 );
 					$('#popupdemandeami').unbind('popupafterclose');
+					$('#boutonrefuserinvitation').unbind('click');
 				});
 				$("#popupdemandeami" ).popup("close");	
+			});
+			$("#popupdemandeami" ).popup("open");	
+			
+		}
+};*/
+
+function NotificationDemandeAmi(listedemandeami){
+	if(listedemandeami.length != 0)
+		{
+		
+			message = " Voulez-vous accepter " + listedemandeami[0].nickname+" en tant qu'ami ?"
+			console.log(message);
+			$("#textedemandeami").html(message);
+			$("#boutonaccepterinvitation").click(function(){
+				console.log("j'accepte linvitation");
+				$.ajax(
+						{ //on log l'utilisateur
+							type: "GET",
+							url: "/Servlet_RepAmi",// a cette url
+	                        data:{"type" : "accept", "idfriend" : listedemandeami[0].id }, 
+							dataType: "json",
+							success: function(json)
+							{
+								console.log("j'accepte linvitation2");
+								listedemandeami.splice(0,1);
+								$("#popupdemandeami" ).on('popupafterclose', function() {
+									setTimeout( function(){NotificationDemandeAmi(listedemandeami);}, 100 );
+									$('#popupdemandeami').unbind('popupafterclose');
+									$('#boutonaccepterinvitation').unbind('click');
+								});
+								$("#popupdemandeami" ).popup("close");	
+							}
+						});
+			});
+			$("#boutonrefuserinvitation").click(function(){
+				console.log("je refuse linvitation");
+				$.ajax(
+						{ //on log l'utilisateur
+							type: "GET",
+							url: "/Servlet_RepAmi",// a cette url
+	                        data:{"type" : "refuse", "idfriend" : listedemandeami[0].id }, 
+							dataType: "json",
+							success: function(json)
+							{
+								listedemandeami.splice(0,1);
+								$("#popupdemandeami" ).on('popupafterclose', function() {
+									setTimeout( function(){NotificationDemandeAmi(listedemandeami);}, 100 );
+									$('#popupdemandeami').unbind('popupafterclose');
+									$('#boutonrefuserinvitation').unbind('click');
+								});
+								$("#popupdemandeami" ).popup("close");	
+							}
+						});
+
 			});
 			$("#popupdemandeami" ).popup("open");	
 			
